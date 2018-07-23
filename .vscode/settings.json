@@ -1,0 +1,4 @@
+{
+    "php.validate.executablePath":"f:/xampp/php/php.exe",
+    "phpfmt.psr1" : true
+}

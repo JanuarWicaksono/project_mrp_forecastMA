@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "F:\\xampp\\htdocs\\project-anugrahsm"
+		}
+    ],
+    "settings": {
+        "php.validate.executablePath": "f:/xampp/php/php.exe"
+    }
+}
