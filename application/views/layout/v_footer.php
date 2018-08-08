@@ -48,13 +48,17 @@
 <!-- Chart Plugins Js -->
 <script src="<?php echo base_url('assets/AdminMaterialDesign/plugins/chartjs/Chart.bundle.js')?>"></script>
 
+<!-- JQuery Steps Plugin Js -->
+<script src="<?php echo base_url('assets/AdminMaterialDesign/plugins/jquery-steps/jquery.steps.js')?>"></script>
+
 <!-- Custom Js -->
 <script src="<?php echo base_url('assets/AdminMaterialDesign/js/admin.js');?>"></script>
 <script src="<?php echo base_url('assets/AdminMaterialDesign/js/pages/ui/notifications.js');?>"></script>
 <script src="<?php echo base_url('assets/js/app.js');?>"></script>
 <script src="<?php echo base_url('assets/js/animations.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/datepicker.js'); ?>"></script>
-<!-- <script src="<?php echo base_url('assets/AdminMaterialDesign/js/pages/charts/chartjs.js');?>"></script> -->
+<script src="<?php echo base_url('assets/AdminMaterialDesign/js/pages/charts/chartjs.js');?>"></script>
+<script src="<?php echo base_url('assets/AdminMaterialDesign/js/pages/forms/form-wizard.js');?>"></script>
 
 
 <!-- Demo Js -->

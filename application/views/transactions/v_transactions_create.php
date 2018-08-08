@@ -2,7 +2,7 @@
     <div class="container-fluid">
         
         <div class="row clearfix">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="header">
                         <h2>
@@ -48,7 +48,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-9">
                                     <div class="card">
                                         <div class="header">
                                             <h2>Transaksi Produk</h2>
@@ -56,26 +56,19 @@
                                         <div class="body">
                                             <div class="row clearfix">
                                                 <div id="products-add-form">
-                                                    <div class="product-form-0">
+                                                    <div class="product-form">
                                                         <div class="col-md-6">
                                                             <div class="form-group form-float">
-                                                                <select class="form-control show-tick product-input-0" name="products[]" data-live-search="true" required>
-                                                                    <option value="">-- Pilih Produk 1 --</option>
+                                                                <select class="form-control show-tick product-input" name="products[]" data-live-search="true" required>
+                                                                    <option value="" class="default">-- Pilih Produk 1 --</option>
                                                                     
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <!-- <div class="col-md-6">
-                                                            <div class="form-group form-float">
-                                                                <b>Jumlah</b>
-                                                                <input type="number" class="form-control" name="qty[]" required placeholder="Jumlah Terjual" min="1" max="200">
-                                                            </div>
-                                                        </div> -->
-                                                        <div class="col-md-6">
-                                                            <div class="form-group form-float">
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
                                                                 <div class="form-line">
-                                                                    <input type="text" class="form-control" name="qty[]" required>
-                                                                    <label class="form-label">Jumlah</label>
+                                                                    <input type="text" class="form-control" name="qty[]" placeholder="Jumlah" required>
                                                                 </div>
                                                                 <div class="help-info">Min. Value: 10, Max. Value: 200</div>
                                                             </div>
@@ -172,7 +165,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-xs btn-danger waves-effect" data-dismiss="modal">
+                <button type="button" id="btn-save-transaction" class="btn btn-primary waves-effect" >
+                    <i class="material-icons">save</i><span>Simpan</span>
+                </button>
+                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">
                     <i class="material-icons">close</i><span>Tutup</span>
                 </button>
             </div>
@@ -182,8 +178,6 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        var productInputId = 0;
-
         function costumersGet(){
             $.ajax({
                 type: 'ajax',
@@ -201,7 +195,7 @@
             });
         }
 
-        function productsGet(){
+        function productsGet(element) {
             $.ajax({
                 type: 'ajax',
                 url: '<?php echo base_url("Products/productsGet"); ?>',
@@ -212,8 +206,8 @@
                 for (var i = 0; i < response.length; i++) {
                     html += '<option value="'+response[i].product_id+'" data-subtext="- '+response[i].unit_in_stock+' Unit" data-price="'+response[i].price+'">'+response[i].name+' - '+response[i].unit_in_stock+' unit</option>';
                 }
-                $('.product-input-'+productInputId).append(html);
-                $('.product-input-'+productInputId).selectpicker('render');
+                element.find('select').append(html);
+                element.selectpicker('render');
             }).fail(function(){
                 swal('Failed', 'Error', 'error');
             });
@@ -246,80 +240,99 @@
             }
         }
 
-        
-        $('#btn-product-form').click(function(){
-            productInputId++;
-            var html = $('<div class="product-form-'+productInputId+'">'+
-                '<div class="col-md-6">'+
-                    '<div class="form-group form-float">'+
-                        '<select class="form-control show-tick product-input-'+productInputId+'" name="products[]" data-live-search="true" required>'+
-                            '<option value="">-- Pilih Produk '+ (productInputId+1) +' --</option>'+
-                        '</select>'+
-                    '</div>'+
-                '</div>'+
-                '<div class="col-md-6">'+
-                    '<div class="form-group form-float">'+
-                        '<div class="form-line">'+
-                            '<input type="text" class="form-control" name="qty[]" required>'+
-                            '<label class="form-label">Jumlah</label>'+
-                        '</div>'+
-                        '<div class="help-info">Min. Value: 10, Max. Value: 200</div>'+
-                    '</div>'+
-                '</div>'+
-            '</div>');
-            $('#products-add-form').append(html);
-            animate('.product-form-'+productInputId, 'fadeIn');
-            productsGet();
+        function destroySelectPicker(el) {
+            // URL: https://github.com/silviomoreto/bootstrap-select/issues/605
+            el.find('.bootstrap-select').replaceWith(function() { return $('select', this); });
+        }
+
+        productsGet($('#products-add-form .product-form').first());
+        $('#btn-product-form').click(function() {
+            var productForm = $('#products-add-form .product-form').first().clone();
+            var formCount = $('#products-add-form .product-form').length;
+
+            destroySelectPicker(productForm);
+            productForm.find('select.product-input > .default').first().html('-- Pilih Produk ' + (formCount+1) + ' --');
+            productForm.find('select.product-input').selectpicker();
+            $('#products-add-form').append(productForm);
+            // animate('.product-form-'+productInputId, 'fadeIn');
+            productsGet(productForm);
         });
 
         $('#btn-product-remove').click(function(){
             setTimeout(function() {
-                if(productInputId > 0){
-                    $('.product-form-'+productInputId).remove();
-                    productInputId--;
-                }else{
-                    swal('Failed', 'Tidak Dapat Mengahapus Input Produk Kembali', 'error');
-                }
-            }, 0);         
+                $('#products-add-form .product-form').last().remove();
+            }, 100);         
         });
 
         $('#btn-modal-save').click(function(){
             var url = $('#transaction-form').attr('action');
             var data = $('#transaction-form').serializeArray();
-            swal({
-                title: "Data Transaksi Yang Dimasukan Sudah Benar?",
-                text: 'Pilih "OK" untuk menyimpan',
-                type: "info",
-                showCancelButton: true,
-                closeOnConfirm: false,
-                showLoaderOnConfirm: true,
-            }, function() {
-                setTimeout(function() {
-                    transactionSave(url, data);
-                }, 1000);
+            $.ajax({
+                type: 'ajax',
+                method: 'get',
+                url: '<?php echo base_url("transactions/transactionsDetailConfm"); ?>',
+                data: data,
+                async: false,
+                dataType: 'json',
+                success: function(response) {
+                    var tableProducts = '';
+                    $('#modal-transaction-detail .costumer').html(response.costumer.name);
+                    $('#modal-transaction-detail .date').html(response.transaction_date);
+                    for (var i = 0; i < response.products.length; i++) {
+                        tableProducts += '<tr>'+
+                            '<td>'+(i+1)+'</td>'+
+                            '<td>'+response.products[i].product_data.product_name+'</td>'+
+                            '<td>'+response.products[i].qty+'</td>'+
+                            '<td>'+convertToRupiah(response.products[i].product_data.price)+'</td>'+
+                            '<td>'+convertToRupiah(response.products[i].total_price)+'</td>'+
+                        '</tr>';
+                    }
+                    $('#transaction-products').html(tableProducts);
+                    $('#modal-transaction-detail .total-price').html(response.totals_price);
+
+                    $('#modal-transaction-detail').modal('show');
+
+                    $('#btn-save-transaction').click(function(){
+                        swal({
+                            title: "Data Produksi Transaksi Yang Dimasukan Sudah Benar?",
+                            text: 'Pilih "OK" untuk menyimpan',
+                            type: "info",
+                            showCancelButton: true,
+                            closeOnConfirm: false,
+                            showLoaderOnConfirm: true,
+                        }, function() {
+                            setTimeout(function() {
+                                transactionSave(url, data)
+                            }, 1000);
+                        });
+                    })
+                },
+                error: function() {
+                    swal('Failed', 'Error', 'error');
+                }
             });
         });
 
         //Form Validation
-        $('#transaction-form').validate({
-            rules: {
-                'date': {
-                    customdate: true
-                },
-                'creditcard': {
-                    creditcard: true
-                }
-            },
-            highlight: function (input) {
-                $(input).parents('.form-line').addClass('error');
-            },
-            unhighlight: function (input) {
-                $(input).parents('.form-line').removeClass('error');
-            },
-            errorPlacement: function (error, element) {
-                $(element).parents('.form-group').append(error);
-            }
-        });
+        // $('#transaction-form').validate({
+        //     rules: {
+        //         'date': {
+        //             customdate: true
+        //         },
+        //         'creditcard': {
+        //             creditcard: true
+        //         }
+        //     },
+        //     highlight: function (input) {
+        //         $(input).parents('.form-line').addClass('error');
+        //     },
+        //     unhighlight: function (input) {
+        //         $(input).parents('.form-line').removeClass('error');
+        //     },
+        //     errorPlacement: function (error, element) {
+        //         $(element).parents('.form-group').append(error);
+        //     }
+        // });
 
 
 
@@ -334,7 +347,7 @@
         // });
         
         costumersGet();
-        productsGet();
+        // productsGet();
         
     });
 </script>

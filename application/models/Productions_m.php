@@ -7,7 +7,7 @@ class Productions_m extends CI_model
             'note' => $this->input->post('note'),
             'status' => $this->input->post('status'),
             'started_at' => $this->input->post('started-at'),
-            'finished_at' => $this->input->post('updated-at'),
+            'finished_at' => $this->input->post('finished-at'),
             'created_at' => date('Y-m-d H:i:s'),
             'products_product_id' => $this->input->post('products-id')
         ]);
@@ -53,16 +53,22 @@ class Productions_m extends CI_model
             productions.finished_at,
             productions.created_at,
             productions.updated_at,
-            products.product_id,
-            products.name as product_name,
-            products.unit_in_stock
+            productions.products_product_id
         ');
         $this->db->from('productions');
-        $this->db->join('products', 'productions.products_product_id = products.product_id');
         $this->db->where('production_id', $productionId);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query;
+        } else {
+            return false;
+        }
+    }
+
+    public function productionDelete($productionId){
+        $this->db->delete('productions', ['production_id' => $productionId]);
+        if ($this->db->affected_rows() > 0) {
+            return true;
         } else {
             return false;
         }

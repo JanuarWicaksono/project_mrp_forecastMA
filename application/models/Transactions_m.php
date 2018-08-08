@@ -161,6 +161,32 @@ class Transactions_m extends CI_Model {
         return $this->db->get()->result();
     }
 
+    public function transactionsProductsGet($productId){
+        $this->db->select('
+            products.product_id as product_id, 
+            products.name as product_name, 
+            products.price as price, 
+            products.expiration as expiration, 
+            products.unit_in_stock as unit_in_stock,
+            products.status as status,
+            products.description as product_description,
+            products.note as note,
+            products.created_at as created_at,
+            products.updated_at as updated_at,
+            products_categories.category_id as category_id,
+            products_categories.name as category_name,
+            products_categories.description as category_description');
+        $this->db->from('products');
+        $this->db->join('products_categories', 'products.products_categories_category_id = products_categories.category_id');
+        $this->db->where_in('product_id', $productId);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query;
+        } else {
+            return false;
+        }
+    }
+
 }
 
 /* End of file ModelName.php */

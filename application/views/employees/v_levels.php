@@ -74,7 +74,7 @@
 
 <!-- Modal Form Level-->
 <div class="modal fade" id="modal-level-form" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-blue">
                 <h4 class="modal-title" id="largeModalLabel"></h4>

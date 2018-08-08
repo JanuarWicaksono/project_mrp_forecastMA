@@ -308,7 +308,7 @@
 		<!-- Left Sidebar -->
 		<aside id="leftsidebar" class="sidebar">
 			<!-- User Info -->
-			<!-- <div class="user-info bg-blue" style="background-image:none;">
+			<div class="user-info bg-blue" style="background-image:none;">
 				<div class="image">
 					<img src="<?php echo base_url('assets/AdminMaterialDesign/images/user.png') ;?>" width="48" height="48" alt="User" />
 				</div>
@@ -343,7 +343,7 @@
 						</ul>
 					</div>
 				</div>
-			</div> -->
+			</div>
 			<!-- #User Info -->
 			<!-- Menu -->
 			<div class="menu">
@@ -393,6 +393,10 @@
 							<li>
 								<a href="<?php echo base_url('Materials/materialsView') ?>" class=" waves-effect waves-block">Lihat Bahan Baku</a>
 							</li>
+							<li>
+								<a href="<?php echo base_url('Materials/purchaseMaterialsView') ?>" class=" waves-effect waves-block">Pesanan Bahan Baku</a>
+							</li>
+							
 						</ul>
 					</li>
                     <li>
@@ -446,12 +450,6 @@
 								<a href="<?php echo base_url('Productions/productionsCreateView'); ?>" class=" waves-effect waves-block">Tambah Produksi</a>
 							</li>
 						</ul>
-					</li>
-                    <li>
-						<a href="" class="menu-toggle waves-effect waves-block">
-							<i class="material-icons">event_note</i>
-							<span>Jadwal Induk produksi</span>
-						</a>
 					</li>
                     <li class="header">Laporan</li>
                     <li>

@@ -81,7 +81,7 @@
 
 <!-- Modal Form supplier-->
 <div class="modal fade" id="modal-supplier-form" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-blue">
                 <h4 class="modal-title" id="largeModalLabel"></h4>
@@ -98,7 +98,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Email</b>
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Nomor Telepon</b>
@@ -116,14 +116,12 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group form-float" disabled>
-                                <div class="">
-                                    <b>Status</b>
-                                    <div class="col-md-12">
-                                        <input name="status" type="radio" id="active" value="active" checked />
-                                        <label for="active">Aktif</label>
-                                        <input name="status" type="radio" id="nonactive" value="nonactive" />
-                                        <label for="nonactive">Tidak Aktif</label>
-                                    </div>
+                                <b>Status</b>
+                                <div class="col-md-12">
+                                    <input name="status" type="radio" id="active" value="active" checked />
+                                    <label for="active">Aktif</label>
+                                    <input name="status" type="radio" id="nonactive" value="nonactive" />
+                                    <label for="nonactive">Tidak Aktif</label>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +134,7 @@
                             </div>
                         </div>
                         <div id="material-form">
-                            <div class="col-md-12 material-form-0">
+                            <div class="col-md-8 material-form-0">
                                 <div class="form-group form-float">
                                     <b>Material - 1</b>
                                     <select class="form-control show-tick material-input-0" name="materials[]" data-live-search="true" data-size="5" required>
@@ -164,7 +162,7 @@
 
 <!-- Modal Detail Suppliers -->
 <div class="modal fade" id="modal-supplier-detail" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-blue">
                 <h4 class="modal-title" id="largeModalLabel">Detail Suppliers</h4>
@@ -333,6 +331,7 @@
                             async: false,
                             dataType: 'json',
                             success: function(response) {
+                                console.log(response);
 
                                 $('#table-supplier-detail .supplier-id').html(response[0].supplier_id);
                                 $('#table-supplier-detail .name').html(response[0].name);
@@ -382,6 +381,7 @@
                             async: false,
                             dataType: 'json'
                         }).done(function(response) {
+                            resetModal();
                             $('#supplier-form input[name=supplier-id]').val(response[0].supplier_id);
                             $('#supplier-form input[name=supplier-name]').val(response[0].name);
                             $('#supplier-form input[name=email]').val(response[0].email);
@@ -392,6 +392,26 @@
                                 $('#supplier-form #nonactive').prop('checked', true);                                
                             }
                             $('#supplier-form textarea[name=address]').html(response[0].address);
+
+                            $('.material-input-'+materialInputID).selectpicker('val', response[0].materials[0].material_id);
+                            // console.log(materialInputID);
+                            for (var i = 0; i < (response[0].materials.length-1); i++) {
+                                materialInputID++;
+                                var html = '<div class="col-md-8 material-form-'+materialInputID+'">'+
+                                    '<div class="form-group form-float">'+
+                                        '<b>Material - '+(materialInputID+1)+'</b>'+
+                                        '<select class="form-control show-tick material-input-'+materialInputID+'" name="materials[]" data-live-search="true" required data-size="5">'+
+                                            '<option value="">-- Pilih Material --</option>'+
+                                            
+                                        '</select>'+
+                                    '</div>'+
+                                '</div>';
+                                $('#material-form').append(html);
+                                materialsGet();
+                                $('.material-input-'+materialInputID).selectpicker('render');
+                                $('.material-input-'+materialInputID).selectpicker('val', response[0].materials[(i+1)].material_id);
+                            }
+
                             $('#modal-supplier-form').modal('show');
                         }).fail(function() {
                             swal('Failed', 'something wrong with your input', 'error');
@@ -431,7 +451,7 @@
                 dataType: 'json'
             }).done(function(response) {
                 swal("Terhapus", "Data Pemasok Telah Terhapus", "success");
-                suppliersGet();
+                suppliersDatatables();
             }).fail(function() {
                 swal('Failed', 'Error', 'error');
             });
@@ -443,6 +463,25 @@
                 method: 'get',
                 async: false,
                 url: '<?php echo base_url("Materials/materialsGet"); ?>',
+                dataType: 'json'
+            }).done(function(response) {
+                var html = '';
+                for (var i = 0; i < response.length; i++) {
+                    html += '<option value="'+response[i].material_id+'" data-subtext="'+response[i].status+'" data-price="'+response[i].price+'">'+response[i].name+'</option>';
+                }
+                $('.material-input-'+materialInputID).append(html);
+                $('.material-input-'+materialInputID).selectpicker('render');
+            }).fail(function() {
+                swal('Failed', 'Error', 'error');
+            });
+        }
+
+        function materialsUnSelectedGet(){
+            $.ajax({
+                type: 'ajax',
+                method: 'get',
+                async: false,
+                url: '<?php echo base_url("Materials/materialsUnSelectedGet"); ?>',
                 dataType: 'json'
             }).done(function(response) {
                 var html = '';
@@ -469,7 +508,7 @@
 
         $('#btn-modal-supplier').click(function() {
             resetModal();
-
+            
             $('#modal-supplier-form').find('.modal-title').text('Create supplier');
             $('#supplier-form').attr('action', '<?php echo base_url("Suppliers/supplierCreate");?>');
             $('#modal-supplier-form').modal('show');
@@ -478,7 +517,6 @@
         $('#btn-save-supplier').click(function() {
             var url = $('#supplier-form').attr('action');
             var data = $('#supplier-form').serialize();
-            console.log(url, data);
 
             swal({
                 title: "Data Pemasok Yang Dimasukan Sudah Benar?",
@@ -502,7 +540,7 @@
         
         $('#btn-form-material').click(function(){
             materialInputID++;
-            var html = '<div class="col-md-12 material-form-'+materialInputID+'">'+
+            var html = '<div class="col-md-8 material-form-'+materialInputID+'">'+
                 '<div class="form-group form-float">'+
                     '<b>Material - '+(materialInputID+1)+'</b>'+
                     '<select class="form-control show-tick material-input-'+materialInputID+'" name="materials[]" data-live-search="true" required data-size="5">'+
@@ -527,9 +565,7 @@
             }, 0);         
         });
         
-        // suppliersGet();
-        suppliersDatatables();
         materialsGet();
-
+        suppliersDatatables();
     });
 </script>

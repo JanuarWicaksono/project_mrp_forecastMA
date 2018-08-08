@@ -196,7 +196,7 @@ $(document).ready(function(){
             "columns": [
                 {
                     render: function(){
-                        return no++;
+                        return (no+++1);
                     }
                 },
                 {

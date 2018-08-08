@@ -81,7 +81,7 @@
 
 <!-- Modal Form product-->
 <div class="modal fade" id="modal-product-form" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-blue">
                 <h4 class="modal-title" id="largeModalLabel"></h4>
@@ -98,15 +98,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-sm-6">
                             <div class="form-group form-float">
-                                <div class="form-line">
-                                    <b>Harga (Rp)</b>
-                                    <input type="number" class="form-control" name="price" required placeholder="Harga">
-                                </div>
+                                <b>Kategori</b>
+                                <select id="categories" class="form-control " name="categories" required>
+									<option value="">-- Pilih Kategori --</option>
+
+								</select>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Masa Berlaku (hari)</b>
@@ -114,7 +115,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <b>Harga (Rp)</b>
+                                    <input type="number" class="form-control" name="price" required placeholder="Harga">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Persediaan Unit</b>
@@ -122,7 +131,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group form-float" disabled>
                                 <div class="">
                                     <b>Status</b>
@@ -133,15 +142,6 @@
                                         <label for="nonactive">Tidak Aktif</label>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="form-group form-float">
-                                <b>Kategori</b>
-                                <select id="categories" class="form-control " name="categories" required>
-									<option value="">-- Pilih Kategori --</option>
-
-								</select>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -173,7 +173,7 @@
 
 <!-- Modal BOM product-->
 <div class="modal fade" id="modal-product-form-bom" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-blue">
                 <h4 class="modal-title" id="largeModalLabel"></h4>
@@ -253,7 +253,7 @@
 
 <!-- Modal Detail Products -->
 <div class="modal fade" id="modal-product-detail" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-blue">
                 <h4 class="modal-title" id="largeModalLabel">Detail Produk</h4>
@@ -596,7 +596,7 @@ $(document).ready(function() {
         });
     }
 
-    function materialsGet(){
+    function materialsGet(element){
         $.ajax({
             type: 'ajax',
             method: 'get',
@@ -606,7 +606,7 @@ $(document).ready(function() {
         }).done(function(response) {
             var html = '';
             for (var i = 0; i < response.length; i++) {
-                html += '<option value="'+response[i].material_id+'" data-subtext="'+response[i].stock_type+'">'+response[i].name+'</option>';
+                html += '<option value="'+response[i].material_id+'" data-subtext="'+response[i].stock_type+'">'+response[i].name+' ('+response[i].stock_type+')</option>';
             }
             $('#bom-form .material-input-'+bomFormNo).append(html);
             $('#bom-form .material-input-'+bomFormNo).selectpicker('render');

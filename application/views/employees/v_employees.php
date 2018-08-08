@@ -78,7 +78,7 @@
 
 <!-- Modal Form Employee Create-->
 <div class="modal fade" id="modal-employee-form" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-blue">
                 <h4 class="modal-title" id="largeModalLabel"></h4>
@@ -95,7 +95,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div class="form-group form-float">
                                 <b>Position / Level</b>
                                 <select id="levels-form" id="employee-level" class="form-control " name="level" required>
@@ -104,7 +104,7 @@
 								</select>
                             </div>
                         </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div class="form-group form-float">
                                 <b>Jenis Kelamin</b>
                                 <select id="employee-gender" class="form-control show-tick" name="gender" required>
@@ -114,11 +114,19 @@
 								</select>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Email</b>
                                     <input type="email" class="form-control" name="email" required placeholder="Email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <b>Kontak</b>
+                                    <input type="text" id="employee-phone" class="form-control" placeholder="Nomor Telepon ex: 085XXXXXXXXX" name="phone" required>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +138,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Password</b>
@@ -138,7 +146,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Konfirmasi Password</b>
@@ -154,14 +162,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <b>Kontak</b>
-                                    <input type="text" id="employee-phone" class="form-control" placeholder="Nomor Telepon ex: 085XXXXXXXXX" name="phone" required>
-                                </div>
-                            </div>
-                        </div>
                     </form>
                 </div>
             </div>
@@ -174,7 +174,7 @@
 </div>
 
 <div class="modal fade" id="modal-employee-detail" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-blue">
                 <h4 class="modal-title" id="largeModalLabel">Detail Pegawai</h4>

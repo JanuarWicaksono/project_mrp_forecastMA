@@ -8,6 +8,8 @@ class Transactions extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('Transactions_m');
+        $this->load->model('Products_m');
+        $this->load->model('Costumers_m');
     }
 
     public function index()
@@ -93,6 +95,44 @@ class Transactions extends CI_Controller {
         $json = ['total_price' => $totalPrices];
         echo json_encode($json);
     }
+    
+    public function transactionsDetailConfm(){
+        $productsId =  $this->input->get('products[]');
+        $costumerId = $this->input->get('costumer');
+        $qtys = $this->input->get('qty[]');
+        $totalsPrice = 0;
+        for ($i=0; $i < count($productsId) ; $i++) {
+            $resultProducts = $this->Products_m->productGet($productsId[$i])->result()[0];
+            $totalsPrice = $totalsPrice + $qtys[$i]*$resultProducts->price;
+            $jsonProducts[] = [
+                'product_data' => $resultProducts,
+                'qty' => $qtys[$i],
+                'total_price' => $qtys[$i]*$resultProducts->price
+            ];         
+        }
+        $json = [
+            'transaction_date' => $this->input->get('transaction-date'),
+            'costumer' => $this->Costumers_m->costumerGet($costumerId),
+            'products' => $jsonProducts,
+            'totals_price' => $totalsPrice
+        ];
+        echo json_encode($json);
+    }
+
+    // public function transactionsDetailConfm(){
+    //     $productsId =  $this->input->get('products[]');
+    //     $costumerId = $this->input->get('costumer');
+    //     $qtys = $this->input->get('qty[]');
+    //     $resultProducts = $this->Transactions_m->transactionsProductsGet($productsId)->result();
+    //     $json = [
+    //         'transaction_date' => $this->input->get('transaction-date'),
+    //         'costumer' => $this->Costumers_m->costumerGet($costumerId),
+    //         'products' => $resultProducts,
+    //         'qty' => $qtys
+    //     ];
+    //     echo json_encode($json);
+    // }
+
 
 }
 

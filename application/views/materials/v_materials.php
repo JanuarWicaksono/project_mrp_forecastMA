@@ -49,7 +49,6 @@
                                         <th>id</th>
                                         <th>Nama Bahan Baku</th>
                                         <th>Stock</th>
-                                        <th>Price</th>
                                         <th>Status</th>                                        
                                         <th>Aksi</th>
                                     </tr>
@@ -59,7 +58,6 @@
                                 </tbody>
                                 <tfoot>
 									<tr>
-										<th></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -81,7 +79,7 @@
 
 <!-- Modal Form Material Create-->
 <div class="modal fade" id="modal-material-form" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-blue">
                 <h4 class="modal-title" id="largeModalLabel"></h4>
@@ -101,15 +99,7 @@
                         <div class="col-md-6">
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <b>Price (Rp)</b>
-                                    <input type="number" class="form-control" name="price" required placeholder="Harga">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <b>Stok</b>
+                                    <b>Stok Gudang</b>
                                     <input type="number" class="form-control" name="stock" required placeholder="Stok">
                                 </div>
                             </div>
@@ -141,16 +131,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group form-float" disabled>
-                                <div class="">
-                                    <b>Status</b>
-                                    <div class="col-md-12">
-                                        <input name="status" type="radio" id="active" value="available"/>
-                                        <label for="active">Tersedia</label>
-                                        <input name="status" type="radio" id="nonactive" value="notavailable" />
-                                        <label for="nonactive">Tidak Tersedia</label>
-                                    </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-float">
+                                <b>Status</b>
+                                <div class="col-md-12">
+                                    <input name="status" type="radio" id="active" value="available"/>
+                                    <label for="active">Tersedia</label>
+                                    <input name="status" type="radio" id="nonactive" value="notavailable" />
+                                    <label for="nonactive">Tidak Tersedia</label>
                                 </div>
                             </div>
                         </div>
@@ -175,7 +163,7 @@
 </div>
 
 <div class="modal fade" id="modal-material-detail" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-blue">
                 <h4 class="modal-title" id="largeModalLabel">Detail Bahan Baku</h4>
@@ -185,32 +173,28 @@
                     <div class="body table-responsive">
                         <table class="table table-bordered" id="table-material-detail">
                             <tr>
-                                <th class="col-md-2">Nama Material :</th>
+                                <th class="col-md-2 ">Nama Material</th>
                                 <td class="col-md-10 name"></td>
                             </tr>
                             <tr>
-                                <th class="col-md-2">Price :</th>
-                                <td class="col-md-10 price"></td>
-                            </tr>
-                            <tr>
-                                <th class="col-md-2">Stock :</th>
+                                <th class="col-md-2 ">Stock</th>
                                 <td class="col-md-10 stock"></td>
                             </tr>
                             <tr>
-                                <th class="col-md-2">Status :</th>
+                                <th class="col-md-2 ">Status</th>
                                 <td class="col-md-10 status"></td>
                             </tr>
                             <tr>
-                                <th class="col-md-2">Catatan :</th>
-                                <td class="col-md-10 note">. </td>
+                                <th class="col-md-2 ">Catatan</th>
+                                <td class="col-md-10 note"></td>
                             </tr>
                             <tr>
-                                <th class="col-md-2">Dibuat Pada :</th>
-                                <td class="col-md-10 created-at">. </td>
+                                <th class="col-md-2 ">Dibuat Pada</th>
+                                <td class="col-md-10 created-at"></td>
                             </tr>
                             <tr>
-                                <th class="col-md-2">Diperbaharui Pada :</th>
-                                <td class="col-md-10 updated-at">. </td>
+                                <th class="col-md-2 ">Diperbaharui Pada</th>
+                                <td class="col-md-10 updated-at"></td>
                             </tr>
                         </table>
                     </div>
@@ -260,13 +244,6 @@
                         }
                     },
                     {
-                        data: 'price',
-                        name: 'price',
-                        render: function(data, type, full, meta){
-                            return convertToRupiah(data)+',00';
-                        }
-                    },
-                    {
                         data: 'status',
                         name: 'status',
                         render: function(data, type, full, meta){
@@ -304,7 +281,6 @@
                             dataType: 'json'
                         }).done(function(response){
                             $('#table-material-detail .name').html(response.name);
-                            $('#table-material-detail .price').html(response.price);
                             $('#table-material-detail .stock').html(response.stock);
                             if (response.status == 'available') {
                                 $('#table-material-detail .status').html('<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Tersedia</button>');
@@ -339,7 +315,6 @@
                         }).done(function(response) {
                             $('#material-form input[name=material-id]').val(response.material_id);
                             $('#material-form input[name=name]').val(response.name);
-                            $('#material-form input[name=price]').val(response.price);
                             $('#material-form input[name=stock]').val(response.stock);
                             $('#material-form [name="stock-type"]').selectpicker('val', response.stock_type);
                             if(response.status == 'available'){

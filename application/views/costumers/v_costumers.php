@@ -78,7 +78,7 @@
 
 <!-- Modal Form costumer-->
 <div class="modal fade" id="modal-costumer-form" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-blue">
                 <h4 class="modal-title" id="largeModalLabel"></h4>
@@ -95,7 +95,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Email</b>
@@ -103,7 +103,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Nomor Telepon</b>
@@ -145,7 +145,7 @@
 
 <!-- Modal Detail Costumers -->
 <div class="modal fade" id="modal-costumer-detail" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-blue">
                 <h4 class="modal-title" id="largeModalLabel">Detail Pelanggan</h4>

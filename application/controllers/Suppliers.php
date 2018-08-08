@@ -60,7 +60,7 @@ class Suppliers extends CI_Controller {
         $msg['success'] = false;
 		$msg['type'] = 'add';
 		if($result){
-			$msg['success'] = true;
+            $msg['success'] = true;
 		}
 		echo json_encode($msg);
     }
