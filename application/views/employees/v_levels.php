@@ -2,7 +2,7 @@
     <div class="container-fluid">
         
         <div class="row clearfix">
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="header">
                         <h2>
@@ -33,11 +33,11 @@
                             <button type="button" class="btn btn-primary waves-effect" id="btn-modal-level" title="Add Level" data-toggle="modal" data-target="#largeModal">
                                 <i class="material-icons">add</i>
                                 <span>Tambah Posisi</span>
-                            </button><br>
+                            </button>
                             <button type="button" class="btn bg-green waves-effect" id="reload-levels" title="Refresh" data-toggle="modal" data-target="#largeModal">
                                 <i class="material-icons">refresh</i>
                                 <span>Segarkan Data</span>
-                            </button><br>
+                            </button>
                             <button type="button" class="btn bg-green waves-effect" id="reload-page" title="Refresh" data-toggle="modal" data-target="#largeModal">
                                 <i class="material-icons">refresh</i>
                                 <span>Segarkan Halaman</span>

@@ -8,6 +8,7 @@ class Materials extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('Materials_m');
+        $this->load->model('Products_m');
         // $this->load->helper(array('form', 'url'));
         // $this->load->library('form_validation');
     }
@@ -24,6 +25,7 @@ class Materials extends CI_Controller {
     }
 
     public function purchaseMaterialsView(){
+
         $this->load->view('layout/v_header');
         $this->load->view('materials/v_purchase');
         $this->load->view('layout/v_footer');
@@ -87,7 +89,8 @@ class Materials extends CI_Controller {
     }
 
     public function purchasesGet(){
-        $result = $this->Materials_m->purchasesGet()->result();
+        $dataStatus = $this->input->get('data');
+        $result = $this->Materials_m->purchasesGet($dataStatus)->result();
         echo json_encode($result);
     }
 
@@ -103,19 +106,15 @@ class Materials extends CI_Controller {
     }
 
     public function purchaseConf(){
-        $status = $this->input->post('status');
         $note = $this->input->post('note');
         $materialsPurc = $this->input->post('materials[]');
         $numOfPurc = $this->input->post('num-of-purchase[]');
         $notesPurc = $this->input->post('notes[]');
 
-        $this->form_validation->set_rules('status', 'status', 'required');
         $this->form_validation->set_rules('materials[]', 'materials', 'required');
         $this->form_validation->set_rules('num-of-purchase[]', 'numof', 'required');
-
         if($this->form_validation->run() == FALSE){
-            return;
-            
+            return;            
         }else{
 
             for ($i=0; $i < count($materialsPurc); $i++) { 
@@ -127,7 +126,6 @@ class Materials extends CI_Controller {
             }
 
             $json = [
-                'status' => $status,
                 'note' => $note,
                 'material_purch' => $resultPurchase
             ];
@@ -139,12 +137,98 @@ class Materials extends CI_Controller {
             ->set_output(json_encode($json));
     }
 
+    public function purchaseBaseProduction(){
+        $productWhere = $this->input->get('products-id');
+        $numProd = $this->input->get('num-prod');
+
+        $resultProduct = $this->Products_m->productGet($productWhere);
+        $resultBom = $this->Products_m->bomGet($productWhere);
+        if (!empty($resultBom)) {
+            
+            $resultBomHasMaterials = $this->Products_m->bomHasMaterialsGet($resultBom->result()[0]->bom_id)->result();
+            for ($i=0; $i < count($resultBomHasMaterials) ; $i++) {
+
+                $totalMinusStock = $resultBomHasMaterials[$i]->stock - ($resultBomHasMaterials[$i]->num_comb_material * $numProd);
+                if($totalMinusStock < 0){
+                    $jsonMaterials[] = [
+                        'material_data' => $resultBomHasMaterials[$i],
+                        'total_num_comb' => $resultBomHasMaterials[$i]->num_comb_material * $numProd,
+                        'cal_total_min_stock' => $totalMinusStock
+                    ];
+                }
+
+            }
+
+            $json = [
+                'response_status' => true,
+                'bom_id' => $resultBom->result()[0]->bom_id,
+                'product_id' => $resultBom->result()[0]->product_id,
+                'product_name' => $resultBom->result()[0]->name,
+                'num_productions' => $this->input->get('num-prod'),
+                'status' => $this->input->get('status'),
+                'started_at' => $this->input->get('started-at'),
+                'finished_at' => $this->input->get('finished-at'),
+                'note' => $this->input->get('note'),
+                'materials' => $jsonMaterials,
+            ];
+
+        } elseif($resultBom == false) {
+            $json = [
+                'response_status' => false,
+                'products_product_id' => $productWhere,
+                'product_name' => $resultProduct->result()[0]->product_name
+            ];
+        }
+        echo json_encode($json);
+    }
+
     public function purchaseCreate(){
-        $status = $this->input->post('status');
         $note = $this->input->post('note');
         $materialsPurc = $this->input->post('materials[]');
         $numOfPurc = $this->input->post('num-of-purchase[]');
         $notesPurc = $this->input->post('notes[]');
+
+        // Validation
+        $this->form_validation->set_rules('materials[]', 'materials', 'required');
+        $this->form_validation->set_rules('num-of-purchase[]', 'numof', 'required');
+        if($this->form_validation->run() == FALSE){
+            return;
+        }else{
+
+            $data = [
+                'note' => $note,
+                'materials' => $materialsPurc,
+                'qtys' => $numOfPurc,
+                'notes' => $notesPurc
+            ];
+            $result = $this->Materials_m->purchaseCreate($data);
+
+        }
+
+        $msg['success'] = false;
+        $msg['type'] = 'add';
+        if ($result) {
+            $msg['success'] = true;
+        }
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($msg));
+    }
+
+    public function purMaterialUpdateStatus(){
+        $materialId = $this->input->get('material-id');
+        $purchaseId = $this->input->get('purchase-id');
+
+        $result = $this->Materials_m->purMaterialUpdateStatus($purchaseId, $materialId);
+
+        $msg['success'] = false;
+        $msg['type'] = 'add';
+        if ($result) {
+            $msg['success'] = true;
+        }
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($msg));
     }
 
 }

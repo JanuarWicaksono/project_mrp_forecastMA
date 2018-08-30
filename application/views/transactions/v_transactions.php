@@ -82,11 +82,11 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>                                    
-                                        <th>Id Transaksi</th>
+                                        <th>ID Transaksi</th>
                                         <th>Pelanggan</th>
                                         <th>Tanggal</th>
                                         <th>Aksi</th>
-                                    </tr>
+                                    </tr
                                 </thead>
                                 <tbody id="transactions-data">
 
@@ -165,7 +165,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-xs btn-danger waves-effect" data-dismiss="modal">
+                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">
                     <i class="material-icons">close</i><span>Tutup</span>
                 </button>
             </div>
@@ -217,7 +217,6 @@ $(document).ready(function(){
                     searchable: false,
                     render: function(data, type, full, meta) {
                         return '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-transaction-detail" title="Detail" data="' + full.transaction_id + '" ><i class="material-icons">remove_red_eye</i></a>' +
-                            '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-transaction-edit" title="Edit" data="' + full.transaction_id + '"><i class="material-icons">edit</i></a>' +
                             '<a type="javascript:;" class="btn btn-xs waves-effect btn-transaction-delete" title="Detele" data="' + full.transaction_id + '"><i class="material-icons">delete</i></a>';
                     }
                 }

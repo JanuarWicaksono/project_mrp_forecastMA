@@ -51,24 +51,37 @@
 <!-- JQuery Steps Plugin Js -->
 <script src="<?php echo base_url('assets/AdminMaterialDesign/plugins/jquery-steps/jquery.steps.js')?>"></script>
 
+<!-- SweetAlert Plugin Js -->
+<script src="<?php echo base_url('assets/AdminMaterialDesign/plugins/sweetalert/sweetalert.min.js');?>"></script>
+
+<!-- FullCalendar Js -->
+<script src='<?= base_url('assets/fullcalendar-3.9.0/lib/moment.min.js'); ?>'></script>
+<script src='<?= base_url('assets/fullcalendar-3.9.0/fullcalendar.js'); ?>'></script>
+
 <!-- Custom Js -->
 <script src="<?php echo base_url('assets/AdminMaterialDesign/js/admin.js');?>"></script>
 <script src="<?php echo base_url('assets/AdminMaterialDesign/js/pages/ui/notifications.js');?>"></script>
+<!-- <script src="<?php echo base_url('assets/AdminMaterialDesign/js/pages/charts/chartjs.js');?>"></script> -->
+<!-- <script src="<?php echo base_url('assets/AdminMaterialDesign/js/pages/forms/form-wizard.js');?>"></script> -->
+
 <script src="<?php echo base_url('assets/js/app.js');?>"></script>
 <script src="<?php echo base_url('assets/js/animations.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/datepicker.js'); ?>"></script>
-<script src="<?php echo base_url('assets/AdminMaterialDesign/js/pages/charts/chartjs.js');?>"></script>
-<script src="<?php echo base_url('assets/AdminMaterialDesign/js/pages/forms/form-wizard.js');?>"></script>
+<script src="<?php echo base_url('assets/js/form-wizard.js'); ?>"></script>
+
 
 
 <!-- Demo Js -->
 <script src="<?php echo base_url('assets/AdminMaterialDesign/js/demo.js');?>"></script>
-<script src="<?php echo base_url('assets/AdminMaterialDesign/js/demo.js');?>"></script>
 <script src="<?php echo base_url('assets/AdminMaterialDesign/js/pages/forms/form-validation.js');?>"></script>
 
-<!-- SweetAlert Plugin Js -->
-<script src="<?php echo base_url('assets/AdminMaterialDesign/plugins/sweetalert/sweetalert.min.js');?>"></script>
+<script>
 
+
+$(function() {
+
+});
+</script>
 
 </body>
 

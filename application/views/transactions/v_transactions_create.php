@@ -48,7 +48,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-9">
+                                <div class="col-md-12">
                                     <div class="card">
                                         <div class="header">
                                             <h2>Transaksi Produk</h2>
@@ -65,7 +65,7 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <div class="form-line">
                                                                     <input type="text" class="form-control" name="qty[]" placeholder="Jumlah" required>
@@ -77,13 +77,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <button type="button" class="btn btn-block btn-primary waves-effect" id="btn-product-form">
+                                                    <button type="button" class="btn btn-block btn-xs btn-primary waves-effect" id="btn-product-form">
                                                         <i class="material-icons">add</i>
                                                         <span>Tambah</span>
                                                     </button>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <button type="button" class="btn btn-block btn-danger waves-effect" id="btn-product-remove">
+                                                    <button type="button" class="btn btn-block btn-xs btn-danger waves-effect" id="btn-product-remove">
                                                         <i class="material-icons">close</i>
                                                         <span>Hapus</span>
                                                     </button>

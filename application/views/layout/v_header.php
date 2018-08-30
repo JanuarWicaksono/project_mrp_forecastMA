@@ -25,12 +25,10 @@
 	<link href="<?php echo base_url('assets/AdminMaterialDesign/plugins/dropzone/dropzone.css');?>" rel="stylesheet">
 
 	<!-- JQuery DataTable Css -->
-	<link href="<?php echo base_url('assets/AdminMaterialDesign/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css');?>"
-	rel="stylesheet">
+	<link href="<?php echo base_url('assets/AdminMaterialDesign/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css');?>" rel="stylesheet">
 
 	<!-- Bootstrap Select Css -->
-	<link href="<?php echo base_url('assets/AdminMaterialDesign/plugins/bootstrap-select/css/bootstrap-select.css');?>" rel="stylesheet"
-	/>
+	<link href="<?php echo base_url('assets/AdminMaterialDesign/plugins/bootstrap-select/css/bootstrap-select.css');?>" rel="stylesheet"/>
 
 	<!-- Custom Css -->
 	<link href="<?php echo base_url('assets/AdminMaterialDesign/css/style.css');?>" rel="stylesheet">
@@ -43,12 +41,26 @@
 
     <!-- Bootstrap Material Datetime Picker Css -->
     <link href="<?php echo base_url('assets/AdminMaterialDesign/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css'); ?>" rel="stylesheet" />
+
+	<!-- FullCalendar Css -->
+    <link href="<?php echo base_url('assets/fullcalendar-3.9.0/fullcalendar.css'); ?>" rel="stylesheet" />
+
 	
 	<!--WaitMe Css-->
 	<link href="<?php echo base_url('assets/AdminMaterialDesign/plugins/waitme/waitMe.css');?>" rel="stylesheet" />
 
 	<!-- Jquery Core Js -->
 	<script src="<?php echo base_url('assets/AdminMaterialDesign/plugins/jquery/jquery.min.js');?>"></script>
+
+	
+	<script>
+		window.baseUrl = function (path) {
+			return window.App.baseUrl + path;
+		};
+		window.App = {
+			baseUrl: '<?php echo base_url(); ?>'
+		};
+	</script>
 
 	
 
@@ -97,14 +109,14 @@
 			<div class="collapse navbar-collapse" id="navbar-collapse">
 				<ul class="nav navbar-nav navbar-right">
 					<!-- Call Search -->
-					<li>
+					<!-- <li>
 						<a href="javascript:void(0);" class="js-search" data-close="true">
 							<i class="material-icons">search</i>
 						</a>
-					</li>
+					</li> -->
 					<!-- #END# Call Search -->
 					<!-- Notifications -->
-					<li class="dropdown">
+					<!-- <li class="dropdown">
 						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
 							<i class="material-icons">notifications</i>
 							<span class="label-count">7</span>
@@ -214,10 +226,10 @@
 								<a href="javascript:void(0);">View All Notifications</a>
 							</li>
 						</ul>
-					</li>
+					</li> -->
 					<!-- #END# Notifications -->
 					<!-- Tasks -->
-					<li class="dropdown">
+					<!-- <li class="dropdown">
 						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
 							<i class="material-icons">flag</i>
 							<span class="label-count">9</span>
@@ -292,13 +304,13 @@
 								<a href="javascript:void(0);">View All Tasks</a>
 							</li>
 						</ul>
-					</li>
+					</li> -->
 					<!-- #END# Tasks -->
-					<li class="pull-right">
+					<!-- <li class="pull-right">
 						<a href="javascript:void(0);" class="js-right-sidebar" data-close="true">
 							<i class="material-icons">more_vert</i>
 						</a>
-					</li>
+					</li> -->
 				</ul>
 			</div>
 		</div>
@@ -310,11 +322,14 @@
 			<!-- User Info -->
 			<div class="user-info bg-blue" style="background-image:none;">
 				<div class="image">
-					<img src="<?php echo base_url('assets/AdminMaterialDesign/images/user.png') ;?>" width="48" height="48" alt="User" />
+					<img src="<?= base_url('assets/AdminMaterialDesign/images/user.png') ;?>" width="48" height="48" alt="User" />
 				</div>
 				<div class="info-container">
-					<div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Januar Wicaksono</div>
-					<div class="email">januarwicaksono16@gmail.com</div>
+					<div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<?php echo $this->session->userdata('name'); ?> - 
+						<?php echo $this->session->userdata()['access']['level_name']; ?>
+					</div>
+					<div class="email"><?php echo $this->session->userdata('email'); ?></div>
 					<div class="btn-group user-helper-dropdown">
 						<i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
 						<ul class="dropdown-menu pull-right">
@@ -324,20 +339,7 @@
 							</li>
 							<li role="seperator" class="divider"></li>
 							<li>
-								<a href="javascript:void(0);">
-									<i class="material-icons">group</i>Followers</a>
-							</li>
-							<li>
-								<a href="javascript:void(0);">
-									<i class="material-icons">shopping_cart</i>Sales</a>
-							</li>
-							<li>
-								<a href="javascript:void(0);">
-									<i class="material-icons">favorite</i>Likes</a>
-							</li>
-							<li role="seperator" class="divider"></li>
-							<li>
-								<a href="javascript:void(0);">
+								<a href="<?php echo base_url('Login/logout'); ?>">
 									<i class="material-icons">input</i>Sign Out</a>
 							</li>
 						</ul>
@@ -348,121 +350,133 @@
 			<!-- Menu -->
 			<div class="menu">
 				<ul class="list">
+					<?php if(in_array('dashboard', $this->session->userdata()['access']['access_page'])){ ?>
 					<li class="header">MAIN</li>
-                    <li class="active">
+                    <li class="<?=($this->uri->segment(1) == "Dashboard" || $this->uri->segment(1) == null) ? "active" : "" ?>">
 						<a href="<?php echo base_url('Dashboard'); ?>">
 							<i class="material-icons">dashboard</i>
 							<span>Dashboard</span>
 						</a>
 					</li>
-					<li class="header">MASTER DATA</li>
-					<li>
-						<a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-							<i class="material-icons">accessibility</i>
-							<span>Pegawai</span>
-						</a>
-						<ul class="ml-menu">
-							<li>
-								<a href="<?php echo base_url('Employees/EmployeesView'); ?>" class=" waves-effect waves-block">Lihat Pegawai</a>
-							</li>
-							<li>
-								<a href="<?php echo base_url('Employees/LevelsView') ?>" class=" waves-effect waves-block">Lihat Posisi</a>
-							</li>
-						</ul>
-					</li>
-                    <li>
-						<a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-							<i class="material-icons">layers</i>
-							<span>Produk</span>
-						</a>
-						<ul class="ml-menu">
-							<li>
-								<a href="<?php echo base_url('Products/productsView') ?>" class=" waves-effect waves-block">Lihat Produk</a>
-							</li>
-                            <li>
-								<a href="<?php echo base_url('Products/categoriesView') ?>" class=" waves-effect waves-block">Lihat Categories</a>
-							</li>
-						</ul>
-					</li>
-                    <li>
-						<a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-							<i class="material-icons">blur_on</i>
-							<span>Bahan Baku</span>
-						</a>
-						<ul class="ml-menu">
-							<li>
-								<a href="<?php echo base_url('Materials/materialsView') ?>" class=" waves-effect waves-block">Lihat Bahan Baku</a>
-							</li>
-							<li>
-								<a href="<?php echo base_url('Materials/purchaseMaterialsView') ?>" class=" waves-effect waves-block">Pesanan Bahan Baku</a>
-							</li>
-							
-						</ul>
-					</li>
-                    <li>
-						<a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-							<i class="material-icons">shop</i>
-							<span>Pelanggan</span>
-						</a>
-						<ul class="ml-menu">
-							<li>
-								<a href="<?php echo base_url('Costumers/costumersView') ?>" class=" waves-effect waves-block">Lihat Pelanggan</a>
-							</li>
-						</ul>
-					</li>
-                    <li>
-						<a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
-							<i class="material-icons">local_shipping</i>
-							<span>Pemasok</span>
-						</a>
-						<ul class="ml-menu">
-							<li>
-								<a href="<?php echo base_url('Suppliers/suppliersView'); ?>" class=" waves-effect waves-block">Lihat Pemasok</a>
-							</li>
-						</ul>
-					</li>
+					<?php } ?>
+					<?php if(in_array('products_sales', $this->session->userdata()['access']['access_page'])){ ?>
                     <li class="header">Penjualan Produk</li>
-                    <li>
+                    <li class="<?=($this->uri->segment(1) == "Transactions") ? "active" : "" ?>">
 						<a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
 							<i class="material-icons">shopping_cart</i>
 							<span>Penjualan Produk</span>
 						</a>
 						<ul class="ml-menu" style="display: none;">
-							<li>
+							<li class="<?=($this->uri->segment(2) == "transactionsView") ? "active" : "" ?>">
 								<a href="<?php echo base_url('Transactions/transactionsView'); ?>" class=" waves-effect waves-block">Lihat Penjualan</a>
 							</li>
-                            <li>
+							<li class="<?=($this->uri->segment(2) == "TransactionsCreateView") ? "active" : "" ?>">                            
 								<a href="<?php echo base_url('Transactions/TransactionsCreateView'); ?>" class=" waves-effect waves-block">Tambah Penjualan</a>
 							</li>
 						</ul>
 					</li>
+					<?php } ?>
+					<?php if(in_array('productions', $this->session->userdata()['access']['access_page'])){ ?>
                     <li class="header">Perencanaan Produksi</li>
-                    <li>
+					<li class="<?=($this->uri->segment(1) == "Productions") ? "active" : "" ?>">                   
 						<a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
 							<i class="material-icons">equalizer</i>
 							<span>Produksi</span>
 						</a>
 						<ul class="ml-menu" style="display: none;">
-							<li>
+							<li class="<?=($this->uri->segment(2) == "productionsScheduleView") ? "active" : "" ?>">
+								<a href="<?php echo base_url('Productions/productionsScheduleView'); ?>" class=" waves-effect waves-block">Lihat Jadwal Produksi</a>
+							</li>
+							<li class="<?=($this->uri->segment(2) == "productionsView") ? "active" : "" ?>">
 								<a href="<?php echo base_url('Productions/productionsView'); ?>" class=" waves-effect waves-block">Lihat Produksi</a>
 							</li>
-                            <li>
+							<li class="<?=($this->uri->segment(2) == "productionsCreateView") ? "active" : "" ?>">                            
 								<a href="<?php echo base_url('Productions/productionsCreateView'); ?>" class=" waves-effect waves-block">Tambah Produksi</a>
 							</li>
 						</ul>
 					</li>
-                    <li class="header">Laporan</li>
-                    <li>
-						<a href="" class="menu-toggle waves-effect waves-block">
-							<i class="material-icons">show_chart</i>
-							<span>Report</span>
+					<?php } ?>
+					<?php if(in_array('employees', $this->session->userdata()['access']['access_page'])){ ?>	
+					<li class="header">MASTER DATA</li>
+					<li class="<?=($this->uri->segment(1) == "Employees") ? "active" : "" ?>">                 					
+						<a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+							<i class="material-icons">accessibility</i>
+							<span>Pegawai</span>
 						</a>
+						<ul class="ml-menu">
+							<li class="<?=($this->uri->segment(2) == "EmployeesView") ? "active" : "" ?>">						
+								<a href="<?php echo base_url('Employees/EmployeesView'); ?>" class=" waves-effect waves-block">Lihat Pegawai</a>
+							</li>
+							<li class="<?=($this->uri->segment(2) == "LevelsView") ? "active" : "" ?>">													
+								<a href="<?php echo base_url('Employees/LevelsView') ?>" class=" waves-effect waves-block">Lihat Posisi</a>
+							</li>
+						</ul>
 					</li>
+					<?php } ?>
+					<?php if(in_array('products', $this->session->userdata()['access']['access_page'])){ ?>
+					<li class="<?=($this->uri->segment(1) == "Products") ? "active" : "" ?>">               					                    
+						<a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+							<i class="material-icons">layers</i>
+							<span>Produk</span>
+						</a>
+						<ul class="ml-menu">
+							<li class="<?=($this->uri->segment(2) == "productsView") ? "active" : "" ?>">													
+								<a href="<?php echo base_url('Products/productsView') ?>" class=" waves-effect waves-block">Lihat Produk</a>
+							</li>
+							<li class="<?=($this->uri->segment(2) == "categoriesView") ? "active" : "" ?>">													                            
+								<a href="<?php echo base_url('Products/categoriesView') ?>" class=" waves-effect waves-block">Lihat Categories</a>
+							</li>
+						</ul>
+					</li>
+					<?php } ?>
+					<?php if(in_array('materials', $this->session->userdata()['access']['access_page'])){ ?>
+					<li class="<?=($this->uri->segment(1) == "Materials") ? "active" : "" ?>">              					                                        
+						<a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+							<i class="material-icons">blur_on</i>
+							<span>Bahan Baku</span>
+						</a>
+						<ul class="ml-menu">
+							<li class="<?=($this->uri->segment(2) == "materialsView") ? "active" : "" ?>">																				
+								<a href="<?php echo base_url('Materials/materialsView') ?>" class=" waves-effect waves-block">Lihat Bahan Baku</a>
+							</li>
+							<li class="<?=($this->uri->segment(2) == "purchaseMaterialsView") ? "active" : "" ?>">																											
+								<a href="<?php echo base_url('Materials/purchaseMaterialsView') ?>" class=" waves-effect waves-block">Pesanan Bahan Baku</a>
+							</li>
+							
+						</ul>
+					</li>
+					<?php } ?>
+					<?php if(in_array('costumers', $this->session->userdata()['access']['access_page'])){ ?>
+					<li class="<?=($this->uri->segment(1) == "Costumers") ? "active" : "" ?>">              					                                                            
+						<a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+							<i class="material-icons">shop</i>
+							<span>Pelanggan</span>
+						</a>
+						<ul class="ml-menu">
+							<li class="<?=($this->uri->segment(2) == "costumersView") ? "active" : "" ?>">
+								<a href="<?php echo base_url('Costumers/costumersView') ?>" class=" waves-effect waves-block">Lihat Pelanggan</a>
+							</li>
+						</ul>
+					</li>
+					<?php } ?>
+					<?php if(in_array('suppliers', $this->session->userdata()['access']['access_page'])){ ?>
+					<li class="<?=($this->uri->segment(1) == "Suppliers") ? "active" : "" ?>">              					                                                                                
+						<a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
+							<i class="material-icons">local_shipping</i>
+							<span>Pemasok</span>
+						</a>
+						<ul class="ml-menu">
+							<li class="<?=($this->uri->segment(2) == "suppliersView") ? "active" : "" ?>">
+								<a href="<?php echo base_url('Suppliers/suppliersView'); ?>" class=" waves-effect waves-block">Lihat Pemasok</a>
+							</li>
+						</ul>
+					</li>
+					<?php } ?>
 				</ul>
 			</div>
 			<!-- #Menu -->
 			<!-- Footer -->
-			<!-- <div class="legal">
+			<div class="legal">
 				<div class="copyright">
 					&copy; 2017 - 2018
 					<a href="javascript:void(0);">Januar Wicaksono</a>.
@@ -470,12 +484,12 @@
 				<div class="version">
 					<b>Develop by: </b> Januar Wicaksono
 				</div>
-			</div> -->
+			</div>
 			<!-- #Footer -->
 		</aside>
 		<!-- #END# Left Sidebar -->
 		<!-- Right Sidebar -->
-		<aside id="rightsidebar" class="right-sidebar">
+		<!-- <aside id="rightsidebar" class="right-sidebar">
 			<ul class="nav nav-tabs tab-nav-right" role="tablist">
 				<li role="presentation" class="active">
 					<a href="#skins" data-toggle="tab">SKINS</a>
@@ -637,6 +651,6 @@
 					</div>
 				</div>
 			</div>
-		</aside>
+		</aside> -->
 		<!-- #END# Right Sidebar -->
 	</section>

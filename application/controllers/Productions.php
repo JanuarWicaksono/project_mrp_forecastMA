@@ -32,6 +32,12 @@ class Productions extends CI_Controller {
         $this->load->view('layout/v_footer'); 
     }
 
+    public function productionsScheduleView(){
+        $this->load->view('layout/v_header');
+        $this->load->view('productions/v_productions_schedule');
+        $this->load->view('layout/v_footer'); 
+    }
+
     public function productionsForecast()
     {
         //Get Product ID From frontend
@@ -106,42 +112,128 @@ class Productions extends CI_Controller {
     }
 
     public function productionsGet(){
-        $result = $this->Productions_m->productionsGet()->result();
-        echo json_encode($result);
+        $status = $this->input->get('dataStatus');
+
+        if(isset($status)){
+            $resultProductions = $this->Productions_m->productionsGetWhere($status)->result();
+        }else{
+            $resultProductions = $this->Productions_m->productionsGet()->result();
+        }
+
+        for ($i=0; $i < count($resultProductions) ; $i++) {
+
+            $numProd = 0;
+            $resultProductionHistories = $this->Productions_m->productionHistoriesGet($resultProductions[$i]->production_id)->result();
+            for ($j=0; $j < count($resultProductionHistories) ; $j++) {
+                $numProd = $numProd + $resultProductionHistories[$j]->num_of_prod;
+            }
+
+            $json[] = array_merge(
+                (array) $resultProductions[$i],
+                ['productions_total_num' => $numProd]
+            );
+
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($json));
+        
     }
 
     public function productionGet(){
+
         $productionId = $this->input->get('id');
 
-        $resultProduction = $this->Productions_m->productionGet($productionId)->result();
-        $resultProduct = $this->Products_m->productGet($resultProduction[0]->products_product_id)->result();
-        $resultBom = $this->Products_m->bomGet($resultProduction[0]->products_product_id)->result();
-        $resultBomHasMaterials = $this->Products_m->bomHasMaterialsGet($resultBom[0]->bom_id)->result();
+        $resultProduction = $this->Productions_m->productionGet($productionId);
+        $resultProduct = $this->Products_m->productGet($resultProduction->products_product_id)->row();
+        $resultBom = $this->Products_m->bomGet($resultProduction->products_product_id)->row();
+        // echo json_encode($resultBom);die();       
+        $resultProductionHistories = $this->Productions_m->productionHistoriesGet($productionId)->result();
+
+        $totalNumProduction = 0;
+        foreach ($resultProductionHistories as $item) {
+            $totalNumProduction = $totalNumProduction + $item->num_of_prod;
+        }
+
+        $resultBomHasMaterials = $this->Products_m->bomHasMaterialsGet($resultBom->bom_id)->result();
         for ($i=0; $i < count($resultBomHasMaterials) ; $i++) { 
-            $jsonMaterials[] = [
+            $productsBom[] = [
                 'material_data' => $resultBomHasMaterials[$i],
-                'total_num_comb' => $resultBomHasMaterials[$i]->num_comb_material * $resultProduction[0]->num_production,
-                'cal_total_min_stock' => $resultBomHasMaterials[$i]->stock - ($resultBomHasMaterials[$i]->num_comb_material * $resultProduction[0]->num_production)
+                'total_num_comb' => $resultBomHasMaterials[$i]->num_comb_material * $totalNumProduction,
+                'cal_total_min_stock' => $resultBomHasMaterials[$i]->stock - ($resultBomHasMaterials[$i]->num_comb_material * $totalNumProduction)
             ];
         }
-        
-        $json = [
-            'production_id' => $resultProduction[0]->production_id,
-            'num_production' => $resultProduction[0]->num_production,
-            'status' => $resultProduction[0]->status,
-            'started_at' => $resultProduction[0]->started_at,
-            'finished_at' => $resultProduction[0]->finished_at,
-            'created_at' => $resultProduction[0]->created_at,
-            'updated_at' => $resultProduction[0]->updated_at,
-            'note' => $resultProduction[0]->note,
-            'product_data' => $resultProduct[0],
-            'bom_data' => $jsonMaterials
-        ];
-        echo json_encode($json);
+
+        $this->output->set_content_type('application/json')->set_output(json_encode(
+            array_merge(
+                (array) $resultProduction,
+                ['num_of_prod' => $totalNumProduction],
+                ['product_data' => $resultProduct],
+                ['production_histories' => $resultProductionHistories],
+                ['production_cal_product_bom' => $productsBom]
+            )
+        ));
+    }
+
+    public function productionsCalendarGet(){
+        $resultProductions = $this->Productions_m->productionsGet()->result();
+
+        for ($i=0; $i < count($resultProductions) ; $i++) {
+
+            $numProd = 0;
+            $resultProductionHistories = $this->Productions_m->productionHistoriesGet($resultProductions[$i]->production_id)->result();
+            for ($j=0; $j < count($resultProductionHistories) ; $j++) {
+                $numProd = $numProd + $resultProductionHistories[$j]->num_of_prod;
+            }
+
+            $json[] = [
+                'title' => $resultProductions[$i]->product_name,
+                'start' => $resultProductions[$i]->started_at,
+                'end' => $resultProductions[$i]->finished_at,
+            ];
+            // $json[] = array_merge(
+            //     (array) $resultProductions[$i],
+            //     ['productions_total_num' => $numProd]
+            // );
+
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($json));
     }
 
     public function productionsCreate(){
-        $result = $this->Productions_m->productionsCreate();
+        $products_product_id = $this->input->post('product-input');
+        $num_of_prod = $this->input->post('num-prod');
+        $started_at = $this->input->post('started-at');
+        $note = $this->input->post('note');
+
+        $resultBom = $this->Products_m->bomGet($products_product_id);
+        $resultBomHasMaterials = $this->Products_m->bomHasMaterialsGet($resultBom->result()[0]->bom_id)->result();
+
+        for ($i=0; $i < count($resultBomHasMaterials) ; $i++) { 
+            $materialsBom[] = [
+                'material_data' => $resultBomHasMaterials[$i],
+                'total_num_comb' => $resultBomHasMaterials[$i]->num_comb_material * $num_of_prod
+            ];
+        }
+
+        $data = [
+            'products_product_id' => $products_product_id,
+            'num_of_prod' => $num_of_prod,
+            'started_at' => $started_at,
+            'note' => $note,
+            'bom' => $materialsBom
+        ];
+
+        // dd($data[]);
+        
+        // dd($data);
+        $this->form_validation->set_rules('product-input', 'product', 'required');
+        $this->form_validation->set_rules('num-prod', 'num-prod', 'required');
+        $this->form_validation->set_rules('started-at', 'started-at', 'required');
+        if ($this->form_validation->run() == FALSE){
+            return;
+        }else{
+            $result = $this->Productions_m->productionCreate($data);            
+        }
+
         $msg['success'] = false;
         $msg['type'] = 'add';
         if ($result) {
@@ -176,7 +268,7 @@ class Productions extends CI_Controller {
     }
 
     public function productionsDetailConfm(){
-        $productWhere = $this->input->get('products-id');
+        $productWhere = $this->input->get('product-input');
         $numProd = $this->input->get('num-prod');
 
         $resultProduct = $this->Products_m->productGet($productWhere);

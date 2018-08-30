@@ -180,6 +180,10 @@
             </div>
             <div class="modal-body">
                 <div class="row clearfix">
+                    <div class="alert alert-warning">
+                        <strong>Perhatian !</strong> Penambahan Data <i>Bill Of Material</i> Hanya Dapat Dilakukan Satu Kali, 
+                        Sehingga Tidak Dapat Diubah
+                    </div>
                     <table class="table table-bordered" id="table-bom">
                         <tr>
                             <th class="col-md-2">Nama Produk :</th>
@@ -201,14 +205,14 @@
                                 <tr class="bom-form-0">
                                     <th scope="row">1</th>
                                     <td>
-                                        <div class="form-group form-float">
+                                        <div class="form-group form-float" style="margin-bottom:0px;">
                                             <select class="form-control show-tick material-input-0" name="materials[]" data-live-search="true" data-size="5" required>
                                                 <option value="">-- Pilih Material --</option>
                                             </select>
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="form-group form-float">
+                                        <div class="form-group form-float" style="margin-bottom:0px;">
                                             <div class="form-line">
                                                 <input type="number" class="form-control num-comb-input-0" name="num-comb-materials[]" required placeholder="Jumlah Kombinasi">
                                             </div>
@@ -246,6 +250,62 @@
             <div class="modal-footer">
                 <button id="btn-save-bom" type="submit" class="btn btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal"><i class="material-icons">close</i><span>Tutup</span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-product-form-bom-detail" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-blue">
+                <h4 class="modal-title" id="largeModalLabel">Detail Bill Of Material</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row clearfix ">
+                    <div class="alert alert-info">
+                        <p>Data <i>Bill Of Material</i> Tidak Dapat Diubah !</p>
+                    </div>
+                    <div class="body table-responsive">
+                        <table class="table table-bordered" id="table-bom-detail">
+                            <tr>
+                                <th class="col-md-2">Produk ID:</th>
+                                <td class="col-md-10 product-id"></td>
+                            </tr>
+                            <tr>
+                                <th class="col-md-2">Nama Produk :</th>
+                                <td class="col-md-10 name"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <table id="table-bom-detail-comb" class="table table-bordered table-striped table-hover js-basic-example">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Nama Bahan Baku (satuan)</th>
+                                <th>Jumlah Combunasi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                        <!-- <tfoot>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </tfoot> -->
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">
+					<i class="material-icons">close</i>
+					<span>Tutup</span>
+				</button>
             </div>
         </div>
     </div>
@@ -465,22 +525,31 @@ $(document).ready(function() {
                     }).done(function(response) {
                         resetBomModal();
                         
-                        $('#form-bom [name="product-id"]').val(response.products_product_id);
-                        $('#table-bom .name').html(response.product_name);
+                        
                         if (response.response_status == true) {
-                            $('#form-bom').attr('action', '<?php echo base_url("Products/bomUpdate");?>');
-                            $('#form-bom [name="bom-id"]').val(response.bom_id);
-                            for (var i = 0; i < response.materials.length; i++) {
-                                formBomEdit(response.materials[i]);
+                            $('#table-bom-detail .product-id').html(response.products_product_id);
+                            $('#table-bom-detail .name').html(response.product_name);
+
+                            var bomDetailTbody = '';
+                            for (let i = 0; i < response.materials.length; i++) {
+                                bomDetailTbody += '<tr>'+
+                                    '<td>'+ (i+1) +'</td>'+
+                                    '<td>'+ response.materials[i].name +' ('+ response.materials[i].stock_type +') </td>'+
+                                    '<td>'+ response.materials[i].num_comb_material +'</td>'+
+                                '</tr>';
                             }
-                            $('.bom-form-'+bomFormNo).remove();
-                            bomFormNo--;
-                            $('input[name="num-comb-product"]').val(response.num_comb_product);
+                            $('#table-bom-detail-comb tbody').html(bomDetailTbody);
+
+                            $('#modal-product-form-bom-detail').modal('show');
+
 
                         } else if (response.response_status == false){
+                            $('#form-bom [name="product-id"]').val(response.products_product_id);
+                            $('#table-bom .name').html(response.product_name);
                             $('#form-bom').attr('action', '<?php echo base_url("Products/bomCreate");?>');
+                            $('#modal-product-form-bom').modal('show');
+
                         }
-                        $('#modal-product-form-bom').modal('show');
                         
                         $('#btn-save-bom').click(function(){
                             var url = $('#form-bom').attr('action');
@@ -625,13 +694,13 @@ $(document).ready(function() {
         $('#form-bom')[0].reset();
     }
 
-    function formBomEdit(dataMaterial){
+    function formBomEdit(dataMaterial, callback){
         bomFormNo++;
         var html = '';
         html += '<tr class="bom-form-'+bomFormNo+'">'+
             '<th scope="row">'+(bomFormNo+1)+'</th>'+
             '<td>'+
-                '<div class="form-group form-float">'+
+                '<div class="form-group form-float" style="margin-bottom:0px;">'+
                     '<select class="form-control show-tick material-input-'+bomFormNo+'" name="materials[]" data-live-search="true" data-size="5" required>'+
                         '<option value="">-- Pilih Material --</option>'+
                         
@@ -639,7 +708,7 @@ $(document).ready(function() {
                 '</div>'+
             '</td>'+
             '<td>'+
-                '<div class="form-group form-float">'+
+                '<div class="form-group form-float" style="margin-bottom:0px;">'+
                     '<div class="form-line">'+
                         '<input type="number" class="form-control num-comb-input-'+bomFormNo+'" name="num-comb-materials[]" required placeholder="Jumlah Kombinasi">'+
                     '</div>'+
@@ -647,6 +716,7 @@ $(document).ready(function() {
             '</td>'+
         '</tr>';
         $('#bom-form').append(html);
+        callback && callback();
         materialsGet();
         $('.material-input-'+(bomFormNo-1)).selectpicker('val', dataMaterial.material_id);
         $('.num-comb-input-'+(bomFormNo-1)).val(dataMaterial.num_comb_material);

@@ -13,7 +13,9 @@
     "require": {
         "php": ">=5.3.7",
         "markrogoyski/math-php": "0.*",
-        "nesbot/carbon": "^1.29"
+        "nesbot/carbon": "^1.29",
+        "illuminate/support": "^5.6",
+        "symfony/var-dumper": "^4.1"
     },
     "suggest": {
         "paragonie/random_compat": "Provides better randomness in PHP 5.x"

@@ -2,7 +2,8 @@
     <div class="container-fluid">
 
         <div class="row clearfix">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="col-md-12">
                 <div class="card">
                     <div class="header">
                         <h2>
@@ -12,8 +13,8 @@
                         <ul class="header-dropdown m-r--5">
                             <li class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-									<i class="material-icons">more_vert</i>
-								</a>
+                                    <i class="material-icons">more_vert</i>
+                                </a>
                                 <ul class="dropdown-menu pull-right">
                                     <li>
                                         <a href="javascript:void(0);" class=" waves-effect waves-block">Action</a>
@@ -30,69 +31,145 @@
                     </div>
                     <div class="body">
                         <a href="<?php echo base_url('Productions/productionsCreateView'); ?>" class="btn bg-blue waves-effect" id="btn-create-productions">
-							<i class="material-icons">add</i>
-							<span>Tambah Produksi</span>
-						</a>
+                            <i class="material-icons">add</i>
+                            <span>Tambah Produksi</span>
+                        </a>
                         <button type="button" class="btn bg-green waves-effect" id="reload-datatables" title="Refresh" data-toggle="modal" data-target="#largeModal">
-							<i class="material-icons">new_releases</i>
-							<span>Produksi Terbaru</span>
-						</button><br><br>
-                        <div class="row clearfix">
-                            <!-- <form action="" >
-                                <div class="col-md-12">
-                                    <div class="form-group form-float">
-                                        <select  class="form-control show-tick product-input" name="product" data-live-search="true" required>
-                                            <option value="">-- Pilih Produk --</option>
-                                            
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="text" class="datepicker form-control" id="production-date" name="production-date" placeholder="Please choose a date...">
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-primary waves-effect">
-                                        <i class="material-icons">check_circle</i>
-                                        <span>Cari</span>
-                                    </button>
-                                </div>
-                            </form> -->
-                            
-                        </div>
-                        <div class="table-responsive">
-                            <table id="productions-table" class="table table-bordered table-striped table-hover js-basic-example dataTable">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>ID</th>
-                                        <th>Nama Produk</th>
-                                        <th>Unit Tersedia</th>
-                                        <th>Jumlah Produksi</th>
-                                        <th>Status</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="productions-data">
+                            <i class="material-icons">new_releases</i>
+                            <span>Produksi Terbaru</span>
+                        </button>
+                        <br>
+                        <br>
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#productions_all" data-toggle="tab">
+                                    <i class="material-icons">list</i> Semua Produksi
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#productions_finished" data-toggle="tab">
+                                    <i class="material-icons">done</i> Sudah Selesai
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#productions_unfinished" data-toggle="tab">
+                                    <i class="material-icons">close</i> Belum Selesai
+                                </a>
+                            </li>
+                        </ul>
 
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade in active" id="productions_all">
+                                <div class="table-responsive">
+                                    <table id="productions-table" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>ID</th>
+                                                <th>Nama Produk</th>
+                                                <th>Unit Tersedia</th>
+                                                <th>Jumlah Produksi</th>
+                                                <th>Dimulai Pada</th>
+                                                <th>Selesai Pada</th>
+                                                <th>Status</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="productions_finished">
+                                <b>Profile Content</b>
+                                <table id="productions-finished-table" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>ID</th>
+                                            <th>Nama Produk</th>
+                                            <th>Unit Tersedia</th>
+                                            <th>Jumlah Produksi</th>
+                                            <th>Dimulai Pada</th>
+                                            <th>Selesai Pada</th>
+                                            <th>Status</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="productions-data">
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="productions_unfinished">
+                                <b>Message Content</b>
+                                <table id="productions-unfinished-table" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>ID</th>
+                                            <th>Nama Produk</th>
+                                            <th>Unit Tersedia</th>
+                                            <th>Jumlah Produksi</th>
+                                            <th>Dimulai Pada</th>
+                                            <th>Selesai Pada</th>
+                                            <th>Status</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
+                        <!-- End Tab Pane -->
+
                     </div>
                 </div>
             </div>
-
-
 
         </div>
 
@@ -109,64 +186,102 @@
             <div class="modal-body">
                 <div class="row clearfix ">
                     <div class="body">
-                        <div class="table responsive">
-                            <table class="table table-bordered" id="table-production-detail">
-                                <tr>
-                                    <th class="col-md-2" colspan="1">Produk :</th>
-                                    <td class="col-md-4 product" colspan="3"></td>
-                                </tr>
-                                <tr>
-                                    <th class="col-md-2">Jumlah Produksi :</th>
-                                    <td class="col-md-4 num-product" colspan="3"></td>
-                                </tr>
-                                <tr>
-                                    <th class="col-md-2">Status :</th>
-                                    <td class="col-md-4 status" colspan="3"></td>
-                                </tr>
-                                <tr>
-                                    <th class="col-md-2">Tanggal Mulai :</th>
-                                    <td class="col-md-4 started-at"></td>
-                                    <th class="col-md-2">Tanggal Selesai :</th>
-                                    <td class="col-md-4 finished-at"></td>
-                                </tr>
-                                <tr>
-                                    <th class="col-md-2">Dibuat Pada :</th>
-                                    <td class="col-md-4 created-at"></td>
-                                    <th class="col-md-2">Diperbaharui Pada :</th>
-                                    <td class="col-md-4 updated-at"></td>
-                                </tr>
-                                <tr>
-                                    <th class="col-md-2">Catatan :</th>
-                                    <td class="col-md-4 note" colspan="3"></td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="table responsive">                        
-                            <table class="table table-bordered">
-                                <thead>
+                        <div class="col-md-12">
+                            <h4>Detail Produksi</h4>
+                            <div class="table responsive">
+                                <table class="table table-bordered" id="table-production-detail">
                                     <tr>
-                                        <th>No</th>
-                                        <th>Bahan Baku</th>
-                                        <th>Stok</th>
-                                        <th>Stok Tipe</th>
-                                        <th>Kebutuhan </th>
-                                        <th>Sisa</th>
+                                        <th class="col-md-2" colspan="1">Produk</th>
+                                        <td class="col-md-4 product" colspan="3"></td>
                                     </tr>
-                                </thead>
-                                <tbody id="productions-materials">
+                                    <tr>
+                                        <th class="col-md-2">Jumlah Produksi</th>
+                                        <td class="col-md-4 num-product" colspan="3"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="col-md-2">Status</th>
+                                        <td class="col-md-4 status"></td>
+                                        <th>Masukan Selesai Produksi</th>
+                                        <td colspan="2">
+                                            <form action="">
+                                                <div class="form-group form-group-sm" style="margin-bottom:0px;">
+                                                    <div class="form-line">
+                                                        <input type="text" class="form-control datepicker-min-started" name="finished-at" placeholder="Masukan Tanggal Produksi Selesai">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="col-md-2">Tanggal Mulai</th>
+                                        <td class="col-md-4 started-at"></td>
+                                        <th class="col-md-2">Tanggal Selesai</th>
+                                        <td class="col-md-4 finished-at"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="col-md-2">Dibuat Pada</th>
+                                        <td class="col-md-4 created-at"></td>
+                                        <th class="col-md-2">Diperbaharui Pada</th>
+                                        <td class="col-md-4 updated-at"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
 
-                                </tbody>
-                                <!-- <tfoot>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th>Total</th>
-                                        <th class="total-price"></th>
-                                    </tr>
-                                </tfoot> -->
-                            </table>
+                        <div class="col-md-12">
+                            <h4>Pesanan Produksi</h4>
+
+                            <div class="table responsive">                        
+                                <table class="table table-hover" id="table-prod-histories">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-1">No</th>
+                                            <th class="col-md-1">ID</th>
+                                            <th class="col-md-2">Jumlah Produksi</th>
+                                            <th class="col-md-2">Ditambah Pada</th>
+                                            <th class="col-md-5">Catatan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-hover" id="productions-histories-detail-body">
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th ></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
+
+                        <div class="col-md-12">
+                            <h4>Detail Perhitungan Kebutuhan Bahan Baku</h4>
+                            <div class="table responsive">                        
+                                <table class="table table-hover" id="table-detail-bom">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Bahan Baku</th>
+                                            <th>Stok</th>
+                                            <th>Stok Tipe</th>
+                                            <th>Kebutuhan </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -180,7 +295,7 @@
 </div>
 
 <!-- Modal Form Material Create-->
-<div class="modal fade" id="modal-produksi-form" tabindex="-1" role="dialog">
+<!-- <div class="modal fade" id="modal-produksi-form" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-blue">
@@ -255,203 +370,234 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
+
+<script src="<?= base_url('assets/js/full-calendar.js') ?>"></script>
 
 <script>
+
 $(document).ready(function(){
-    function productsGet(){
-        $.ajax({
-            type: 'ajax',
-            url: '<?php echo base_url("Products/productsGet"); ?>',
-            async: false,
-            dataType: 'json'
-        }).done(function(response){
-            var html = '';
-            for (var i = 0; i < response.length; i++) {
-                html += '<option value="'+response[i].product_id+'" data-subtext="'+response[i].status+'" data-price="'+response[i].price+'">'+response[i].name+'</option>';
+function productsGet(){
+    $.ajax({
+        type: 'ajax',
+        url: '<?php echo base_url("Products/productsGet"); ?>',
+        async: false,
+        dataType: 'json'
+    }).done(function(response){
+        var html = '';
+        for (var i = 0; i < response.length; i++) {
+            html += '<option value="'+response[i].product_id+'" data-subtext="'+response[i].status+'" data-price="'+response[i].price+'">'+response[i].name+'</option>';
+        }
+        $('.product-input').append(html);
+        $('.product-input').selectpicker('render');
+    }).fail(function(){
+        swal('Failed', 'Error', 'error');
+    });
+}
+
+function productionDetail(id){
+    $.ajax({
+        type: 'ajax',
+        method: 'get',
+        url: '<?php echo base_url("productions/productionGet"); ?>',
+        data: {id: id},
+        async: false,
+        dataType: 'json',
+        success: function(response) {
+
+            //set response to detail productions
+            $('#table-production-detail .product').html(response.product_data.product_name);
+            $('#table-production-detail .num-product').html(response.num_of_prod);
+            if(response.status == 'finished'){
+                $('#table-production-detail .status').html('<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Selesai</button>');
+                $('#btn-finishing').attr('disabled', '');
+            }else{
+                $('#table-production-detail .status').html('<button type="button" class="btn btn-xs bg-red waves-effect" disabled>Belum Selesai</button>'); 
+                $('#btn-finishing').removeAttr('disabled');
             }
-            $('.product-input').append(html);
-            $('.product-input').selectpicker('render');
-        }).fail(function(){
-            swal('Failed', 'Error', 'error');
-        });
-    }
+            $('#table-production-detail .started-at').html(response.started_at);
+            $('#table-production-detail .finished-at').html(response.finished_at);
+            $('#table-production-detail .created-at').html(response.created_at);
+            $('#table-production-detail .updated-at').html(response.updated_at);
+            
+            // set response to detail productions order
+            var tBodyHistories = '';
+            for (var i = 0; i < response.production_histories.length; i++) {
+                tBodyHistories += '<tr>'+
+                    '<td>'+(i+1)+'</td>'+
+                    '<td>'+response.production_histories[i].productions_detail_id+'</td>'+
+                    '<td>'+response.production_histories[i].num_of_prod+'</td>'+
+                    '<td>'+response.production_histories[i].created_at+'</td>'+
+                    '<td>'+response.production_histories[i].note+'</td>'+
+                '</tr>';
+            }
+            $('#productions-histories-detail-body').html(tBodyHistories);
+            $('#table-prod-histories tfoot tr th').eq(2).html(response.num_of_prod);
 
-    function productionDelete(id){
-        $.ajax({
-            type: 'ajax',
+            //set reponse to productions bom
+            var tBodyprodsMat = '';
+            for (var i = 0; i < response.production_cal_product_bom.length; i++) {
+                tBodyprodsMat += '<tr>' +
+                        '<td>' + (i + 1) + '</td>' +
+                        '<td>' + response.production_cal_product_bom[i].material_data.name + '</td>' +
+                        '<td>' + response.production_cal_product_bom[i].material_data.stock + '</td>' +
+                        '<td>' + response.production_cal_product_bom[i].material_data.stock_type + '</td>' +
+                        '<td>' + response.production_cal_product_bom[i].total_num_comb + '</td>'
+                    '</tr>';
+            }
+            $('#table-detail-bom tbody').html(tBodyprodsMat);
+
+            $('#modal-production-detail').modal('show');
+
+            //input finishing production date
+            $('.datepicker-min-started').bootstrapMaterialDatePicker({
+                format: 'YYYY-MM-DD',
+                clearButton: true,
+                weekStart: 1,
+                time: false,
+                minDate : response.started_at
+            });
+
+            $('.datepicker-min-started').change(function(){
+                swal({
+                    title: "Data Produksi Yang Dimasukan Sudah Benar?",
+                    text: 'Pilih "OK" untuk menyimpan',
+                    type: "info",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                }, function() {
+                    setTimeout(function() {
+                        // productionsSave(url, data)
+                    }, 1000);
+                });
+            });
+
+        },
+        error: function() {
+            alert('Gagal', 'ERROR', 'error');
+        }
+    });
+}
+
+function productionDelete(id){
+    $.ajax({
+        type: 'ajax',
+        method: 'get',
+        async: false,
+        url: '<?php echo base_url("Productions/productionDelete"); ?>',
+        data: {
+            'production-id': id
+        },
+        dataType: 'json'
+    }).done(function(response) {
+        swal("Terhapus", "Data Pemasok Telah Terhapus", "success");
+        productionsDatatables();
+    }).fail(function() {
+        swal('Failed', 'Error', 'error');
+    });
+}
+
+function loadAllDatatables(){
+    productionsDatatables('#productions-table');
+    productionsDatatables('#productions-finished-table', 'finished');
+    productionsDatatables('#productions-unfinished-table', 'unfinished');
+}
+
+function productionsDatatables(element, dataStatus) {
+    var no = 0;
+    $(element).DataTable({
+        "ajax": {
+            url: '<?php echo base_url("Productions/productionsGet"); ?>',
+            dataSrc: '',
             method: 'get',
-            async: false,
-            url: '<?php echo base_url("Productions/productionDelete"); ?>',
-            data: {
-                'production-id': id
+            data: {dataStatus: dataStatus}
+        },
+        "columns": [
+            {
+                render: function(){
+                    return (no+++1);
+                }
             },
-            dataType: 'json'
-        }).done(function(response) {
-            swal("Terhapus", "Data Pemasok Telah Terhapus", "success");
-            productionsDatatables();
-        }).fail(function() {
-            swal('Failed', 'Error', 'error');
-        });
-    }
-
-    function productionsDatatables() {
-        var no = 0;
-        $('#productions-table').DataTable({
-            "ajax": {
-                url: '<?php echo base_url("Productions/productionsGet"); ?>',
-                dataSrc: '',
-                method: 'get'
+            {
+                data: 'production_id',
+                name: 'production_id'
             },
-            "columns": [
-                {
-                    render: function(){
-                        return (no+++1);
-                    }
-                },
-                {
-                    data: 'production_id',
-                    name: 'production_id'
-                },
-                {
-                    data: 'product_name',
-                    name: 'product_name'
-                },
-                {
-                    data: 'unit_in_stock',
-                    name: 'unit_in_stock'
-                },
-                {
-                    data: 'num_production',
-                    name: 'num_production'
-                },
-                {
-                    render: function(data, type, full, meta) {
-                        if(full.status == 'finished'){
-                            return '<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Tersedia</button>';
-                        }else{
-                            return '<button type="button" class="btn btn-xs bg-red waves-effect">Tidak tersedia</button>';                            
-                        }
-                    }
-                },
-                {
-                    name: 'action',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, full, meta) {
-                        return '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-production-detail" title="Detail" data="' + full.production_id + '" ><i class="material-icons">remove_red_eye</i></a>' +
-                            '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-production-edit" title="Edit" data="' + full.production_id + '"><i class="material-icons">edit</i></a>' +
-                            '<a type="javascript:;" class="btn btn-xs waves-effect btn-production-delete" title="Detele" data="' + full.production_id + '"><i class="material-icons">delete</i></a>';
+            {
+                data: 'product_name',
+                name: 'product_name'
+            },
+            {
+                data: 'unit_in_stock',
+                name: 'unit_in_stock'
+            },
+            {
+                data: 'productions_total_num',
+                name: 'num_production'
+            },
+            {
+                data: 'started_at',
+                name: 'started_at'
+            },
+            {
+                data: 'finished_at',
+                name: 'finished_at'
+            },
+            {
+                render: function(data, type, full, meta) {
+                    if(full.status == 'finished'){
+                        return '<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Selesai</button>';
+                    }else{
+                        return '<button type="button" class="btn btn-xs bg-red waves-effect" disabled>Belum Selesai</button>';                            
                     }
                 }
-            ],
-            "processing": true,
-            "bDestroy": true,
-            "fnDrawCallback": function(oSettings) {
-
-                // display modal-production-detail
-                $('.btn-production-detail').click(function() {
-                    var id = $(this).attr('data');
-                    $.ajax({
-                        type: 'ajax',
-                        method: 'get',
-                        url: '<?php echo base_url("productions/productionGet"); ?>',
-                        data: {id: id},
-                        async: false,
-                        dataType: 'json',
-                        success: function(response) {
-                            //push production data
-                            // console.log(response);
-                            $('#table-production-detail .product').html(response.product_data.product_name);
-                            $('#table-production-detail .num-product').html(response.num_production);
-                            $('#table-production-detail .status').html(response.status);
-                            $('#table-production-detail .started-at').html(response.started_at);
-                            $('#table-production-detail .finished-at').html(response.finished_at);
-                            $('#table-production-detail .created-at').html(response.created_at);
-                            $('#table-production-detail .updated-at').html(response.updated_at);
-                            $('#table-production-detail .note').html(response.note);
-                            
-                            var tBodyprodsMat = '';
-                            for (var i = 0; i < response.bom_data.length; i++) {
-                                tBodyprodsMat += '<tr>'+
-                                    '<td>'+(i+1)+'</td>'+
-                                    '<td>'+response.bom_data[i].material_data.name+'</td>'+
-                                    '<td>'+response.bom_data[i].material_data.stock+'</td>'+
-                                    '<td>'+response.bom_data[i].material_data.stock_type+'</td>'+
-                                    '<td>'+response.bom_data[i].total_num_comb+'</td>'+
-                                    '<td>'+response.bom_data[i].cal_total_min_stock+'</td>'+
-                                '</tr>';
-                            }
-                            $('#productions-materials').html(tBodyprodsMat);
-
-                            $('#modal-production-detail').modal('show');
-
-                        },
-                        error: function() {
-                            alert('Gagal', 'ERROR', 'error');
-                        }
-                    });
-                });
-
-                $('.btn-production-edit').click(function() {
-                    var id = $(this).attr('data');
-
-                    $.ajax({
-                        type: 'ajax',
-                        method: 'get',
-                        url: '<?php echo base_url("productions/productionGet"); ?>',
-                        data: {id: id},
-                        async: false,
-                        dataType: 'json',
-                        success: function(response) {
-                            //push production data
-                            $('#productions-form .product-input').selectpicker('val', response.product_data.product_id);
-                            $('#productions-form [name="num-prod"]').val(response.num_production);
-                            if (response.status == 'finished') {
-                                $('#productions-form #finished').prop('checked', true);
-                            } else {
-                                $('#productions-form #unfinished').prop('checked', true);                                
-                            }
-                            $('#productions-form [name="started-at"]').val(response.started_at);
-                            $('#productions-form [name="finished-at"]').val(response.finished_at);
-                            $('#productions-form [name="note"]').html(response.note);
-
-                            $('#modal-produksi-form').modal('show');
-
-                            // //push total production                            
-                            // $('.total-price').html(convertToRupiah(totalPrice));
-                        },
-                        error: function() {
-                            alert('Gagal', 'ERROR', 'error');
-                        }
-                    });
-                });
-
-                //btn-production-delete
-                $('.btn-production-delete').click(function() {
-                    var id = $(this).attr('data');
-                    swal({
-                        title: "Hapus Data Ini?",
-                        text: 'Pilih "OK" untuk menghapus',
-                        type: "info",
-                        showCancelButton: true,
-                        closeOnConfirm: false,
-                        showLoaderOnConfirm: true,
-                    }, function() {
-                        setTimeout(function() {
-                            productionDelete(id);
-                        }, 1000);
-                    });
-                });
-
-
-
+            },
+            {
+                name: 'action',
+                orderable: false,
+                searchable: false,
+                render: function(data, type, full, meta) {
+                    return '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-production-detail" title="Detail" data="' + full.production_id + '" ><i class="material-icons">remove_red_eye</i></a>' +
+                        '<a type="javascript:;" class="btn btn-xs waves-effect btn-production-delete" title="Detele" data="' + full.production_id + '"><i class="material-icons">delete</i></a>';
+                }
             }
-        });
-    }
+        ],
+        "processing": true,
+        "bDestroy": true,
+        "fnDrawCallback": function(oSettings) {
 
-    productionsDatatables();
-    productsGet();
+            // display modal-production-detail
+            $('.btn-production-detail').click(function() {
+                var id = $(this).attr('data');
+                productionDetail(id);
+            });
+
+
+            //btn-production-delete
+            $('.btn-production-delete').click(function() {
+                var id = $(this).attr('data');
+                swal({
+                    title: "Hapus Data Ini?",
+                    text: 'Pilih "OK" untuk menghapus',
+                    type: "info",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                }, function() {
+                    setTimeout(function() {
+                        productionDelete(id);
+                    }, 1000);
+                });
+            });
+
+
+
+        }
+    });
+}
+
+loadAllDatatables();
+productsGet();
 
 })
 
