@@ -8,6 +8,13 @@
 	<!-- Favicon-->
 	<link rel="icon" href="<?php echo base_url('assets/AdminMaterialDesign/favicon.png');?>" type="image/x-icon">
 
+	<meta http-equiv="cache-control" content="max-age=0" />
+	<?php
+		$this->output->set_header('Last-Modified: ' . gmdate("D, d M Y H:i:s") . ' GMT');('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+		$this->output->set_header('Pragma: no-cache');
+		$this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+	?>
+
 	<!-- Google Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">

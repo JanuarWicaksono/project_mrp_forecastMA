@@ -138,6 +138,23 @@ class Productions_m extends CI_model
         }
     }
 
+    public function productionChangeStatus($data){
+        $this->db->uptade('productions', [
+            'finished-at' => $data['finished-at'],
+            'status' => 'finised-at'
+        ]);
+
+        // $this->db->update('productions', [
+
+        // ])
+
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function productionDelete($productionId){
         $this->db->delete('productions', ['production_id' => $productionId]);
         if ($this->db->affected_rows() > 0) {

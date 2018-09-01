@@ -201,13 +201,21 @@
                                     <tr>
                                         <th class="col-md-2">Status</th>
                                         <td class="col-md-4 status"></td>
-                                        <th>Masukan Selesai Produksi</th>
+                                        <th>Produksi Selesai</th>
                                         <td colspan="2">
-                                            <form action="">
-                                                <div class="form-group form-group-sm" style="margin-bottom:0px;">
-                                                    <div class="form-line">
-                                                        <input type="text" class="form-control datepicker-min-started" name="finished-at" placeholder="Masukan Tanggal Produksi Selesai">
+                                            <form action="<?= base_url('Productions/productionsStatusChange'); ?>" id="form-status-changing">
+                                                <input type="hidden" name="production-id" value="">
+                                                <div class="col-md-8">
+                                                    <div class="form-group form-g" style="margin-bottom:0px;">
+                                                            <div class="form-line">
+                                                                <input type="text" class="form-control datepicker-min-started" name="finished-at" placeholder="Tanggal Produksi Selesai">
+                                                            </div>
                                                     </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button type="button" class="btn btn-primary waves-effect" id="btn-status-change">
+                                                        <i class="material-icons">save</i>
+                                                    </button>
                                                 </div>
                                             </form>
                                         </td>
@@ -228,8 +236,28 @@
                             </div>
                         </div>
 
+                        <!-- <div class="col-md-12">
+                            <h4>Ubah Status</h4>
+                            <form action="">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control datepicker-min-started" name="finished-at" placeholder="Masukan Tanggal Produksi Selesai">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                        <button type="button" class="btn bg-green waves-effect">
+                                            <i class="material-icons">new_releases</i>
+                                            <span>Produksi Terbaru</span>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div> -->
+
                         <div class="col-md-12">
-                            <h4>Pesanan Produksi</h4>
+                            <h4>Pesanan</h4>
 
                             <div class="table responsive">                        
                                 <table class="table table-hover" id="table-prod-histories">
@@ -372,8 +400,6 @@
     </div>
 </div> -->
 
-<script src="<?= base_url('assets/js/full-calendar.js') ?>"></script>
-
 <script>
 
 $(document).ready(function(){
@@ -406,6 +432,7 @@ function productionDetail(id){
         success: function(response) {
 
             //set response to detail productions
+            $('#form-status-changing input[name="production-id"]').val(response.production_id);
             $('#table-production-detail .product').html(response.product_data.product_name);
             $('#table-production-detail .num-product').html(response.num_of_prod);
             if(response.status == 'finished'){
@@ -458,7 +485,10 @@ function productionDetail(id){
                 minDate : response.started_at
             });
 
-            $('.datepicker-min-started').change(function(){
+            $('#btn-status-change').click(function(){
+                var data = $('#form-status-changing').serialize();
+                var url = $('#form-status-changing').attr('action');
+                // console.log(data, url);
                 swal({
                     title: "Data Produksi Yang Dimasukan Sudah Benar?",
                     text: 'Pilih "OK" untuk menyimpan',
@@ -468,7 +498,7 @@ function productionDetail(id){
                     showLoaderOnConfirm: true,
                 }, function() {
                     setTimeout(function() {
-                        // productionsSave(url, data)
+                        productionChangeStatus(url, data)
                     }, 1000);
                 });
             });
@@ -477,6 +507,22 @@ function productionDetail(id){
         error: function() {
             alert('Gagal', 'ERROR', 'error');
         }
+    });
+}
+
+function productionChangeStatus(url, data){
+    $.ajax({
+        type: 'ajax',
+        method: 'post',
+        async: false,
+        url: url,
+        data: data,
+        dataType: 'json'
+    }).done(function(response) {
+        swal("Terhapus", "Data Status Produksi Telah Berubah dan Terimpan, Stok Produk Bertambah", "success");
+        loadAllDatatables();
+    }).fail(function() {
+        swal('Failed', 'Error', 'error');
     });
 }
 

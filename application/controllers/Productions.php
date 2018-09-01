@@ -10,6 +10,9 @@ class Productions extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        // $this->output->set_header('Last-Modified: ' . gmdate("D, d M Y H:i:s") . ' GMT');('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+        // $this->output->set_header('Pragma: no-cache');
+        // $this->output->set_header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
         $this->load->model('Productions_m');
         $this->load->model('Transactions_m');
         $this->load->model('Products_m');
@@ -307,6 +310,34 @@ class Productions extends CI_Controller {
         echo json_encode($json);
     }
 
+    public function productionChangeStatus(){
+        $productionId = $this->input->post('production-id');
+        $finishedAt = $this->input->post('finished-at');
+
+        
+
+        $data = [
+            'production_id' => $productionId,
+            'finished_at' => $finishedAt,
+            'total_num' => $totalNumProduction
+        ];
+        dd($data);
+
+        $this->form_validation->set_rules('finished-at', 'product', 'required');
+        if ($this->form_validation->run() == FALSE){
+            return;
+        }else{
+            $result = $this->Productions_m->productionChangeStatus($data);
+        }
+
+        $msg['success'] = false;
+        $msg['type'] = 'deleted';
+        if ($result) {
+            $msg['success'] = true;
+        }
+        echo json_encode($msg);
+    }
+
     public function productionDelete(){
         $productionId = $this->input->get('production-id');
         $result = $this->Productions_m->productionDelete($productionId);
@@ -317,6 +348,10 @@ class Productions extends CI_Controller {
         }
         echo json_encode($msg);
 
+    }
+
+    public function calTotNumProductions($productionId){
+        
     }
 
 }

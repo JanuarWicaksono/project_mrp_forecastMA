@@ -246,7 +246,6 @@
         </div>
     </div>
 </div>
-<script src="<?= base_url('assets/js/full-calendar.js') ?>"></script>
 
 <script>
 $(document).ready(function() {
