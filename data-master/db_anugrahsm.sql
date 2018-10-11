@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.8.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 29 Jun 2018 pada 19.35
--- Versi server: 10.1.32-MariaDB
--- Versi PHP: 7.2.5
+-- Waktu pembuatan: 07 Sep 2018 pada 08.43
+-- Versi server: 10.1.33-MariaDB
+-- Versi PHP: 7.2.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -30,21 +30,19 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `bom` (
   `bom_id` int(11) NOT NULL,
-  `num_comb_product` int(11) DEFAULT NULL,
-  `products_product_id` int(11) NOT NULL
+  `products_product_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `bom`
 --
 
-INSERT INTO `bom` (`bom_id`, `num_comb_product`, `products_product_id`) VALUES
-(1, 100, 7),
-(14, 321, 8),
-(15, 1, 9),
-(16, 100, 10),
-(17, 100, 10),
-(18, 100, 11);
+INSERT INTO `bom` (`bom_id`, `products_product_id`, `created_at`, `updated_at`) VALUES
+(21, 7, '2018-07-17 18:59:43', '2018-08-02 02:27:38'),
+(22, 8, '2018-08-02 02:25:30', NULL),
+(24, 14, '2018-09-04 13:44:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -63,16 +61,13 @@ CREATE TABLE `bom_has_materials` (
 --
 
 INSERT INTO `bom_has_materials` (`bom_bom_id`, `materials_material_id`, `num_comb_material`) VALUES
-(1, 2, 100),
-(1, 3, 100),
-(14, 2, 123),
-(15, 3, 10),
-(15, 4, 12),
-(16, 2, 20),
-(17, 2, 20),
-(17, 3, 100),
-(18, 2, 200),
-(18, 3, 200);
+(21, 3, 10),
+(21, 4, 5),
+(21, 7, 2),
+(22, 3, 4),
+(22, 4, 6),
+(24, 2, 8),
+(24, 11, 2);
 
 -- --------------------------------------------------------
 
@@ -96,14 +91,10 @@ CREATE TABLE `costumers` (
 --
 
 INSERT INTO `costumers` (`costumer_id`, `name`, `email`, `phone`, `status`, `address`, `created_at`, `updated_at`) VALUES
-(6, 'Alfamart', 'alfamart@gmail.com', '782964962789', 'active', 'jakal km 14', '2018-04-15 07:12:29', NULL),
-(7, 'indomaret', 'indomaret@gmail.com', '7863247816', 'nonactive', 'sleman', '2018-04-15 15:52:03', NULL),
-(8, 'Intan Sarana', 'intansarana@gmail.com', '2671846718', 'active', 'jlkaliurang km.13.5', '2018-04-15 13:18:24', NULL),
-(9, 'Intan Sarana', 'intansarana@gmail.com', '2671846718', 'nonactive', 'jlkaliurang km.13.5', '2018-04-15 15:52:03', NULL),
-(18, 'aaaaaaaaaaaaaaaa', 'aaaaaaaaaa@gmail.com', '16231515', 'active', 'aaaaaaaaaaaaa', '2018-04-15 16:24:10', NULL),
-(21, 'Starkom', 'starkom@gmail.com', '215161', 'active', 'sleman', '2018-04-27 18:42:46', NULL),
-(23, 'Warung sebelah', 'sebelah@gmail.com', '2121525', 'nonactive', 'sleman', '2018-04-28 09:02:26', NULL),
-(26, 'wdad', 'wada@gmail.com', '2154215', 'active', 'wdadada', '2018-06-07 23:45:47', NULL);
+(6, 'Alfamart', 'alfamart@gmail.com', '08625265642', 'active', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-07-12 05:22:51', NULL),
+(7, 'Indomaret', 'indomaret@gmail.com', '08251523223', 'active', 'slemanLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-07-12 05:23:32', NULL),
+(8, 'Intan Sarana', 'intansarana@gmail.com', '085243242324', 'active', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-07-12 05:23:17', NULL),
+(9, 'Starbuks', 'startbuks@gmail.com', '08152736452', 'active', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-08-04 20:46:37', NULL);
 
 -- --------------------------------------------------------
 
@@ -130,10 +121,8 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`employee_id`, `name`, `gender`, `email`, `username`, `password`, `address`, `phone`, `created_at`, `updated_at`, `employees_levels_level_id`) VALUES
-(1, 'Januar Wicaksono', 'Laki-laki', 'januar@gmail.com', 'januar', '202cb962ac59075b964b07152d234b70', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,', '082512657134254', '2018-06-27 12:18:08', '2018-06-27 12:18:27', 18),
-(2, 'Intan Rizki Amalia', 'Perempuan', 'intan@gmail.com', 'intan', '202cb962ac59075b964b07152d234b70', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,', '0825125617831', '2018-06-27 12:19:11', NULL, 20),
-(3, 'Shodiq Wibowo', 'Laki-laki', 'shodiq@gmail.com', 'shodiq', '202cb962ac59075b964b07152d234b70', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,', '08241678521425', '2018-06-27 12:19:53', NULL, 18),
-(4, 'Septiandi Wibowo', 'Laki-laki', 'bowo@gmail.com', 'bowo', '202cb962ac59075b964b07152d234b70', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,', '08521657821645', '2018-06-27 12:20:29', NULL, 18);
+(2, 'Intan Rizki Amalia', 'Perempuan', 'intan@gmail.com', 'intan', '202cb962ac59075b964b07152d234b70', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,', '0825125617831', '2018-06-27 12:19:11', '2018-09-04 14:12:36', 18),
+(5, 'Januar Wicaksono', 'Laki-laki', 'januarwicaksono@gmail.com', 'januar', '202cb962ac59075b964b07152d234b70', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '89208490189', '2018-08-19 01:20:34', '2018-09-04 21:50:11', 18);
 
 -- --------------------------------------------------------
 
@@ -152,7 +141,8 @@ CREATE TABLE `employees_levels` (
 
 INSERT INTO `employees_levels` (`level_id`, `level_name`) VALUES
 (18, 'Admin'),
-(20, 'Owner');
+(20, 'Owner'),
+(31, 'wda');
 
 -- --------------------------------------------------------
 
@@ -186,12 +176,7 @@ INSERT INTO `employees_levels_has_access` (`employees_levels_level_id`, `access_
 (20, 5, NULL),
 (20, 6, NULL),
 (20, 7, NULL),
-(20, 8, NULL),
-(20, 9, NULL),
-(20, 10, NULL),
-(20, 11, NULL),
-(20, 12, NULL),
-(20, 13, NULL);
+(20, 8, NULL);
 
 -- --------------------------------------------------------
 
@@ -210,18 +195,26 @@ CREATE TABLE `employee_levels_access` (
 
 INSERT INTO `employee_levels_access` (`access_id`, `access_name`) VALUES
 (1, 'dashboard'),
-(2, 'pegawai'),
-(3, 'produk'),
-(4, 'bahan baku'),
-(5, 'pelanggan'),
-(6, 'pemasok'),
-(7, 'penjualan'),
-(8, 'peramalan'),
-(9, 'mps'),
-(10, 'mrp'),
-(11, 'penjadwalan'),
-(12, 'pembelian bahan baku'),
-(13, 'laporan');
+(2, 'products_sales'),
+(3, 'productions'),
+(4, 'employees'),
+(5, 'materials'),
+(6, 'costumers'),
+(7, 'suppliers'),
+(8, 'products');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `forecast`
+--
+
+CREATE TABLE `forecast` (
+  `forecast_id` int(11) NOT NULL,
+  `forecast_date` date NOT NULL,
+  `forecast_result` int(11) NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -246,12 +239,12 @@ CREATE TABLE `materials` (
 --
 
 INSERT INTO `materials` (`material_id`, `name`, `price`, `stock`, `stock_type`, `status`, `note`, `created_at`, `updated_at`) VALUES
-(2, 'Kopi', 10000, 100, 'gram', 'available', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet eleifend lorem in pretium. Aenean vel augue at libero dictum rutrum. Nullam non volutpat libero. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas luctus volutpat odio ut mattis', '2018-06-26 15:15:04', '2018-06-27 13:08:18'),
-(3, 'Gula', 9000, 200, '', 'available', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet eleifend lorem in pretium. Aenean vel augue at libero dictum rutrum. Nullam non volutpat libero. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas luctus volutpat odio ut mattis', '2018-06-26 15:15:10', '2018-06-27 13:08:39'),
-(4, 'Jahe', 10000, 266, '', 'available', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet eleifend lorem in pretium. Aenean vel augue at libero dictum rutrum. Nullam non volutpat libero. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas luctus volutpat odio ut mattis', '2018-06-26 15:15:16', '2018-06-27 13:08:48'),
-(7, 'Anggur', 26000, 270, 'gram', 'available', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet eleifend lorem in pretium. Aenean vel augue at libero dictum rutrum. Nullam non volutpat libero. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas luctus volutpat odio ut mattis', '2018-06-26 15:15:25', '2018-06-27 13:09:12'),
-(11, 'Coklat', 60000, 8000, 'gram', 'available', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,', '2018-06-27 13:09:50', '2018-06-27 13:17:29'),
-(12, 'Susu', 90000, 800, 'gram', 'available', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,', '2018-06-27 13:17:57', NULL);
+(2, 'Kopi', 0, 244500, 'gram', 'available', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet eleifend lorem in pretium. Aenean vel augue at libero dictum rutrum. Nullam non volutpat libero. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas luctus volutpat odio ut mattis', '2018-06-26 15:15:04', '2018-09-03 14:22:23'),
+(3, 'Gula', 9000, 52220, 'gram', 'available', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet eleifend lorem in pretium. Aenean vel augue at libero dictum rutrum. Nullam non volutpat libero. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas luctus volutpat odio ut mattis', '2018-06-26 15:15:10', '2018-06-27 13:08:39'),
+(4, 'Jahe', 0, 97380, 'gram', 'available', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet eleifend lorem in pretium. Aenean vel augue at libero dictum rutrum. Nullam non volutpat libero. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas luctus volutpat odio ut mattis', '2018-06-26 15:15:16', '2018-08-20 02:58:48'),
+(7, 'Anggur', 0, 59540, 'gram', 'available', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet eleifend lorem in pretium. Aenean vel augue at libero dictum rutrum. Nullam non volutpat libero. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas luctus volutpat odio ut mattis', '2018-06-26 15:15:25', '2018-08-20 02:59:07'),
+(11, 'Coklat', 60000, 1000, 'gram', 'available', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,', '2018-06-27 13:09:50', '2018-06-27 13:17:29'),
+(12, 'Susu', 90000, 1000, 'gram', 'available', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,', '2018-06-27 13:17:57', NULL);
 
 -- --------------------------------------------------------
 
@@ -269,81 +262,140 @@ CREATE TABLE `materials_has_suppliers` (
 --
 
 INSERT INTO `materials_has_suppliers` (`materials_material_id`, `suppliers_supplier_id`) VALUES
-(2, 46),
-(2, 48),
-(3, 48),
-(4, 47),
-(4, 49),
-(7, 47),
-(7, 49);
+(2, 51),
+(3, 52),
+(4, 51),
+(7, 54),
+(11, 53),
+(12, 53);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mps`
+-- Struktur dari tabel `materials_trans`
 --
 
-CREATE TABLE `mps` (
-  `mps_id` int(11) NOT NULL,
-  `period_month` varchar(45) DEFAULT NULL,
-  `lead_time` int(11) DEFAULT NULL,
-  `on_hand` int(11) DEFAULT NULL,
-  `lot_size` int(11) DEFAULT NULL,
-  `safety_stock` int(11) DEFAULT NULL,
-  `demand_time_fence` int(11) DEFAULT NULL,
-  `planning_time_fence` int(11) DEFAULT NULL,
-  `mps_info_mps_info_id` int(11) NOT NULL
+CREATE TABLE `materials_trans` (
+  `material_trans_id` int(11) NOT NULL,
+  `note` text,
+  `status` varchar(11) DEFAULT NULL,
+  `date_status_finished` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `materials_trans`
+--
+
+INSERT INTO `materials_trans` (`material_trans_id`, `note`, `status`, `date_status_finished`, `created_at`, `updated_at`) VALUES
+(6, 'loremloremlorem', 'finished', '2018-08-10 00:00:00', '2018-08-10 23:09:36', '2018-08-15 12:32:08'),
+(7, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', 'finished', '2018-08-10 00:00:00', '2018-08-10 23:15:48', '2018-08-15 14:52:03'),
+(8, 'lorem', 'finished', '2018-08-10 00:00:00', '2018-08-10 23:17:25', '2018-08-15 15:22:22'),
+(9, '', 'finished', '2018-08-11 00:00:00', '2018-08-11 00:08:38', '2018-08-15 15:22:33'),
+(11, '', 'finished', '2018-08-15 17:14:21', '2018-08-15 17:13:20', '2018-08-15 17:14:20'),
+(13, '', 'finished', '2018-08-15 17:41:12', '2018-08-15 17:24:40', '2018-08-15 17:41:12'),
+(14, '', 'finished', '2018-08-30 12:48:35', '2018-08-30 12:48:07', '2018-08-30 12:48:35'),
+(15, 'lorem', 'finished', '2018-09-03 14:24:23', '2018-09-02 01:02:35', '2018-09-03 14:24:23'),
+(16, 'Pesanan Kopi', 'finished', '2018-09-03 14:25:18', '2018-09-03 14:25:04', '2018-09-03 14:25:18'),
+(17, 'lorem ipsum', 'finished', '2018-09-03 14:26:00', '2018-09-03 14:25:47', '2018-09-03 14:25:59');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mps_info`
+-- Struktur dari tabel `materials_trans_detail`
 --
 
-CREATE TABLE `mps_info` (
-  `mps_info_id` int(11) NOT NULL,
-  `week_period` int(11) DEFAULT NULL,
-  `sales_plan` int(11) DEFAULT NULL,
-  `actual_order` int(11) DEFAULT NULL,
-  `pab` int(11) DEFAULT NULL,
-  `atp` int(11) DEFAULT NULL,
-  `cumulative_atp` int(11) DEFAULT NULL,
-  `mps` int(11) DEFAULT NULL
+CREATE TABLE `materials_trans_detail` (
+  `materials_trans_detail_id` int(11) NOT NULL,
+  `material_id` int(11) DEFAULT NULL,
+  `material_name` varchar(45) DEFAULT NULL,
+  `supplier_id` int(11) DEFAULT NULL,
+  `supplier_name` varchar(45) DEFAULT NULL,
+  `qty` float DEFAULT NULL,
+  `status` varchar(11) DEFAULT NULL,
+  `arrived_at` datetime DEFAULT NULL,
+  `note` text,
+  `materials_trans_material_trans_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `materials_trans_detail`
+--
+
+INSERT INTO `materials_trans_detail` (`materials_trans_detail_id`, `material_id`, `material_name`, `supplier_id`, `supplier_name`, `qty`, `status`, `arrived_at`, `note`, `materials_trans_material_trans_id`) VALUES
+(4, 2, 'Kopi', 51, 'PT.Pertama', 20000, 'arrived', '2018-08-15 12:31:57', 'lorem', 6),
+(5, 3, 'Gula', 52, 'PT.Kedua', 30000, 'arrived', '2018-08-15 12:32:08', 'lorem', 6),
+(6, 2, 'Kopi', 51, 'PT.Pertama', 90000, 'arrived', '2018-08-15 12:19:04', 'lorem', 7),
+(7, 3, 'Gula', 52, 'PT.Kedua', 10000, 'arrived', '2018-08-15 12:19:59', 'lorem', 7),
+(8, 4, 'Jahe', 51, 'PT.Pertama', 20000, 'arrived', '2018-08-15 14:52:03', 'lorem', 7),
+(9, 2, 'Kopi', 51, 'PT.Pertama', 60000, 'arrived', '2018-08-15 15:22:18', 'lorem', 8),
+(10, 3, 'Gula', 52, 'PT.Kedua', 10000, 'arrived', '2018-08-15 15:22:21', 'lorem', 8),
+(13, 2, 'Kopi', 51, 'PT.Pertama', 20000, 'arrived', '2018-08-15 17:14:20', '', 11),
+(15, 2, 'Kopi', 51, 'PT.Pertama', 20000, 'arrived', '2018-08-15 17:41:12', '', 13),
+(16, 11, 'Coklat', 53, 'PT.Ketiga', 500, 'arrived', '2018-08-30 12:48:24', '', 14),
+(17, 12, 'Susu', 53, 'PT.Ketiga', 500, 'arrived', '2018-08-30 12:48:35', '', 14),
+(18, 2, 'Kopi', 51, 'PT.Pertama', 3000, 'arrived', '2018-09-03 14:24:18', 'lorem', 15),
+(19, 3, 'Gula', 52, 'PT.Kedua', 4000, 'arrived', '2018-09-03 14:24:23', 'lorem', 15),
+(20, 2, 'Kopi', 51, 'PT.Pertama', 20000, 'arrived', '2018-09-03 14:25:18', '', 16),
+(21, 2, 'Kopi', 51, 'PT.Pertama', 9000, 'arrived', '2018-09-03 14:25:56', '', 17),
+(22, 3, 'Gula', 52, 'PT.Kedua', 1000, 'arrived', '2018-09-03 14:25:59', '', 17);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mrp`
+-- Struktur dari tabel `productions`
 --
 
-CREATE TABLE `mrp` (
-  `mrp_id` int(11) NOT NULL,
-  `lead_time` int(11) DEFAULT NULL,
-  `on_hand` int(11) DEFAULT NULL,
-  `lot_size` int(11) DEFAULT NULL,
-  `safety_stock` int(11) DEFAULT NULL,
-  `mrp_info_mrp_info_id` int(11) NOT NULL
+CREATE TABLE `productions` (
+  `production_id` int(11) NOT NULL,
+  `status` varchar(45) DEFAULT NULL,
+  `started_at` date DEFAULT NULL,
+  `finished_at` date DEFAULT NULL,
+  `products_product_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `productions`
+--
+
+INSERT INTO `productions` (`production_id`, `status`, `started_at`, `finished_at`, `products_product_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(23, 'finished', '2018-08-24', '2018-09-01', 7, '2018-08-24 18:40:35', '2018-08-24 18:42:31', NULL),
+(24, 'finished', '2018-08-30', '2018-09-01', 7, '2018-08-28 01:18:14', '2018-08-28 01:19:31', NULL),
+(25, 'finished', '2018-08-28', '2018-09-01', 7, '2018-08-28 01:23:46', NULL, NULL),
+(26, 'unfinished', '2018-08-30', NULL, 8, '2018-08-30 12:43:31', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mrp_info`
+-- Struktur dari tabel `productions_histories`
 --
 
-CREATE TABLE `mrp_info` (
-  `mrp_info_id` int(11) NOT NULL,
-  `period_week` int(11) DEFAULT NULL,
-  `gross_requirements` int(11) DEFAULT NULL,
-  `scheduled_receipts` int(11) DEFAULT NULL,
-  `projected_onhand` int(11) DEFAULT NULL,
-  `projected_available` int(11) DEFAULT NULL,
-  `net_requirements` int(11) DEFAULT NULL,
-  `planned_order_receipts` int(11) DEFAULT NULL,
-  `planned_order_release` int(11) DEFAULT NULL
+CREATE TABLE `productions_histories` (
+  `productions_detail_id` int(11) NOT NULL,
+  `num_of_prod` int(11) DEFAULT NULL,
+  `note` varchar(45) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `deleted_at` varchar(45) DEFAULT NULL,
+  `productions_production_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `productions_histories`
+--
+
+INSERT INTO `productions_histories` (`productions_detail_id`, `num_of_prod`, `note`, `created_at`, `updated_at`, `deleted_at`, `productions_production_id`) VALUES
+(15, 233, 'test 1', '2018-08-24 18:40:35', NULL, NULL, 23),
+(16, 230, 'test 2', '2018-08-24 18:41:04', NULL, NULL, 23),
+(17, 253, 'test 3', '2018-08-24 18:42:31', NULL, NULL, 23),
+(18, 230, '', '2018-08-28 01:18:14', NULL, NULL, 24),
+(19, 230, 'lorem', '2018-08-28 01:19:31', NULL, NULL, 24),
+(20, 230, 'lorem ipsum', '2018-08-28 01:23:46', NULL, NULL, 25),
+(21, 245, '', '2018-08-30 12:43:31', NULL, NULL, 26);
 
 -- --------------------------------------------------------
 
@@ -370,12 +422,13 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `name`, `price`, `expiration`, `unit_in_stock`, `status`, `description`, `note`, `created_at`, `updated_at`, `products_categories_category_id`) VALUES
-(7, 'Minuman Jahe Anggur', 15000, 365, 500, 'available', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-06-26 13:56:16', '2018-06-27 12:44:17', 5),
+(7, 'Minuman Jahe Anggur', 16000, 365, 230, 'available', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '', '2018-06-26 13:56:16', '2018-09-03 13:54:14', 5),
 (8, 'Minuman Jahe Kencur', 15000, 365, 500, 'available', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-06-26 13:56:25', NULL, 6),
-(9, 'Minuman Jahe Susu', 12000, 365, 2000, 'available', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-06-26 13:56:33', NULL, 7),
-(10, 'Minuman Jahe Coklat', 16000, 365, 100, 'available', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-06-26 13:56:41', NULL, 6),
-(11, 'Minuman Jahe Mocca', 18000, 365, 200, 'available', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-06-26 13:56:53', NULL, 6),
-(12, 'Minuman Susu Cokalat', 18000, 365, 600, 'available', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,', '2018-06-27 12:50:10', '2018-06-27 12:50:23', 6);
+(10, 'Minuman Jahe Coklat', 16000, 365, 10, 'available', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-06-26 13:56:41', NULL, 6),
+(11, 'Minuman Jahe Mocca', 18000, 365, 190, 'available', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-06-26 13:56:53', NULL, 6),
+(13, 'Minuman Jahe Jahe', 20000, 390, 900, 'available', 'lorem', 'lorem\r\n', '2018-09-04 13:36:04', NULL, 5),
+(14, 'Minuman Susu Jahe', 20000, 365, 1000, 'available', 'lorem', 'lorem', '2018-09-04 13:44:08', NULL, 5),
+(15, 'januar', 2415, 41, 2415, 'available', 'dawd', 'dawda', '2018-09-04 14:14:39', NULL, 5);
 
 -- --------------------------------------------------------
 
@@ -395,8 +448,9 @@ CREATE TABLE `products_categories` (
 
 INSERT INTO `products_categories` (`category_id`, `name`, `description`) VALUES
 (5, 'Saset 15ml', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s'),
-(6, 'Kaleng 50ml', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s'),
-(7, 'Kaleng 90ml', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s');
+(6, 'Kaleng 50ml', 'lorem'),
+(7, 'Kaleng 90ml', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s'),
+(8, 'Kaleng 500ml', '');
 
 -- --------------------------------------------------------
 
@@ -422,8 +476,8 @@ CREATE TABLE `suppliers` (
   `phone` varchar(45) NOT NULL,
   `status` varchar(9) DEFAULT NULL,
   `address` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -431,10 +485,10 @@ CREATE TABLE `suppliers` (
 --
 
 INSERT INTO `suppliers` (`supplier_id`, `name`, `email`, `phone`, `status`, `address`, `created_at`, `updated_at`) VALUES
-(46, 'PT.Pertama', 'Pertama@gmail.com', '0812676273', 'active', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-06-26 06:03:17', NULL),
-(47, 'PT.Kedua', 'Kedua@gmail.com', '0823251674', 'active', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-06-26 06:05:30', NULL),
-(48, 'PT.Ketiga', 'Ketiga@gmail.com', '0821415241', 'active', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-06-26 06:05:54', NULL),
-(49, 'PT.Empat', 'Empat@gmail.com', '08241674', 'active', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-06-26 06:17:21', NULL);
+(51, 'PT.Pertama', 'pertama@gmail.com', '024189518625', 'active', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-08-04 23:01:53', '2018-08-04 23:01:53'),
+(52, 'PT.Kedua', 'kedua@gmail.com', '24619', 'active', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-08-07 14:10:05', '2018-08-07 14:10:05'),
+(53, 'PT.Ketiga', 'ketiga@gmail.com', '214861985', 'active', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-08-04 15:02:47', NULL),
+(54, 'PT.Ketiga', 'ketiga@gmail.com', '24241785', 'active', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s', '2018-08-08 15:02:54', NULL);
 
 -- --------------------------------------------------------
 
@@ -453,11 +507,26 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`transaction_id`, `date`, `costumers_costumer_id`) VALUES
-(7, '2018-01-28', 6),
-(8, '2018-02-28', 6),
-(9, '2018-06-12', 7),
-(10, '2018-06-20', 6),
-(11, '2018-06-20', 6);
+(1, '2017-08-13', 6),
+(2, '2017-09-13', 7),
+(4, '2017-11-14', 6),
+(5, '2017-12-14', 6),
+(6, '2018-01-14', 7),
+(7, '2018-02-14', 6),
+(8, '2018-03-14', 6),
+(9, '2018-04-14', 6),
+(10, '2018-05-14', 6),
+(11, '2018-06-14', 6),
+(13, '2017-07-15', 6),
+(16, '2018-07-25', 6),
+(17, '2017-10-20', 6),
+(18, '2018-09-01', 6),
+(19, '2018-08-01', 6),
+(20, '2018-09-03', 6),
+(21, '2018-09-03', 7),
+(22, '2018-09-03', 7),
+(23, '2018-09-03', 6),
+(24, '2018-09-03', 6);
 
 -- --------------------------------------------------------
 
@@ -476,17 +545,41 @@ CREATE TABLE `transactions_has_products` (
 --
 
 INSERT INTO `transactions_has_products` (`transactions_transaction_id`, `products_product_id`, `purchase_qty`) VALUES
-(7, 7, 200),
-(7, 8, 100),
-(8, 7, 100),
-(8, 8, 200),
-(9, 7, 100),
-(9, 8, 200),
-(10, 7, 100),
-(10, 9, 200),
-(11, 7, 100),
-(11, 8, 400),
-(11, 9, 200);
+(1, 7, 257),
+(1, 8, 250),
+(2, 7, 239),
+(2, 8, 299),
+(4, 7, 255),
+(4, 8, 245),
+(5, 7, 233),
+(5, 8, 222),
+(6, 7, 260),
+(6, 8, 299),
+(7, 7, 259),
+(7, 8, 222),
+(8, 7, 267),
+(8, 8, 255),
+(9, 7, 277),
+(9, 8, 257),
+(10, 7, 222),
+(10, 8, 300),
+(11, 7, 267),
+(11, 8, 290),
+(13, 7, 250),
+(13, 8, 245),
+(16, 7, 200),
+(16, 8, 100),
+(17, 7, 298),
+(17, 8, 200),
+(18, 7, 300),
+(19, 7, 300),
+(20, 8, 30),
+(20, 10, 20),
+(21, 10, 80),
+(22, 10, 80),
+(23, 10, 80),
+(24, 10, 10),
+(24, 11, 10);
 
 --
 -- Indexes for dumped tables
@@ -545,6 +638,12 @@ ALTER TABLE `employee_levels_access`
   ADD PRIMARY KEY (`access_id`);
 
 --
+-- Indeks untuk tabel `forecast`
+--
+ALTER TABLE `forecast`
+  ADD PRIMARY KEY (`forecast_id`);
+
+--
 -- Indeks untuk tabel `materials`
 --
 ALTER TABLE `materials`
@@ -559,30 +658,31 @@ ALTER TABLE `materials_has_suppliers`
   ADD KEY `fk_materials_has_suppliers_materials1_idx` (`materials_material_id`);
 
 --
--- Indeks untuk tabel `mps`
+-- Indeks untuk tabel `materials_trans`
 --
-ALTER TABLE `mps`
-  ADD PRIMARY KEY (`mps_id`,`mps_info_mps_info_id`),
-  ADD KEY `fk_mps_mps_info1_idx` (`mps_info_mps_info_id`);
+ALTER TABLE `materials_trans`
+  ADD PRIMARY KEY (`material_trans_id`);
 
 --
--- Indeks untuk tabel `mps_info`
+-- Indeks untuk tabel `materials_trans_detail`
 --
-ALTER TABLE `mps_info`
-  ADD PRIMARY KEY (`mps_info_id`);
+ALTER TABLE `materials_trans_detail`
+  ADD PRIMARY KEY (`materials_trans_detail_id`,`materials_trans_material_trans_id`),
+  ADD KEY `fk_materials_trans_detail_materials_trans1_idx` (`materials_trans_material_trans_id`);
 
 --
--- Indeks untuk tabel `mrp`
+-- Indeks untuk tabel `productions`
 --
-ALTER TABLE `mrp`
-  ADD PRIMARY KEY (`mrp_id`,`mrp_info_mrp_info_id`),
-  ADD KEY `fk_mrp_mrp_info1_idx` (`mrp_info_mrp_info_id`);
+ALTER TABLE `productions`
+  ADD PRIMARY KEY (`production_id`,`products_product_id`),
+  ADD KEY `fk_productions_products1_idx` (`products_product_id`);
 
 --
--- Indeks untuk tabel `mrp_info`
+-- Indeks untuk tabel `productions_histories`
 --
-ALTER TABLE `mrp_info`
-  ADD PRIMARY KEY (`mrp_info_id`);
+ALTER TABLE `productions_histories`
+  ADD PRIMARY KEY (`productions_detail_id`,`productions_production_id`),
+  ADD KEY `fk_productions_details_productions1_idx` (`productions_production_id`);
 
 --
 -- Indeks untuk tabel `products`
@@ -634,31 +734,37 @@ ALTER TABLE `transactions_has_products`
 -- AUTO_INCREMENT untuk tabel `bom`
 --
 ALTER TABLE `bom`
-  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `bom_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT untuk tabel `costumers`
 --
 ALTER TABLE `costumers`
-  MODIFY `costumer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `costumer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `employees_levels`
 --
 ALTER TABLE `employees_levels`
-  MODIFY `level_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `level_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT untuk tabel `employee_levels_access`
 --
 ALTER TABLE `employee_levels_access`
-  MODIFY `access_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `access_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT untuk tabel `forecast`
+--
+ALTER TABLE `forecast`
+  MODIFY `forecast_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `materials`
@@ -667,52 +773,52 @@ ALTER TABLE `materials`
   MODIFY `material_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT untuk tabel `mps`
+-- AUTO_INCREMENT untuk tabel `materials_trans`
 --
-ALTER TABLE `mps`
-  MODIFY `mps_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `materials_trans`
+  MODIFY `material_trans_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
--- AUTO_INCREMENT untuk tabel `mps_info`
+-- AUTO_INCREMENT untuk tabel `materials_trans_detail`
 --
-ALTER TABLE `mps_info`
-  MODIFY `mps_info_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `materials_trans_detail`
+  MODIFY `materials_trans_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT untuk tabel `mrp`
+-- AUTO_INCREMENT untuk tabel `productions`
 --
-ALTER TABLE `mrp`
-  MODIFY `mrp_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `productions`
+  MODIFY `production_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
--- AUTO_INCREMENT untuk tabel `mrp_info`
+-- AUTO_INCREMENT untuk tabel `productions_histories`
 --
-ALTER TABLE `mrp_info`
-  MODIFY `mrp_info_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `productions_histories`
+  MODIFY `productions_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT untuk tabel `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT untuk tabel `products_categories`
 --
 ALTER TABLE `products_categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT untuk tabel `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -752,16 +858,22 @@ ALTER TABLE `materials_has_suppliers`
   ADD CONSTRAINT `fk_materials_has_suppliers_suppliers1` FOREIGN KEY (`suppliers_supplier_id`) REFERENCES `suppliers` (`supplier_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Ketidakleluasaan untuk tabel `mps`
+-- Ketidakleluasaan untuk tabel `materials_trans_detail`
 --
-ALTER TABLE `mps`
-  ADD CONSTRAINT `fk_mps_mps_info1` FOREIGN KEY (`mps_info_mps_info_id`) REFERENCES `mps_info` (`mps_info_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `materials_trans_detail`
+  ADD CONSTRAINT `fk_materials_trans_detail_materials_trans1` FOREIGN KEY (`materials_trans_material_trans_id`) REFERENCES `materials_trans` (`material_trans_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Ketidakleluasaan untuk tabel `mrp`
+-- Ketidakleluasaan untuk tabel `productions`
 --
-ALTER TABLE `mrp`
-  ADD CONSTRAINT `fk_mrp_mrp_info1` FOREIGN KEY (`mrp_info_mrp_info_id`) REFERENCES `mrp_info` (`mrp_info_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `productions`
+  ADD CONSTRAINT `fk_productions_products1` FOREIGN KEY (`products_product_id`) REFERENCES `products` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Ketidakleluasaan untuk tabel `productions_histories`
+--
+ALTER TABLE `productions_histories`
+  ADD CONSTRAINT `fk_productions_details_productions1` FOREIGN KEY (`productions_production_id`) REFERENCES `productions` (`production_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Ketidakleluasaan untuk tabel `products`

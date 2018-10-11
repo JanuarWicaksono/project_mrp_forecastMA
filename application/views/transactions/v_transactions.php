@@ -216,8 +216,7 @@ $(document).ready(function(){
                     orderable: false,
                     searchable: false,
                     render: function(data, type, full, meta) {
-                        return '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-transaction-detail" title="Detail" data="' + full.transaction_id + '" ><i class="material-icons">remove_red_eye</i></a>' +
-                            '<a type="javascript:;" class="btn btn-xs waves-effect btn-transaction-delete" title="Detele" data="' + full.transaction_id + '"><i class="material-icons">delete</i></a>';
+                        return '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-transaction-detail" title="Detail" data="' + full.transaction_id + '" ><i class="material-icons">remove_red_eye</i></a>';
                     }
                 }
             ],

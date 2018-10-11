@@ -139,14 +139,18 @@ class Productions_m extends CI_model
     }
 
     public function productionChangeStatus($data){
-        $this->db->uptade('productions', [
-            'finished-at' => $data['finished-at'],
-            'status' => 'finised-at'
-        ]);
+        $this->db->update('productions', [
+                'finished_at' => $data['finished_at'],
+                'status' => 'finished'
+            ], 
+            ['production_id' => $data['production_id']]
+        );
 
-        // $this->db->update('productions', [
-
-        // ])
+        $this->db->update('products', [
+            'unit_in_stock' => $data['total_num']
+            ],
+            ['product_id' => $data['product_id']]
+        );
 
         if ($this->db->affected_rows() > 0) {
             return true;

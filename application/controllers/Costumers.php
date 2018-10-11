@@ -33,7 +33,14 @@ class Costumers extends CI_Controller {
     }
 
     public function costumerCreate(){
-        $result = $this->Costumers_m->costumerCreate();
+        $this->form_validation->set_rules('costumer-name', 'Costumer Name', 'required');
+        $this->form_validation->set_rules('email', 'Emai', 'required');
+        $this->form_validation->set_rules('phone', 'Phone Number', 'required');
+        $this->form_validation->set_rules('status', 'Status', 'required');
+        if ($this->form_validation->run() == TRUE) {
+            $result = $this->Costumers_m->costumerCreate();
+        }    
+        
         $msg['success'] = false;
         $msg['type'] = 'add';
         if ($result) {
@@ -44,8 +51,19 @@ class Costumers extends CI_Controller {
 
     public function costumerUpdate(){
         $where = $this->input->post('costumer-id');
-        $result = $this->Costumers_m->costumerUpdate($where);
-        echo json_encode($result);        
+        $this->form_validation->set_rules('costumer-name', 'Costumer Name', 'required');
+        $this->form_validation->set_rules('email', 'Emai', 'required');
+        $this->form_validation->set_rules('phone', 'Phone Number', 'required');
+        $this->form_validation->set_rules('status', 'Status', 'required');
+        if ($this->form_validation->run() == TRUE) {
+            $result = $this->Costumers_m->costumerUpdate($where);
+        }
+
+        $msg['success'] = true;
+        if ($result) {
+            $msg['success'] = false;
+        }
+        echo json_encode($msg);    
     }
 
     public function costumerDelete(){

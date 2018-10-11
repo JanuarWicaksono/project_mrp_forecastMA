@@ -365,7 +365,7 @@
                 $('#modal-material-form').modal('hide');
                 $('#material-form')[0].reset();
             }).fail(function() {
-                swal('Failed', 'Error', 'error');
+                swal('Error !', 'Masukan Form Dengan Benar !', 'error');
             });
         }
 

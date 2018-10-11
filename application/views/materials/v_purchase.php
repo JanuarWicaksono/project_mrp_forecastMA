@@ -302,10 +302,6 @@
                                 <td class="purchase-id" colspan="3"></td>
                             </tr>
                             <tr>
-                                <th>Tanggal</th>
-                                <td class="date" colspan="3"></td>
-                            </tr>
-                            <tr>
                                 <th class="col-md-3">Dibuat Pada</th>
                                 <td class="col-md-4 created-at"></td>
                                 <th class="col-md-2">Diperbaharui Pada</th>

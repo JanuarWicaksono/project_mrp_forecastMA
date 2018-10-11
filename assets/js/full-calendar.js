@@ -12,7 +12,6 @@ $(document).ready(function() {
         navLinks: true, // can click day/week names to navigate views
         editable: true,
         eventLimit: true,
-        height: 500,
         events: baseUrl('Productions/productionsCalendarGet'),
         
     });

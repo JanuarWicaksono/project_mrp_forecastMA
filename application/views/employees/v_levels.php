@@ -81,13 +81,14 @@
             </div>
             <div class="modal-body">
                 <div class="row clearfix">
-                    <form id="level-form" action="" method="post" enctype="multipart/form-data">
+                    <form id="level-form" method="post">
                         <input type="hidden" name="level-id" value="0">
                         <div class="col-md-12">
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Nama Posisi/Level</b>
                                     <input type="text" class="form-control" name="level-name" required placeholder="Nama Posisi/Level">
+                                    <div class="help-info">Max. 20 Karakter</div>
                                 </div>
                             </div>
                         </div>
@@ -102,12 +103,14 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btn-save-level" type="submit" class="btn  btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>
+                <button id="btn-save-level" type="submit" class="btn  btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>                    
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal"><i class="material-icons">close</i><span>Tutup</span></button>
             </div>
         </div>
     </div>
 </div>
+
+<!-- <script type="text/javascript" src="<?= base_url('assets/js/validate.js');?>"></script> -->
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -204,7 +207,7 @@
                 $('#modal-level-form').modal('hide');
                 $('#level-form')[0].reset();
             }).fail(function() {
-                swal('Failed', 'ERROR', 'error');
+                swal('Erorr !', 'Masukan Form Dengan Benar !', 'error');
             });
         }
 
@@ -264,8 +267,8 @@
                 type: "info",
                 showCancelButton: true,
                 closeOnConfirm: false,
-                showLoaderOnConfirm: true,
-            }, function() {
+                showLoaderOnConfirm: true
+            }, function() { 
                 setTimeout(function() {
                     levelSave(url, data);
                     levelsGet();

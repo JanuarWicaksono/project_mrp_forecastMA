@@ -57,7 +57,14 @@ class Transactions extends CI_Controller {
     }
 
     public function transactionCreate(){
-        $result = $this->Transactions_m->transactionCreate();
+        $this->form_validation->set_rules('transaction-date', 'Transaction Date', 'required');
+        $this->form_validation->set_rules('costumer', 'Costumer', 'required');
+        $this->form_validation->set_rules('products[]', 'Products', 'required');
+        $this->form_validation->set_rules('qty[]', 'Quantity', 'required');
+        if ($this->form_validation->run() == TRUE) {
+            $result = $this->Transactions_m->transactionCreate();
+        }
+
         $msg['success'] = false;
         $msg['type'] = 'add';
         if ($result) {

@@ -202,7 +202,7 @@
                 $('#modal-category-form').modal('hide');
                 $('#category-form')[0].reset();
             }).fail(function() {
-                swal('Failed', 'ERROR', 'error');
+                swal('Erorr !', 'Masukan Form Dengan Benar !', 'error');
             });
         }
 

@@ -367,7 +367,7 @@
 					</li>
 					<?php } ?>
 					<?php if(in_array('products_sales', $this->session->userdata()['access']['access_page'])){ ?>
-                    <li class="header">Penjualan Produk</li>
+                    <li class="header">PENJUALAN PRODUK</li>
                     <li class="<?=($this->uri->segment(1) == "Transactions") ? "active" : "" ?>">
 						<a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
 							<i class="material-icons">shopping_cart</i>
@@ -384,7 +384,7 @@
 					</li>
 					<?php } ?>
 					<?php if(in_array('productions', $this->session->userdata()['access']['access_page'])){ ?>
-                    <li class="header">Perencanaan Produksi</li>
+                    <li class="header">PERENCANAAN PRODUKSI</li>
 					<li class="<?=($this->uri->segment(1) == "Productions") ? "active" : "" ?>">                   
 						<a href="javascript:void(0);" class="menu-toggle waves-effect waves-block">
 							<i class="material-icons">equalizer</i>

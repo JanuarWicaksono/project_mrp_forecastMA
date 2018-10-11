@@ -19,7 +19,6 @@ class Materials_m extends CI_model
     {  
         $this->db->insert('materials', [
             'name' => $this->input->post('name'),
-            'price' => $this->input->post('price'),
             'stock' => $this->input->post('stock'),
             'stock_type' => $this->input->post('stock-type'),
             'status' => $this->input->post('status'),
@@ -41,7 +40,6 @@ class Materials_m extends CI_model
     public function materialUpdate($where){
         $this->db->update('materials', [
             'name' => $this->input->post('name'),
-            'price' => $this->input->post('price'),
             'stock' => $this->input->post('stock'),
             'stock_type' => $this->input->post('stock-type'),
             'status' => $this->input->post('status'),

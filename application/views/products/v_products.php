@@ -45,8 +45,8 @@
                             <table id="productsTable" class="table table-bordered table-striped table-hover js-basic-example">
                                 <thead>
                                     <tr>
-                                        <th>no</th>                                    
-                                        <th>id</th>
+                                        <th>No</th>                                    
+                                        <th>ID</th>
                                         <th>Nama Produk</th>
                                         <th>Harga</th>
                                         <th>Unit Persediaan</th>
@@ -94,8 +94,9 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Nama Produk</b>
-                                    <input type="text" class="form-control" name="product-name" required placeholder="Nama Produk">
+                                    <input type="text" class="form-control" name="product-name" placeholder="Nama Produk" required>                                    
                                 </div>
+                                <div class="help-info">Max. 40 Karakter</div>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -105,6 +106,7 @@
 									<option value="">-- Pilih Kategori --</option>
 
 								</select>
+                                <div class="help-info">Pilih Salah Satu</div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -113,6 +115,7 @@
                                     <b>Masa Berlaku (hari)</b>
                                     <input type="number" class="form-control" name="expiration" required placeholder="Masa berlaku (hari)">
                                 </div>
+                                <div class="help-info">Input Angka (Hari)</div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -121,6 +124,7 @@
                                     <b>Harga (Rp)</b>
                                     <input type="number" class="form-control" name="price" required placeholder="Harga">
                                 </div>
+                                <div class="help-info">Input Angka Rupiah Rp.000.000</div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -129,6 +133,7 @@
                                     <b>Persediaan Unit</b>
                                     <input type="number" class="form-control" name="unit-in-stock" required placeholder="Persediaan Stock">
                                 </div>
+                                <div class="help-info">Input Angka</div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -141,6 +146,8 @@
                                         <input name="status" type="radio" id="nonactive" value="notavailable" />
                                         <label for="nonactive">Tidak Aktif</label>
                                     </div>
+                                    <div class="help-info">Pilih Salah Satu</div>
+
                                 </div>
                             </div>
                         </div>
@@ -150,6 +157,7 @@
                                     <b>Deskripsi</b>
                                     <textarea name="description" cols="30" rows="5" class="form-control no-resize" required placeholder="Deskripsi"></textarea>
                                 </div>
+                                <div class="help-info">Input Text</div>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -158,6 +166,7 @@
                                     <b>Catatan</b>
                                     <textarea name="note" cols="30" rows="5" class="form-control no-resize" required placeholder="Catatan"></textarea>
                                 </div>
+                                <div class="help-info">Input Text</div>
                             </div>
                         </div>
                     </form>
@@ -626,7 +635,7 @@ $(document).ready(function() {
             $('#modal-product-form').modal('hide');
             $('#product-form')[0].reset();
         }).fail(function() {
-            swal('error', 'ERROR', 'error');
+            swal('Error !', 'Masukan Form Dengan Benar', 'error');
         });
     }
 
@@ -758,7 +767,7 @@ $(document).ready(function() {
         html += '<tr class="bom-form-'+bomFormNo+'">'+
             '<th scope="row">'+(bomFormNo+1)+'</th>'+
             '<td>'+
-                '<div class="form-group form-float">'+
+                '<div class="form-group form-float" style="margin-bottom:0px;">'+
                     '<select class="form-control show-tick material-input-'+bomFormNo+'" name="materials[]" data-live-search="true" data-size="5" required>'+
                         '<option value="">-- Pilih Material --</option>'+
                         
@@ -766,7 +775,7 @@ $(document).ready(function() {
                 '</div>'+
             '</td>'+
             '<td>'+
-                '<div class="form-group form-float">'+
+                '<div class="form-group form-float" style="margin-bottom:0px;">'+
                     '<div class="form-line">'+
                         '<input type="number" class="form-control num-comb-input-'+bomFormNo+'" name="num-comb-materials[]" required placeholder="Jumlah Kombinasi">'+
                     '</div>'+

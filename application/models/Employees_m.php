@@ -78,6 +78,7 @@ class Employees_m extends CI_model
             'gender' => $this->input->post('gender'),
             'email' => $this->input->post('email'),
             'username' => $this->input->post('username'),
+            'password' => md5($this->input->post('password')),
             'address' => $this->input->post('address'),
             'phone' => $this->input->post('phone'),
             'updated_at' => date('Y-m-d H:i:s'),
@@ -136,6 +137,7 @@ class Employees_m extends CI_model
             'level_name' => $this->input->post('level-name')
         ], ['level_id' => $where]);
         $levelAccess = $this->input->post('level-access[]');
+        
         if(isset($levelAccess)){
             $this->db->delete('employees_levels_has_access', ['employees_levels_level_id' => $where]);                            
             foreach ($levelAccess as $item) {

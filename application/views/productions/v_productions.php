@@ -201,30 +201,27 @@
                                     <tr>
                                         <th class="col-md-2">Status</th>
                                         <td class="col-md-4 status"></td>
-                                        <th>Produksi Selesai</th>
-                                        <td colspan="2">
-                                            <form action="<?= base_url('Productions/productionsStatusChange'); ?>" id="form-status-changing">
-                                                <input type="hidden" name="production-id" value="">
-                                                <div class="col-md-8">
-                                                    <div class="form-group form-g" style="margin-bottom:0px;">
-                                                            <div class="form-line">
-                                                                <input type="text" class="form-control datepicker-min-started" name="finished-at" placeholder="Tanggal Produksi Selesai">
-                                                            </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <button type="button" class="btn btn-primary waves-effect" id="btn-status-change">
-                                                        <i class="material-icons">save</i>
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </td>
                                     </tr>
                                     <tr>
                                         <th class="col-md-2">Tanggal Mulai</th>
                                         <td class="col-md-4 started-at"></td>
                                         <th class="col-md-2">Tanggal Selesai</th>
-                                        <td class="col-md-4 finished-at"></td>
+                                        <td class="col-md-4 finished-at">
+                                            <form action="<?= base_url('productions/productionChangeStatus'); ?>"> 
+                                                <div class="col-md-8">
+                                                    <div class="form-group" style="margin-bottom:0px;">
+                                                        <div class="form-line">
+                                                            <input type="text" class="datepicker-min-started form-control" name="finished-at" placeholder="Please choose a date...">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4" style="margin-left:0px;">   
+                                                    <button type="button" class="btn btn-primary waves-effect">
+                                                        <i class="material-icons">save</i>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th class="col-md-2">Dibuat Pada</th>
@@ -431,19 +428,36 @@ function productionDetail(id){
         dataType: 'json',
         success: function(response) {
 
-            //set response to detail productions
-            $('#form-status-changing input[name="production-id"]').val(response.production_id);
-            $('#table-production-detail .product').html(response.product_data.product_name);
-            $('#table-production-detail .num-product').html(response.num_of_prod);
+            var renderFormChangeStatus = '';
             if(response.status == 'finished'){
                 $('#table-production-detail .status').html('<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Selesai</button>');
+                $('#table-production-detail .finished-at').html(response.finished_at);
                 $('#btn-finishing').attr('disabled', '');
             }else{
-                $('#table-production-detail .status').html('<button type="button" class="btn btn-xs bg-red waves-effect" disabled>Belum Selesai</button>'); 
-                $('#btn-finishing').removeAttr('disabled');
+                renderFormChangeStatus += '<form method="post" action="<?= base_url('productions/productionChangeStatus'); ?>" id="form-status-changing">'+
+                    '<input type="hidden" name="production-id" value="'+response.production_id+'">'+
+                    '<div class="col-md-8">'+
+                        '<div class="form-group" style="margin-bottom:0px;">'+
+                            '<div class="form-line">'+
+                                '<input type="text" class="datepicker-min-started form-control" name="finished-at" placeholder="Please choose a date...">'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'+
+                    '<div class="col-md-4">'+
+                        '<button type="button" class="btn btn-primary waves-effect" id="btn-status-change">'+
+                            '<i class="material-icons">save</i>'+
+                        '</button>'+
+                    '</div>'+
+                '</form>';
+                $('#table-production-detail .finished-at').html(renderFormChangeStatus);
+                // $('#table-production-detail .status').html('<button type="button" class="btn btn-xs bg-red waves-effect" disabled>Belum Selesai</button>'); 
+                // $('#btn-finishing').removeAttr('disabled');
             }
+            //set response to detail productions
+            $('#table-production-detail .product').html(response.product_data.product_name);
+            $('#table-production-detail .num-product').html(response.num_of_prod);
+            
             $('#table-production-detail .started-at').html(response.started_at);
-            $('#table-production-detail .finished-at').html(response.finished_at);
             $('#table-production-detail .created-at').html(response.created_at);
             $('#table-production-detail .updated-at').html(response.updated_at);
             

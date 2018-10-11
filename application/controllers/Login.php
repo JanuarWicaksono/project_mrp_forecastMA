@@ -15,15 +15,16 @@ function loginAction(){
     $username = $this->input->post('username');
     $password = $this->input->post('password');
 
-    $resultCheckEmp = $this->Login_m->loginCheck($username, $password)->result();
-    $resultEmployeeLevel = $this->Login_m->employeeGet($resultCheckEmp[0]->employees_levels_level_id)->result()[0];
-    $resultEmployeeAccess = $this->Login_m->employeeAccessGet($resultEmployeeLevel->level_id)->result();
-
-    foreach ($resultEmployeeAccess as $item) {
-        $pages[] = $item->access_name;
-    }
+    $resultCheckEmp = $this->Login_m->loginCheck($username, $password);
 
     if($resultCheckEmp > 0){
+        $resultEmployeeLevel = $this->Login_m->employeeGet($resultCheckEmp[0]->employees_levels_level_id);
+
+        $resultEmployeeAccess = $this->Login_m->employeeAccessGet($resultEmployeeLevel->level_id);
+
+        foreach ($resultEmployeeAccess as $item) {
+            $pages[] = $item->access_name;
+        }
 
         $data_session = array_merge(
             (array) $resultCheckEmp[0],

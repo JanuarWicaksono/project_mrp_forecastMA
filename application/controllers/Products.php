@@ -35,7 +35,17 @@ class Products extends CI_Controller
 
     public function productCreate()
     {
-        $result = $this->Products_m->productCreate();
+        $this->form_validation->set_rules('product-name', 'Product Name', 'required');
+        $this->form_validation->set_rules('categories', 'Categories', 'required');
+        $this->form_validation->set_rules('expiration', 'Expiration', 'required');
+        $this->form_validation->set_rules('price', 'Price', 'required');
+        $this->form_validation->set_rules('unit-in-stock', 'Unit In Stock', 'required');
+        $this->form_validation->set_rules('status', 'Status', 'required');
+        if ($this->form_validation->run() == TRUE) {
+            $result = $this->Products_m->productCreate();
+            
+        }
+
         $msg['success'] = false;
         $msg['type'] = 'add';
         if ($result) {
@@ -47,7 +57,16 @@ class Products extends CI_Controller
     public function productUpdate()
     {
         $where = $this->input->post('product-id');
-        $result = $this->Products_m->productUpdate($where);
+
+        $this->form_validation->set_rules('product-name', 'Product Name', 'required');
+        $this->form_validation->set_rules('categories', 'Categories', 'required');
+        $this->form_validation->set_rules('expiration', 'Expiration', 'required');
+        $this->form_validation->set_rules('price', 'Price', 'required');
+        $this->form_validation->set_rules('unit-in-stock', 'Unit In Stock', 'required');
+        $this->form_validation->set_rules('status', 'Status', 'required');
+        if ($this->form_validation->run() == TRUE) {
+            $result = $this->Products_m->productUpdate($where);
+        }
         $msg['success'] = false;
         $msg['type'] = 'add';
         if ($result) {
@@ -90,7 +109,12 @@ class Products extends CI_Controller
 
     public function categoryCreate()
     {
-        $result = $this->Products_m->categoryCreate();
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        if ($this->form_validation->run() == TRUE) {
+            $result = $this->Products_m->categoryCreate();            
+        } 
+        
+        
         $msg['success'] = false;
         $msg['type'] = 'add';
         if ($result) {
@@ -102,7 +126,11 @@ class Products extends CI_Controller
     public function categoryUpdate()
     {
         $where = $this->input->post('category-id');
-        $result = $this->Products_m->categoryUpdate($where);
+
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        if ($this->form_validation->run() == TRUE) {
+            $result = $this->Products_m->categoryUpdate($where);
+        }
         $msg['success'] = false;
         $msg['type'] = 'add';
         if ($result) {

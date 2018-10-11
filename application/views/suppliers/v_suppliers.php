@@ -261,7 +261,7 @@
                 $('#modal-supplier-form').modal('hide');
                 $('#supplier-form')[0].reset();
             }).fail(function() {
-                swal('Failed', 'Error', 'error');
+                swal('Error !', 'Masukan Form Dengan Bendar', 'error');
             });
         }
 

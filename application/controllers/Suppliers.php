@@ -45,7 +45,14 @@ class Suppliers extends CI_Controller {
     }
 
     public function supplierCreate(){
-        $result = $this->Suppliers_m->supplierCreate();
+        $this->form_validation->set_rules('supplier-name', 'Supplier Name', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required');
+        $this->form_validation->set_rules('phone', 'Phone', 'required');
+        $this->form_validation->set_rules('status', 'Status', 'required');
+        if ($this->form_validation->run() == TRUE) {
+            $result = $this->Suppliers_m->supplierCreate();
+        }
+    
         $msg['success'] = false;
         $msg['type'] = 'add';
         if ($result) {
@@ -55,8 +62,15 @@ class Suppliers extends CI_Controller {
     }
 
     public function supplierUpdate(){
-        $where = $this->input->post('supplier-id');        
-        $result = $this->Suppliers_m->supplierUpdate($where);
+        $where = $this->input->post('supplier-id');
+        $this->form_validation->set_rules('supplier-name', 'Supplier Name', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required');
+        $this->form_validation->set_rules('phone', 'Phone', 'required');
+        $this->form_validation->set_rules('status', 'Status', 'required');
+        if ($this->form_validation->run() == TRUE) {     
+            $result = $this->Suppliers_m->supplierUpdate($where);
+        }
+        
         $msg['success'] = false;
 		$msg['type'] = 'add';
 		if($result){

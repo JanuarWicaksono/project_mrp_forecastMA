@@ -3,11 +3,16 @@
 	class Login_m extends CI_Model{
 
 		public function loginCheck($username, $password){
-    		// var_dump($username, $password, 'dawdadawd');die();
-			return $this->db->get_where('employees', [
+			$query = $this->db->get_where('employees', [
 				'username' => $username,
 				'password' => md5($password)
 			]);
+			// dd($query->result());
+			if ($query->num_rows() > 0) {
+				return $query->result();
+			} elseif ($query->num_rows() == null) {
+				return false;
+			}
 		}
 
 		public function employeeGet($levelId){
@@ -19,7 +24,7 @@
 			
 			$query = $this->db->get();
 			if ($query->num_rows() > 0) {
-				return $query;
+				return $query->result()[0];
 			} else {
 				return false;
 			}
@@ -36,7 +41,7 @@
 
 			$query = $this->db->get();
 			if ($query->num_rows() > 0) {
-				return $query;
+				return $query->result();
 			} else {
 				return false;
 			}

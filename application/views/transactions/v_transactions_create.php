@@ -313,6 +313,13 @@
             });
         });
 
+        $('#transaction-date').bootstrapMaterialDatePicker({
+            format: 'YYYY-MM-DD',
+            clearButton: true,
+            weekStart: 1,
+            time: false,
+            maxDate : new Date()
+        });
         //Form Validation
         // $('#transaction-form').validate({
         //     rules: {

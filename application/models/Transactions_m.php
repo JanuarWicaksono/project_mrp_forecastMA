@@ -118,6 +118,14 @@ class Transactions_m extends CI_Model {
             ]);
         }
 
+        for ($i=0; $i < count($products) ; $i++) {
+            $this->db->query('
+                UPDATE products
+                SET unit_in_stock = unit_in_stock - '.$qty[$i].'
+                WHERE product_id = '.$products[$i].'
+            ');
+        }
+
         if ($this->db->affected_rows() > 0) {
             return true;
         } else {
