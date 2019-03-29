@@ -25,7 +25,18 @@ This my source code for my final exam at <a href="https://fit.uii.ac.id/">Comput
 - <a href="https://www.chartjs.org/">Chart.js</a>
 - <a href="https://momentjs.com/">Moment.js</a>
 - <a href="https://fullcalendar.io/">Fullcalendar.js</a>
+
+# Tools Used
+
+- Pencil
+- Chrome
+- Xampp
+- Visual Studio Code
+- Git
+- Composer
+- MySQL Workbench
+- HeydiSQL
  
-#Interface Screenshot
+# Interface Screenshot
 
 <a href="screenshot">Interface Screenshot</a>
