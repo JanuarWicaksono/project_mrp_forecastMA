@@ -22,7 +22,7 @@ This my source code for my final exam at <a href="https://fit.uii.ac.id/">Comput
 - <a href="http://api.jquery.com/jquery.ajax/">Ajax</a>
 - <a href="https://datatables.net/">Datatables</a>
 - <a href="https://sweetalert.js.org/">Sweet Alert</a>
-- <a href="https://www.chartjs.org/"></a>Chart.js
+- <a href="https://www.chartjs.org/">Chart.js</a>
 - <a href="https://momentjs.com/">Moment.js</a>
 - <a href="https://fullcalendar.io/">Fullcalendar.js</a>
  
