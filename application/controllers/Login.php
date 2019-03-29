@@ -43,7 +43,8 @@ function loginAction(){
         redirect(base_url("Dashboard"));
 
     }else{
-        redirect(base_url("Login"));
+        $this->session->set_flashdata("login_failed", "<strong>Tidak Dapat Login !</strong> Masukan Username Dan Password Dengan Benar!");
+        redirect('Login');
     }
 }
 

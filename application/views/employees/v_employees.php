@@ -29,17 +29,15 @@
                         </ul>
                     </div>
                     <div class="body">
+                        <div id="alert-success-employees" class="alert alert-success" style="display:none;">
+                                Data Pegawai Telah <strong>Tersimpan !</strong>
+                        </div>
                         <button type="button" class="btn bg-blue waves-effect" id="btn-create-employee" title="Add Employee" data-toggle="modal" data-target="#largeModal">
 							<i class="material-icons">add</i>
 							<span>Tambah Pegawai</span>
 						</button>
                         <button type="button" class="btn bg-green waves-effect" id="reload-datatables" title="Refresh" data-toggle="modal" data-target="#largeModal">
 							<i class="material-icons">refresh</i>
-							<span>Segarkan Data</span>
-						</button>
-                        <button type="button" class="btn bg-green waves-effect" id="reload-page" title="Refresh" data-toggle="modal" data-target="#largeModal">
-							<i class="material-icons">refresh</i>
-							<span>Segarkan Halaman</span>
 						</button><br><br>
                         <div class="table-responsive">
                             <table id="myTable" class="table table-bordered table-striped table-hover js-basic-example dataTable">
@@ -91,25 +89,25 @@
                             <div class="form-group form-float ">
                                 <div class="form-line">
                                     <b>Nama Lengkap </b>
-                                    <input type="text" class="form-control" name="name" required placeholder="Nama Lengkap Pegawai" required>
+                                    <input type="text" class="form-control" name="name" placeholder="Nama Lengkap Pegawai">
                                 </div>
                                 <div class="help-info">Max. 40 Karakter</div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <div class="form-group form-float">
                                 <b>Position / Level</b>
-                                <select id="levels-form" id="employee-level" class="form-control " name="level" required>
+                                <select id="levels-form" id="employee-level" class="form-control " name="level">
 									<option value="">-- Pilih Posisi/Level --</option>
 
 								</select>
                                 <div class="help-info">Pilih Salah Satu</div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <div class="form-group form-float">
                                 <b>Jenis Kelamin</b>
-                                <select id="employee-gender" class="form-control show-tick" name="gender" required>
+                                <select id="employee-gender" class="form-control show-tick" name="gender">
 									<option value="">-- Pilih Jenis Kelamin --</option>
 									<option value="Laki-laki">Laki-Laki</option>
 									<option value="Perempuan">Perempuan</option>
@@ -121,7 +119,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Email</b>
-                                    <input type="email" class="form-control" name="email" required placeholder="Email" required>
+                                    <input type="email" class="form-control" name="email" placeholder="Email">
                                 </div>
                                 <div class="help-info">Contoh : xxx@example.com</div>
                             </div>
@@ -130,7 +128,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Kontak</b>
-                                    <input type="number" id="employee-phone" class="form-control" placeholder="Nomor Telepon" name="phone" required>
+                                    <input type="number" id="employee-phone" class="form-control" placeholder="Nomor Telepon" name="phone">
                                 </div>
                                 <div class="help-info">Contoh : 08XXXXXXXXXX</div>
                             </div>
@@ -139,7 +137,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Username</b>
-                                    <input type="text" class="form-control" name="username" required placeholder="Username" required>
+                                    <input type="text" class="form-control" name="username" placeholder="Username">
                                 </div>
                                 <div class="help-info">Max. 20 Karakter</div>
                             </div>
@@ -148,7 +146,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Password</b>
-                                    <input type="password" id="form-password" class="form-control" name="password" required placeholder="Password" required>
+                                    <input type="password" id="form-password" class="form-control" name="password" placeholder="Password">
                                 </div>
                                 <div class="help-info">Max. 20 Karakter</div>
                             </div>
@@ -157,7 +155,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Konfirmasi Password</b>
-                                    <input type="password" id="form-cpassword" class="form-control" name="cpassword" required placeholder="Konfirmasi Password">
+                                    <input type="password" id="form-cpassword" class="form-control" name="cpassword" placeholder="Konfirmasi Password">
                                 </div>
                                 <div class="help-info">Max. 50 Karakter</div>
                             </div>
@@ -166,15 +164,17 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Alamat</b>
-                                    <textarea name="address" cols="30" rows="5" class="form-control no-resize" required placeholder="Alamat"></textarea>
+                                    <textarea name="address" cols="30" rows="5" class="form-control no-resize" placeholder="Alamat"></textarea>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary waves-effect" id="btn-save-employee"><i class="material-icons">save</i><span>Simpan</span></button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary waves-effect" id="btn-save-employee"><i class="material-icons">save</i><span>Simpan</span></button>
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal"><i class="material-icons">close</i><span>Tutup</span></button>
             </div>
         </div>
@@ -327,6 +327,8 @@ $(document).ready(function() {
                         async: false,
                         dataType: 'json'
                     }).done(function(response) {
+                        resetForm();
+
                         $('#employee-form input[name=employee-id]').val(response.employee_id);
                         $('#employee-form input[name=name]').val(response.name);
                         $('#employee-form input[name=email]').val(response.email);
@@ -377,10 +379,20 @@ $(document).ready(function() {
             async: false,
             dataType: 'json'
         }).done(function(response) {
-            swal("Tersimpan", "Data Pegawai Telah Tersimpan ! ", "success");
-            employeesDatatables();
-            $('#modal-employee-form').modal('hide');
-            $('#employee-form')[0].reset();
+            if(response.success == true){
+                swal("Tersimpan", "Data Pegawai Telah Tersimpan ! ", "success");
+                employeesDatatables();
+                $('#modal-employee-form').modal('hide');
+                $('#employee-form')[0].reset();
+            }else if(response.success == false){
+                $.each(response.messages, function(key, value){
+                    var element = $('#employee-form [name="'+key+'"]');
+                    element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
+                    element.closest('div.form-group').find('label.error').remove();
+                    element.parent().after(value);
+                });
+                swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
+            }
         }).fail(function() {
             swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
         });
@@ -424,13 +436,20 @@ $(document).ready(function() {
         })
     }
 
-    //modal create employeee
-    $("#btn-create-employee").click(function() {
+    function resetForm(){
         $('#employee-form')[0].reset();
         $('#employee-form select').selectpicker('deselectAll');
         $('#employee-form textarea').html("");
         $("#employee-form input[name=password]").removeAttr("disabled");
         $("#employee-form input[name=cpassword]").removeAttr("disabled");
+
+        $('#employee-form .form-line').removeClass('focused success error');
+        $('#employee-form label.error').remove();
+    }
+
+    //modal create employeee
+    $("#btn-create-employee").click(function() {
+        resetForm();
 
         $('#modal-employee-form').find('.modal-title').text('Tambah Pegawai');
         $('#employee-form').attr('action', '<?php echo base_url("Employees/employeeCreate");?>');
@@ -438,10 +457,12 @@ $(document).ready(function() {
     });
 
     // save employee
-    $("#btn-save-employee").click(function() {
-        var url = $('#employee-form').attr('action');
-        var data = $('#employee-form').serialize();
-
+    $("#employee-form").submit(function(e) {
+        e.preventDefault();
+        // console.log('submit');
+        var url = $(this).attr('action');
+        var data = $(this).serialize();
+        
         swal({
             title: "Data Pegawai yang dimasukan sudah benar?",
             text: 'Pilih "OK" jika sudah benar',

@@ -72,7 +72,6 @@
                                     </a>
                                     <a type="button" class="btn bg-green waves-effect" id="btn-latest-transactions" title="Add product">
                                         <i class="material-icons">refresh</i>
-                                        <span>Terbaru</span>
                                     </a>
                                 </div>
                             </div>

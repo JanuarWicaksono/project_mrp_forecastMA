@@ -33,37 +33,52 @@ class Costumers extends CI_Controller {
     }
 
     public function costumerCreate(){
+        $data = ['success' => false, 'messages'=> []];
         $this->form_validation->set_rules('costumer-name', 'Costumer Name', 'required');
         $this->form_validation->set_rules('email', 'Emai', 'required');
         $this->form_validation->set_rules('phone', 'Phone Number', 'required');
         $this->form_validation->set_rules('status', 'Status', 'required');
+        $this->form_validation->set_message('required', 'Form Ini Tidak Boleh Kosong');
+        $this->form_validation->set_error_delimiters('<label class="error">', '</label>');
         if ($this->form_validation->run() == TRUE) {
             $result = $this->Costumers_m->costumerCreate();
-        }    
-        
-        $msg['success'] = false;
-        $msg['type'] = 'add';
-        if ($result) {
-            $msg['success'] = true;
+            if ($result) {
+                $data['success'] = true;
+            }
+        }else{
+            foreach ($_POST as $key => $value) {
+                $data['messages'][$key] =  form_error($key);
+            }
         }
-        echo json_encode($msg);
+        
+        $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($data));
     }
 
     public function costumerUpdate(){
         $where = $this->input->post('costumer-id');
+        $data = ['success' => false, 'messages'=> []];
         $this->form_validation->set_rules('costumer-name', 'Costumer Name', 'required');
         $this->form_validation->set_rules('email', 'Emai', 'required');
         $this->form_validation->set_rules('phone', 'Phone Number', 'required');
         $this->form_validation->set_rules('status', 'Status', 'required');
+        $this->form_validation->set_message('required', 'Form Ini Tidak Boleh Kosong');
+        $this->form_validation->set_error_delimiters('<label class="error">', '</label>');
         if ($this->form_validation->run() == TRUE) {
             $result = $this->Costumers_m->costumerUpdate($where);
+            if ($result) {
+                $data['success'] = true;
+            }
+        }else{
+            foreach ($_POST as $key => $value) {
+                $data['messages'][$key] =  form_error($key);
+            }
         }
-
-        $msg['success'] = true;
-        if ($result) {
-            $msg['success'] = false;
-        }
-        echo json_encode($msg);    
+        
+        $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($data));   
     }
 
     public function costumerDelete(){

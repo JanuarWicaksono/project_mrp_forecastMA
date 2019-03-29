@@ -35,11 +35,6 @@
 						</button>
                         <button type="button" class="btn bg-green waves-effect" id="reload-datatables" title="Refresh" data-toggle="modal" data-target="#largeModal">
 							<i class="material-icons">refresh</i>
-							<span>Segarkan Data</span>
-						</button>
-                        <button type="button" class="btn bg-green waves-effect" id="reload-page" title="Refresh" data-toggle="modal" data-target="#largeModal">
-							<i class="material-icons">refresh</i>
-							<span>Segarkan Halaman</span>
 						</button><br><br>
                         <div class="table-responsive">
                             <table id="myTable" class="table table-bordered table-striped table-hover js-basic-example dataTable">
@@ -92,16 +87,18 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Nama Bahan Baku</b>
-                                    <input type="text" class="form-control" name="name" required placeholder="Nama Bahan Baku">
+                                    <input type="text" class="form-control" name="name" placeholder="Nama Bahan Baku">
                                 </div>
+                                <div class="help-info">Input Max 40 Kerakter</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Stok Gudang</b>
-                                    <input type="number" class="form-control" name="stock" required placeholder="Stok">
+                                    <input type="number" class="form-control" name="stock" placeholder="Stok">
                                 </div>
+                                <div class="help-info">Input Angka</div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -129,6 +126,7 @@
                                         </optgroup>
                                     </select>
                                 </div>
+                                <div class="help-info">Pilih Salah Satu</div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -146,16 +144,18 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Catatan</b>
-                                    <textarea name="note" cols="30" rows="5" class="form-control no-resize" required placeholder="Catatan"></textarea>
+                                    <textarea name="note" cols="30" rows="5" class="form-control no-resize" placeholder="Catatan"></textarea>
                                 </div>
+                                <div class="help-info">Input Tidak Ada Batas</div>
                             </div>
                         </div>
-                        
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>                        
+                        </div>
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btn-save-material" type="submit" class="btn btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal"><i class="material-icons">close</i><span>Tutup</span></button>
             </div>
         </div>
@@ -297,6 +297,8 @@
 
                     // btn-material-edit
                     $('.btn-material-edit').click(function() {
+                        resetForm();
+
                         $('#modal-material-form').find('.modal-title').text('Edit Bahan Baku');
                         $('#material-form').attr('action', '<?php echo base_url("Materials/materialUpdate");?>');
 
@@ -360,10 +362,21 @@
                 async: false,
                 dataType: 'json'
             }).done(function(response) {
-                swal("Tersimpan", "Data Bahan Baku Telah Tersimpan", "success");
-                materialsDatatables();
-                $('#modal-material-form').modal('hide');
-                $('#material-form')[0].reset();
+                if(response.success == true){
+                    swal("Tersimpan", "Data Bahan Baku Telah Tersimpan", "success");
+                    materialsDatatables();
+                    $('#modal-material-form').modal('hide');
+                    $('#material-form')[0].reset();
+                }else{
+                    $.each(response.messages, function(key, value){
+                        var element = $('#material-form [name="'+key+'"]');
+                        element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
+                        element.closest('div.form-group').find('label.error').remove();
+                        element.parent().after(value);
+                    });
+                    swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
+                }
+                
             }).fail(function() {
                 swal('Error !', 'Masukan Form Dengan Benar !', 'error');
             });
@@ -395,12 +408,19 @@
             return 'Rp. '+rupiah.split('',rupiah.length-1).reverse().join('');
         }
 
-        //modal create materiale
-        $("#btn-create-material").click(function() {
+        function resetForm(){
             $('#material-form')[0].reset();
             $('#material-form #active').prop('checked', true);
             $('#material-form select').selectpicker('deselectAll');
             $('#material-form textarea').html("");
+
+            $('#material-form .form-line').removeClass('focused success error');
+            $('#material-form label.error').remove();
+        }
+
+        //modal create materiale
+        $("#btn-create-material").click(function() {
+            resetForm();
 
             $('#modal-material-form').find('.modal-title').text('Tambah Bahan Baku');
             $('#material-form').attr('action', '<?php echo base_url("Materials/materialCreate");?>');
@@ -408,9 +428,11 @@
         });
 
         // save material
-        $("#btn-save-material").click(function() {
-            var url = $('#material-form').attr('action');
-            var data = $('#material-form').serialize();
+        $("#material-form").submit(function(e) {
+            e.preventDefault();            
+
+            var url = $(this).attr('action');
+            var data = $(this).serialize();
 
             swal({
                 title: "Data Bahan Baku Yang Dimasukan Sudah Benar?",

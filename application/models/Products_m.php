@@ -32,11 +32,12 @@ class Products_m extends CI_model
         $this->db->join('products_categories', 'products.products_categories_category_id = products_categories.category_id');
         $this->db->where('product_id', $where);
         $query = $this->db->get();
-        if ($query->num_rows() > 0) {
-            return $query;
-        } else {
-            return false;
-        }
+        return $query;
+        // if ($query->num_rows() > 0) {
+        //     return $query;
+        // } else {
+        //     return false;
+        // }
     }
 
     public function productCreate()
@@ -81,20 +82,39 @@ class Products_m extends CI_model
         }
     }
 
-    public function productDelete($where)
+    public function productDelete($productId)
     {
-        $bomId = $this->db->select('bom_id')
-            ->from('bom')
-            ->where('products_product_id', $where)
-            ->get()->row();
-            
-        if (isset($bomId)) {
-            $this->db->delete('bom_has_materials', ['bom_bom_id' => $bomId->bom_id]);
-            $this->db->delete('bom', ['products_product_id' => $where]);
+        $productions = $this->db->get_where('productions', ['products_product_id' => $productId])->result();
+        $bom = $this->db->get_where('bom', ['products_product_id' => $productId])->row();
+        $transactions = $this->db->get_where('transactions_has_products', ['products_product_id' => $productId])->result();
+
+        // if there is production data
+        if ($productions != null) {
+            foreach ($productions as $production) {
+                // dd($production->production_id);
+                $this->db->delete('productions_histories', ['productions_production_id'=> $production->production_id]);
+            }
+
+            $this->db->delete('productions', ['products_product_id'=> $productId]);
+
         }
 
-        $this->db->delete('products', ['product_id' => $where]);
+        // if there is bill of material data
+        if ($bom != null) {
 
+            $this->db->delete('bom_has_materials', ['bom_bom_id' => $bom->bom_id]);
+            $this->db->delete('bom', ['products_product_id' => $productId]);
+
+        }
+
+        // if there is transactions data
+        if($transactions != null){
+
+            $this->db->delete('transactions_has_products', ['products_product_id' => $productId]);
+
+        }
+
+        $this->db->delete('products', ['product_id' => $productId]);
 
         if ($this->db->affected_rows() > 0) {
             return true;
@@ -102,6 +122,7 @@ class Products_m extends CI_model
             return false;
         }
     }
+
     public function categoriesGet()
     {
         $query = $this->db->get('products_categories');
@@ -168,11 +189,12 @@ class Products_m extends CI_model
         $this->db->join('products', 'bom.products_product_id = products.product_id');
         $this->db->where('bom.products_product_id', $productWhere);
         $query = $this->db->get();
-        if ($query->num_rows() > 0) {
-            return $query;
-        } else {
-            return false;
-        }
+        return $query;
+        // if ($query->num_rows() > 0) {
+        //     return $query;
+        // } else {
+        //     return false;
+        // }
     }
 
     public function bomHasMaterialsGet($bomWhere)

@@ -48,7 +48,7 @@
             <div class="card">
                 <div class="header">
                     <h2>
-                        Jadwal Produksi <small>Description text here...</small>
+                        Jadwal Produksi
                     </h2>
                 </div>
                 <div class="body">

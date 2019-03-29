@@ -42,7 +42,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group form-float">
                                         <b>Pelanggan Pembeli</b>
-                                        <select id="costumers-input" class="form-control show-tick dropdown" name="costumer" data-live-search="true" data-size="5" required>
+                                        <select id="costumers-input" class="form-control show-tick dropdown" name="costumer" data-live-search="true" data-size="5">
                                             <option value="">-- Pilih Pelanggan --</option>
                                             
                                         </select>
@@ -59,7 +59,7 @@
                                                     <div class="product-form">
                                                         <div class="col-md-6">
                                                             <div class="form-group form-float">
-                                                                <select class="form-control show-tick product-input" name="products[]" data-live-search="true" required>
+                                                                <select class="form-control show-tick product-input" name="products[]" data-live-search="true">
                                                                     <option value="" class="default">-- Pilih Produk 1 --</option>
                                                                     
                                                                 </select>
@@ -68,9 +68,8 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <div class="form-line">
-                                                                    <input type="text" class="form-control" name="qty[]" placeholder="Jumlah" required>
+                                                                    <input type="text" class="form-control" name="qty[]" placeholder="Jumlah">
                                                                 </div>
-                                                                <div class="help-info">Min. Value: 10, Max. Value: 200</div>
                                                             </div>
                                                         </div>
                                                         
@@ -93,7 +92,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="button" class="btn btn-primary btn-block waves-effect" id="btn-modal-save">
+                                    <button type="submit" class="btn btn-primary btn-block waves-effect">
                                         <i class="material-icons">save</i>
                                         <span>Simpan Transaksi</span>
                                     </button>
@@ -264,48 +263,62 @@
             }, 100);         
         });
 
-        $('#btn-modal-save').click(function(){
-            var url = $('#transaction-form').attr('action');
-            var data = $('#transaction-form').serializeArray();
+        $('#transaction-form').submit(function(e){
+            e.preventDefault();
+            var url = $(this).attr('action');
+            var data = $(this).serializeArray();
             $.ajax({
                 type: 'ajax',
-                method: 'get',
+                method: 'post',
                 url: '<?php echo base_url("transactions/transactionsDetailConfm"); ?>',
                 data: data,
                 async: false,
                 dataType: 'json',
                 success: function(response) {
-                    var tableProducts = '';
-                    $('#modal-transaction-detail .costumer').html(response.costumer.name);
-                    $('#modal-transaction-detail .date').html(response.transaction_date);
-                    for (var i = 0; i < response.products.length; i++) {
-                        tableProducts += '<tr>'+
-                            '<td>'+(i+1)+'</td>'+
-                            '<td>'+response.products[i].product_data.product_name+'</td>'+
-                            '<td>'+response.products[i].qty+'</td>'+
-                            '<td>'+convertToRupiah(response.products[i].product_data.price)+'</td>'+
-                            '<td>'+convertToRupiah(response.products[i].total_price)+'</td>'+
-                        '</tr>';
-                    }
-                    $('#transaction-products').html(tableProducts);
-                    $('#modal-transaction-detail .total-price').html(response.totals_price);
+                    if (response.success == true) {
 
-                    $('#modal-transaction-detail').modal('show');
+                        var tableProducts = '';
+                        $('#modal-transaction-detail .costumer').html(response.costumer.name);
+                        $('#modal-transaction-detail .date').html(response.transaction_date);
+                        for (var i = 0; i < response.products.length; i++) {
+                            tableProducts += '<tr>'+
+                                '<td>'+(i+1)+'</td>'+
+                                '<td>'+response.products[i].product_data.product_name+'</td>'+
+                                '<td>'+response.products[i].qty+'</td>'+
+                                '<td>'+convertToRupiah(response.products[i].product_data.price)+'</td>'+
+                                '<td>'+convertToRupiah(response.products[i].total_price)+'</td>'+
+                            '</tr>';
+                        }
+                        $('#transaction-products').html(tableProducts);
+                        $('#modal-transaction-detail .total-price').html(convertToRupiah(response.totals_price));
 
-                    $('#btn-save-transaction').click(function(){
-                        swal({
-                            title: "Data Produksi Transaksi Yang Dimasukan Sudah Benar?",
-                            text: 'Pilih "OK" untuk menyimpan',
-                            type: "info",
-                            showCancelButton: true,
-                            closeOnConfirm: false,
-                            showLoaderOnConfirm: true,
-                        }, function() {
-                            setTimeout(function() {
-                                transactionSave(url, data)
-                            }, 1000);
+                        $('#modal-transaction-detail').modal('show');
+
+                        $('#btn-save-transaction').click(function(){
+                            swal({
+                                title: "Data Produksi Transaksi Yang Dimasukan Sudah Benar?",
+                                text: 'Pilih "OK" untuk menyimpan',
+                                type: "info",
+                                showCancelButton: true,
+                                closeOnConfirm: false,
+                                showLoaderOnConfirm: true,
+                            }, function() {
+                                setTimeout(function() {
+                                    transactionSave(url, data)
+                                }, 1000);
+                            });
                         });
-                    })
+
+                    }else{
+                        $.each(response.messages, function(key, value){
+                            var element = $('#transaction-form [name="'+key+'"]');
+                            element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
+                            element.closest('div.form-group').find('label.error').remove();
+                            element.parent().after(value);
+                        });
+                        swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
+                    }
+                    
                 },
                 error: function() {
                     swal('Failed', 'Error', 'error');

@@ -31,15 +31,11 @@
                     <div class="body">
                         <button type="button" class="btn btn-primary waves-effect" id="btn-modal-product" title="Add product" data-toggle="modal" data-target="#largeModal">
 							<i class="material-icons">add</i>
-							<span>Tambah Pelanggan</span>
+							<span>Tambah Produk</span>
 						</button>
                         <button type="button" class="btn bg-green waves-effect" id="btn-reload-products" title="Refresh" data-toggle="modal" data-target="#largeModal">
 							<i class="material-icons">refresh</i>
-							<span>Segarkan Data</span>
-						</button>
-                        <button type="button" class="btn bg-green waves-effect" id="btn-reload-page" title="Refresh" data-toggle="modal" data-target="#largeModal">
-							<i class="material-icons">refresh</i>
-							<span>Segarkan Halaman</span>
+							<!-- <span>Segarkan Data</span> -->
 						</button><br><br>
                         <div class="table-responsive">
                             <table id="productsTable" class="table table-bordered table-striped table-hover js-basic-example">
@@ -50,6 +46,7 @@
                                         <th>Nama Produk</th>
                                         <th>Harga</th>
                                         <th>Unit Persediaan</th>
+                                        <th>Unit Produksi</th>
                                         <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -94,7 +91,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Nama Produk</b>
-                                    <input type="text" class="form-control" name="product-name" placeholder="Nama Produk" required>                                    
+                                    <input type="text" class="form-control" name="product-name" placeholder="Nama Produk">                                    
                                 </div>
                                 <div class="help-info">Max. 40 Karakter</div>
                             </div>
@@ -102,7 +99,7 @@
                         <div class="col-sm-6">
                             <div class="form-group form-float">
                                 <b>Kategori</b>
-                                <select id="categories" class="form-control " name="categories" required>
+                                <select id="categories" class="form-control " name="categories">
 									<option value="">-- Pilih Kategori --</option>
 
 								</select>
@@ -113,7 +110,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Masa Berlaku (hari)</b>
-                                    <input type="number" class="form-control" name="expiration" required placeholder="Masa berlaku (hari)">
+                                    <input type="number" class="form-control" name="expiration" placeholder="Masa berlaku (hari)">
                                 </div>
                                 <div class="help-info">Input Angka (Hari)</div>
                             </div>
@@ -122,7 +119,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Harga (Rp)</b>
-                                    <input type="number" class="form-control" name="price" required placeholder="Harga">
+                                    <input type="number" class="form-control" name="price" placeholder="Harga">
                                 </div>
                                 <div class="help-info">Input Angka Rupiah Rp.000.000</div>
                             </div>
@@ -131,7 +128,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Persediaan Unit</b>
-                                    <input type="number" class="form-control" name="unit-in-stock" required placeholder="Persediaan Stock">
+                                    <input type="number" class="form-control" name="unit-in-stock" placeholder="Persediaan Stock">
                                 </div>
                                 <div class="help-info">Input Angka</div>
                             </div>
@@ -155,7 +152,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Deskripsi</b>
-                                    <textarea name="description" cols="30" rows="5" class="form-control no-resize" required placeholder="Deskripsi"></textarea>
+                                    <textarea name="description" cols="30" rows="5" class="form-control no-resize" placeholder="Deskripsi"></textarea>
                                 </div>
                                 <div class="help-info">Input Text</div>
                             </div>
@@ -164,16 +161,18 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Catatan</b>
-                                    <textarea name="note" cols="30" rows="5" class="form-control no-resize" required placeholder="Catatan"></textarea>
+                                    <textarea name="note" cols="30" rows="5" class="form-control no-resize" placeholder="Catatan"></textarea>
                                 </div>
                                 <div class="help-info">Input Text</div>
                             </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button id="btn-save-product" type="submit" class="btn btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>                        
                         </div>
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btn-save-product" type="submit" class="btn btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal"><i class="material-icons">close</i><span>Tutup</span></button>
             </div>
         </div>
@@ -190,8 +189,8 @@
             <div class="modal-body">
                 <div class="row clearfix">
                     <div class="alert alert-warning">
-                        <strong>Perhatian !</strong> Penambahan Data <i>Bill Of Material</i> Hanya Dapat Dilakukan Satu Kali, 
-                        Sehingga Tidak Dapat Diubah
+                        <strong>Perhatian !</strong> Penambahan Data <i>Bill Of Material</i> Hanya Dapat Dilakukan Jika Data Tidak Memiliki
+                        Transaksi dan Produksi
                     </div>
                     <table class="table table-bordered" id="table-bom">
                         <tr>
@@ -419,6 +418,10 @@ $(document).ready(function() {
                     name: 'unit_in_stock'
                 },
                 {
+                    data: 'tot_prod_order',
+                    name: 'tot_prod_order'
+                },
+                {
                     data: 'Nonactive - Active',
                     name: 'Nonactive - Active',
                     render: function(data, type, full, meta){
@@ -480,6 +483,8 @@ $(document).ready(function() {
 
                 // display modal-product-edit
                 $('.btn-product-edit').click(function() {
+                    resetProductForm();
+
                     $('#modal-product-form').find('.modal-title').text('Edit Produk');
                     $('#product-form').attr('action', '<?php echo base_url("Products/productUpdate");?>');
                     $('#product-form [name="status"]').removeAttr('checked');
@@ -533,10 +538,54 @@ $(document).ready(function() {
                         dataType: 'json'
                     }).done(function(response) {
                         resetBomModal();
-                        
-                        
-                        if (response.response_status == true) {
-                            $('#table-bom-detail .product-id').html(response.products_product_id);
+
+                        if (response.response_status == 'create') {
+
+                            $('#form-bom [name="product-id"]').val(response.product_id);
+                            $('#table-bom .name').html(response.product_name);
+                            $('#form-bom').attr('action', '<?php echo base_url("Products/bomCreate");?>');
+                            $('#modal-product-form-bom').modal('show');
+                            
+                        }else if(response.response_status == 'edit'){
+                            // formBomEdit(response.materials, callback);
+                            $('#form-bom [name="product-id"]').val(response.product_id);
+                            $('#table-bom .name').html(response.product_name);
+                            $('#form-bom').attr('action', '<?php echo base_url("Products/bomUpdate");?>');
+                            $('#modal-product-form-bom').modal('show');
+
+                            for (let i = 0; i < response.materials.length; i++) {
+                                // $('.material-input-'+i).selectpicker('val', response.materials[i].material_id);
+                                bomFormNo++;
+                                var html = '';
+                                html += '<tr class="bom-form-'+bomFormNo+'">'+
+                                    '<th scope="row">'+(bomFormNo+1)+'</th>'+
+                                    '<td>'+
+                                        '<div class="form-group form-float" style="margin-bottom:0px;">'+
+                                            '<select class="form-control show-tick material-input-'+bomFormNo+'" name="materials[]" data-live-search="true" data-size="5" required>'+
+                                                '<option value="">-- Pilih Material --</option>'+
+                                                
+                                            '</select>'+
+                                        '</div>'+
+                                    '</td>'+
+                                    '<td>'+
+                                        '<div class="form-group form-float" style="margin-bottom:0px;">'+
+                                            '<div class="form-line">'+
+                                                '<input type="number" class="form-control num-comb-input-'+bomFormNo+'" name="num-comb-materials[]" required placeholder="Jumlah Kombinasi">'+
+                                            '</div>'+
+                                        '</div>'+
+                                    '</td>'+
+                                '</tr>';
+                                $('#bom-form').append(html);
+                                materialsGet();
+                                $('.material-input-'+i).selectpicker('val', response.materials[i].material_id);
+                                $('.num-comb-input-'+i).val(response.materials[i].num_comb_material);
+                            }
+                            $('#bom-form tr').last().remove();
+
+
+                        }else if(response.response_status == 'protected'){
+
+                            $('#table-bom-detail .product-id').html(response.product_id);
                             $('#table-bom-detail .name').html(response.product_name);
 
                             var bomDetailTbody = '';
@@ -550,13 +599,6 @@ $(document).ready(function() {
                             $('#table-bom-detail-comb tbody').html(bomDetailTbody);
 
                             $('#modal-product-form-bom-detail').modal('show');
-
-
-                        } else if (response.response_status == false){
-                            $('#form-bom [name="product-id"]').val(response.products_product_id);
-                            $('#table-bom .name').html(response.product_name);
-                            $('#form-bom').attr('action', '<?php echo base_url("Products/bomCreate");?>');
-                            $('#modal-product-form-bom').modal('show');
 
                         }
                         
@@ -630,10 +672,20 @@ $(document).ready(function() {
             async: false,
             dataType: 'json'
         }).done(function(response) {
-            swal("Tersimpan", "Data Perlanggan Telah Terimpan !", "success");
-            productsDatatables();
-            $('#modal-product-form').modal('hide');
-            $('#product-form')[0].reset();
+            if(response.success == true){
+                swal("Tersimpan", "Data Perlanggan Telah Terimpan !", "success");
+                productsDatatables();
+                $('#modal-product-form').modal('hide');
+                $('#product-form')[0].reset();
+            }else if(response.success == false){
+                $.each(response.messages, function(key, value){
+                    var element = $('#product-form [name="'+key+'"]');
+                    element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
+                    element.closest('div.form-group').find('label.error').remove();
+                    element.parent().after(value);
+                });
+                swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
+            }
         }).fail(function() {
             swal('Error !', 'Masukan Form Dengan Benar', 'error');
         });
@@ -730,13 +782,20 @@ $(document).ready(function() {
         $('.material-input-'+(bomFormNo-1)).selectpicker('val', dataMaterial.material_id);
         $('.num-comb-input-'+(bomFormNo-1)).val(dataMaterial.num_comb_material);
     }
-    
-    //modal create product 
-    $("#btn-modal-product").click(function() {
+
+    function resetProductForm(){
         $('#product-form')[0].reset();
         $("#product-form #active").attr('checked', true);
         $('#product-form select').selectpicker('deselectAll');
         $('#product-form textarea').html("");
+
+        $('#product-form .form-line').removeClass('focused success error');
+        $('#product-form label.error').remove();
+    }
+    
+    //modal create product 
+    $("#btn-modal-product").click(function() {
+        resetProductForm();
         
         $('#modal-product-form').find('.modal-title').text('Tambah Produk');
         $('#product-form').attr('action', '<?php echo base_url("Products/productCreate");?>');
@@ -744,9 +803,10 @@ $(document).ready(function() {
     });
 
     //btn-product-save
-    $("#btn-save-product").click(function() {
-        var url = $('#product-form').attr('action');
-        var data = $('#product-form').serialize();
+    $("#product-form").submit(function(e) {
+        e.preventDefault();
+        var url = $(this).attr('action');
+        var data = $(this).serialize();
         swal({
             title: "Data Pelanggan Yang Dimasukan Sudah Benar?",
             text: 'Pilih "OK" untuk menyimpan',

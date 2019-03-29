@@ -36,46 +36,64 @@ class Employees extends CI_Controller
 
     public function employeeCreate()
     {
-        $this->form_validation->set_rules('name', 'Full Name', 'required');
+        $data = ['success' => false, 'messages'=> []];
+
+        $this->form_validation->set_rules('name', 'Phone', 'required');
         $this->form_validation->set_rules('level', 'Level', 'required');
         $this->form_validation->set_rules('gender', 'Gender', 'required');
-        $this->form_validation->set_rules('email', 'Email', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+        $this->form_validation->set_rules('phone', 'Phone', 'required');
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
-        $this->form_validation->set_rules('cpassword', 'Confirmation Password', 'required');
+        $this->form_validation->set_rules('cpassword', 'Confirmation Password', 'required|matches[password]');
+
+        $this->form_validation->set_message('required', 'Form Ini Tidak Boleh Kosong');
+        $this->form_validation->set_message('valid_email', 'Masukan Email Dengan Benar');
+        $this->form_validation->set_message('matches', 'Masukan Confirmasi Password Sesuai Password Yang Telah Dimasukan');
+        $this->form_validation->set_error_delimiters('<label class="error">', '</label>');
         if ($this->form_validation->run() == true) {
             $result = $this->Employees_m->employeeCreate();
+            if ($result) {
+                $data['success'] = true;
+            }
+        }else{
+            foreach ($_POST as $key => $value) {
+                $data['messages'][$key] =  form_error($key);
+            }
         }
 
-        $msg['success'] = false;
-        $msg['type'] = 'add';
-        if ($result) {
-            $msg['success'] = true;
-        }
-        echo json_encode($msg);
+        echo json_encode($data);
     }
 
     public function employeeUpdate()
     {
-        $where = $this->input->post('employee-id');
+        $data = ['success' => false, 'messages'=> []];
 
-        $this->form_validation->set_rules('name', 'Full Name', 'required');
+        $where = $this->input->post('employee-id');
+        $this->form_validation->set_rules('name', 'Masukan Nama Lengkap Dengan Benar', 'required');
         $this->form_validation->set_rules('level', 'Level', 'required');
         $this->form_validation->set_rules('gender', 'Gender', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required');
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
         $this->form_validation->set_rules('cpassword', 'Confirmation Password', 'required');
+
+        $this->form_validation->set_message('required', 'Form Ini Tidak Boleh Kosong');
+        $this->form_validation->set_message('valid_email', 'Masukan Email Dengan Benar');
+        $this->form_validation->set_message('matches', 'Masukan Confirmasi Password Sesuai Password Yang Telah Dimasukan');
+        $this->form_validation->set_error_delimiters('<label class="error">', '</label>');
         if ($this->form_validation->run() == true) {
             $result = $this->Employees_m->employeeUpdate($where);
+            if ($result) {
+                $data['success'] = true;
+            }
+        }else{
+            foreach ($_POST as $key => $value) {
+                $data['messages'][$key] =  form_error($key);
+            }
         }
 
-        $msg['success'] = false;
-        $msg['type'] = 'add';
-        if ($result) {
-            $msg['success'] = true;
-        }
-        echo json_encode($msg);
+        echo json_encode($data);
     }
 
     public function employeeDelete()
@@ -110,17 +128,23 @@ class Employees extends CI_Controller
 
     public function levelCreate()
     {
+        $data = ['success' => false, 'messages'=> []];
         $this->form_validation->set_rules('level-name', 'Level Name', 'required');
-        if ($this->form_validation->run() == TRUE ) {
+        $this->form_validation->set_message('required', 'Form Ini Tidak Boleh Kosong');
+        $this->form_validation->set_error_delimiters('<label class="error">', '</label>');
+
+        if ($this->form_validation->run() == true ) {
             $result = $this->Employees_m->levelCreate();
+            if ($result) {
+                $data['success'] = true;
+            }
+        }else{
+            foreach ($_POST as $key => $value) {
+                $data['messages'][$key] =  form_error($key);
+            }
         }
         
-        $msg['success'] = false;
-        $msg['type'] = 'add';
-        if ($result) {
-            $msg['success'] = true;
-        }
-        echo json_encode($msg);
+        echo json_encode($data);
     }
 
     public function levelDelete()
@@ -136,8 +160,11 @@ class Employees extends CI_Controller
 
     public function levelUpdate()
     {
+        $data = ['success' => false, 'messages'=> []];
         $where = $this->input->post('level-id');
         $this->form_validation->set_rules('level-name', 'Level Name', 'required');
+        $this->form_validation->set_message('required', 'Form Ini Tidak Boleh Kosong');
+        $this->form_validation->set_error_delimiters('<label class="error">', '</label>');
 
         if ($this->form_validation->run() == TRUE ) {
             $result = $this->Employees_m->levelUpdate($where);

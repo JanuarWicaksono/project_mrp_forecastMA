@@ -36,11 +36,6 @@
                             </button>
                             <button type="button" class="btn bg-green waves-effect" id="reload-suppliers" title="Refresh" data-toggle="modal" data-target="#largeModal">
                                 <i class="material-icons">refresh</i>
-                                <span>Segarkan Data</span>
-                            </button>
-                            <button type="button" class="btn bg-green waves-effect" id="reload-page" title="Refresh" data-toggle="modal" data-target="#largeModal">
-                                <i class="material-icons">refresh</i>
-                                <span>Segarkan Halaman</span>
                             </button><br><br>
                             <table id="suppliersTable" class="table table-bordered table-striped table-hover js-basic-example">
                                 <thead>
@@ -60,8 +55,8 @@
                                 <tfoot>
                                     <tr class="">
                                         <th></th>
-                                        <th>Total Supplier</th>
-                                        <th>100</th>
+                                        <th></th>
+                                        <th></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
@@ -94,7 +89,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Nama Pemasok</b>
-                                    <input type="text" class="form-control" name="supplier-name" required placeholder="Nama Pemasok">
+                                    <input type="text" class="form-control" name="supplier-name" placeholder="Nama Pemasok">
                                 </div>
                             </div>
                         </div>
@@ -102,7 +97,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Email</b>
-                                    <input type="email" class="form-control" name="email" required placeholder="Email">
+                                    <input type="email" class="form-control" name="email" placeholder="Email">
                                 </div>
                             </div>
                         </div>
@@ -110,7 +105,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Nomor Telepon</b>
-                                    <input type="text" class="form-control" name="phone" required placeholder="Nomor Telepon">
+                                    <input type="text" class="form-control" name="phone" placeholder="Nomor Telepon">
                                 </div>
                             </div>
                         </div>
@@ -129,7 +124,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Alamat</b>
-                                    <textarea name="address" cols="30" rows="5" class="form-control no-resize" required placeholder="Alamat"></textarea>                                    
+                                    <textarea name="address" cols="30" rows="5" class="form-control no-resize" placeholder="Alamat"></textarea>                                    
                                 </div>
                             </div>
                         </div>
@@ -137,7 +132,7 @@
                             <div class="col-md-8 material-form-0">
                                 <div class="form-group form-float">
                                     <b>Material - 1</b>
-                                    <select class="form-control show-tick material-input-0" name="materials[]" data-live-search="true" data-size="5" required>
+                                    <select class="form-control show-tick material-input-0" name="materials[]" data-live-search="true" data-size="5">
                                         <option value="">-- Pilih Material --</option>
                                         
                                     </select>
@@ -145,15 +140,18 @@
                             </div>  
                         </div>
                         <div class="col-md-12">
-                            <button type="button" class="btn btn-primary waves-effect" id="btn-form-material"><i class="material-icons">add</i><span>Tambah Material</span></button>
-                            <button type="button" class="btn btn-danger waves-effect" id="btn-remove-material"><i class="material-icons">close</i><span>Hapus</span></button>
+                            <button type="button" class="btn btn-info btn-xs waves-effect" id="btn-form-material"><i class="material-icons">add</i><span>Tambah Material</span></button>
+                            <button type="button" class="btn btn-danger btn-xs waves-effect" id="btn-remove-material"><i class="material-icons">close</i><span>Hapus</span></button>
+                        </div>
+                        <div class="col-md-12">
+                        <br>
+                            <button type="submit" class="btn btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>                        
                         </div>
                         
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btn-save-supplier" type="submit" class="btn btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal"><i class="material-icons">close</i><span>Tutup</span></button>
             </div>
         </div>
@@ -256,10 +254,21 @@
                 async: false,
                 dataType: 'json'
             }).done(function(response) {
-                swal("Tersimpan", "Data Pemasok Telah Tersimpan", "success");
-                suppliersDatatables();
-                $('#modal-supplier-form').modal('hide');
-                $('#supplier-form')[0].reset();
+                if (response.success == true) {
+                    swal("Tersimpan", "Data Pemasok Telah Tersimpan", "success");
+                    suppliersDatatables();
+                    $('#modal-supplier-form').modal('hide');
+                    $('#supplier-form')[0].reset();
+                }else{
+                    $.each(response.messages, function(key, value){
+                        var element = $('#supplier-form [name="'+key+'"]');
+                        element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
+                        element.closest('div.form-group').find('label.error').remove();
+                        element.parent().after(value);
+                    });
+                    swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
+                }
+                
             }).fail(function() {
                 swal('Error !', 'Masukan Form Dengan Bendar', 'error');
             });
@@ -504,6 +513,8 @@
             }
             $('[name="materials[]"]').selectpicker('deselectAll');
             $('#supplier-form textarea').html("");
+            $('#supplier-form .form-line').removeClass('focused success error');
+            $('#supplier-form label.error').remove();
         }
 
         $('#btn-modal-supplier').click(function() {
@@ -514,9 +525,10 @@
             $('#modal-supplier-form').modal('show');
         });
 
-        $('#btn-save-supplier').click(function() {
-            var url = $('#supplier-form').attr('action');
-            var data = $('#supplier-form').serialize();
+        $('#supplier-form').submit(function(e) {
+            e.preventDefault();
+            var url = $(this).attr('action');
+            var data = $(this).serialize();
 
             swal({
                 title: "Data Pemasok Yang Dimasukan Sudah Benar?",

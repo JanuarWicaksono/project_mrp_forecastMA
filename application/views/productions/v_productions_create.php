@@ -27,7 +27,7 @@
                             <div class="col-md-12">
                                 <div class="form-group form-float">
                                     <b>Pilih Produk</b>
-                                    <select id="product-input" class="form-control show-tick" name="product-input" data-live-search="true" required>
+                                    <select id="product-input" class="form-control show-tick" name="product-input" data-live-search="true">
                                         <option value="">-- Pilih Produk --</option>
                                         
                                     </select>
@@ -37,12 +37,11 @@
                                 <div class="form-group form-float">
                                     <div class="form-line">
                                         <b>Jumlah Produksi</b>
-                                        <input type="number" class="form-control" name="num-prod" required placeholder="Jumlah Produksi">
+                                        <input type="number" class="form-control" name="num-prod" min="0" placeholder="Jumlah Produksi">
                                     </div>
                                 </div>
+                                <button type="button" class="btn btn-xs bg-green waves-effect btn-forecast-add" data="recommend">Rekomendasi </button>
                                 <button type="button" class="btn btn-xs bg-red waves-effect btn-forecast-add" data="simple">Simple</button>
-                                <button type="button" class="btn btn-xs bg-teal waves-effect btn-forecast-add" data="cumulative">Cumulative</button>
-                                <button type="button" class="btn btn-xs bg-orange waves-effect btn-forecast-add" data="weight">Weight</button>
                                 <button type="button" class="btn btn-xs bg-brown waves-effect btn-forecast-add" data="exponential">Exponential</button>
                             </div>
                             <div class="col-md-12">
@@ -57,12 +56,12 @@
                                 <div class="form-group form-float">
                                     <div class="form-line">
                                         <b>Catatan</b>
-                                        <textarea name="note" cols="30" rows="5" class="form-control no-resize" required placeholder="Catatan"></textarea>
+                                        <textarea name="note" cols="30" rows="5" class="form-control no-resize" placeholder="Catatan"></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <button type="button" id="btn-prod-save" class="btn btn-block btn-lg btn-primary waves-effect"><i class="material-icons">save</i><span>Lanjut Produksi</span></button>
+                                <button type="submit" id="btn-prod-save" class="btn btn-block btn-lg btn-primary waves-effect"><i class="material-icons">save</i><span>Lanjut Produksi</span></button>
                             </div>
                         </form>
                     </div>
@@ -93,7 +92,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="body">
+                    <div class="body" id="body-forecast">
                         <!-- Nav tabs -->
                         <!-- <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active">
@@ -107,7 +106,7 @@
                                 </a>
                             </li>
                         </ul> -->
-                        <canvas id="line_chart"></canvas><br><br>
+                        <br><br>
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead>
@@ -124,15 +123,11 @@
                                     <tr id="forecast-label">
                                     
                                     </tr>
+                                    <tr id="forecast-recommend">
+                                        
+
+                                    </tr>
                                     <tr id="forecast-sma">
-                                        
-
-                                    </tr>
-                                    <tr id="forecast-cma">
-                                        
-
-                                    </tr>
-                                    <tr id="forecast-wma">
                                         
 
                                     </tr>
@@ -366,28 +361,6 @@ function getChartJs(type, response) {
                         pointHoverRadius: 5
                     },
                     {
-                        label: "Peramalan / Forecast Cumulative Moving Average",
-                        data: [null, null, null, null, null, null, null, null, null, null, null, null, response.forecast_cma],
-                        borderColor: 'rgba(233, 30, 99, 0.75)',
-                        backgroundColor: 'rgba(233, 30, 99, 0.3)',
-                        pointBorderColor: 'rgba(233, 30, 99, 0)',
-                        pointBackgroundColor: '#009688',
-                        pointBorderWidth: 1,
-                        pointRadius: 3,
-                        pointHoverRadius: 5
-                    },
-                    {
-                        label: "Peramalan / Forecast Weight Moving Average",
-                        data: [null, null, null, null, null, null, null, null, null, null, null, null, response.forecast_wma],
-                        borderColor: 'rgba(233, 30, 99, 0.75)',
-                        backgroundColor: 'rgba(233, 30, 99, 0.3)',
-                        pointBorderColor: 'rgba(233, 30, 99, 0)',
-                        pointBackgroundColor: '#FFC107',
-                        pointBorderWidth: 1,
-                        pointRadius: 3,
-                        pointHoverRadius: 5
-                    },
-                    {
                         label: "Peramalan / Forecast Exponential Moving Average",
                         data: [null, null, null, null, null, null, null, null, null, null, null, null, response.forecast_ema],
                         borderColor: 'rgba(233, 30, 99, 0.75)',
@@ -413,12 +386,14 @@ function getChartJs(type, response) {
 $('#product-input').change(function() {
     $('#forecast-data-mounth').empty();
     $('#forecast-data-count').empty();
+    $('#line_chart').remove();
+    $('#body-forecast').prepend('<canvas id="line_chart"></canvas>')
     $('#forecast-label').empty();
+    $('#forecast-recommend').empty();
     $('#forecast-sma').empty();
-    $('#forecast-cma').empty();
-    $('#forecast-wma').empty();
     $('#forecast-ema').empty();
 
+    
 
     var $loading = $('.card-forecast').waitMe({
         effect: 'rotation',
@@ -440,72 +415,73 @@ $('#product-input').change(function() {
             async: false,
             dataType: 'json'
         }).done(function(response) {
+            if (response.success == true) {
+                //Push Data to Table Forecast
+                var tableMounth = '<th class="bg-blue">Bulan (t)</th>';
+                var tableCount = '<th class="bg-blue">Jumlah Penjualan</th>';
+                var tableForecastLabel = '<th class="bg-blue" colspan="7">Hasil Peramalan/Forecast Moving Average ' + response.now_mounth + '</th>';
+                var tableForecastRecommend = '<th class="bg-green" colspan="5">Rekomendasi</th>';
+                var tableForecastSma = '<th class="bg-red" colspan="5">Simple</th>';
+                var tableForecastEma = '<th class="bg-brown" colspan="5">Exponential</th>';
 
-            //Push Data to Table Forecast
-            var tableMounth = '<th class="bg-blue">Bulan (t)</th>';
-            var tableCount = '<th class="bg-blue">Jumlah Penjualan</th>';
-            var tableForecastLabel = '<th class="bg-blue" colspan="7">Hasil Peramalan/Forecast Moving Average ' + response.now_mounth + '</th>';
-            var tableForecastSma = '<th class="bg-red" colspan="5">Simple</th>';
-            var tableForecastCma = '<th class="bg-teal" colspan="5">Cumulative</th>';
-            var tableForecastWma = '<th class="bg-orange" colspan="5">Weight</th>';
-            var tableForecastEma = '<th class="bg-brown" colspan="5">Exponential</th>';
+                for (var i = 0; i < response.data_each_mounth.length; i++) {
+                    tableMounth += '<th class="bg-blue">' + response.data_each_mounth[i].date + '</th>';
+                }
+                $('#forecast-data-mounth').append(tableMounth);
 
-            for (var i = 0; i < response.data_each_mounth.length; i++) {
-                tableMounth += '<th class="bg-blue">' + response.data_each_mounth[i].date + '</th>';
-            }
-            $('#forecast-data-mounth').append(tableMounth);
+                for (var i = 0; i < response.data_each_mounth.length; i++) {
+                    tableCount += '<td>' + response.data_each_mounth[i].count + '</td>';
+                }
+                $('#forecast-data-count').append(tableCount);
 
-            for (var i = 0; i < response.data_each_mounth.length; i++) {
-                tableCount += '<td>' + response.data_each_mounth[i].count + '</td>';
-            }
-            $('#forecast-data-count').append(tableCount);
+                $('#forecast-label').append(tableForecastLabel);
 
-            $('#forecast-label').append(tableForecastLabel);
+                tableForecastRecommend += '<th class="bg-green" colspan="2" style="text-align: center;">' + response.forecast_recommend + '</th>';
+                $('#forecast-recommend').append(tableForecastRecommend);
 
-            tableForecastSma += '<th class="bg-red" colspan="2" style="text-align: center;">' + response.forecast_sma + '</th>';
-            $('#forecast-sma').append(tableForecastSma);
+                tableForecastSma += '<th class="bg-red" colspan="2" style="text-align: center;">' + response.forecast_sma + '</th>';
+                $('#forecast-sma').append(tableForecastSma);
 
-            tableForecastCma += '<th class="bg-teal" colspan="2" style="text-align: center;">' + response.forecast_cma + '</th>';
-            $('#forecast-cma').append(tableForecastCma);
+                tableForecastEma += '<th class="bg-brown" colspan="2" style="text-align: center;">' + response.forecast_ema + '</th>';
+                $('#forecast-ema').append(tableForecastEma);
 
-            tableForecastWma += '<th class="bg-orange" colspan="2" style="text-align: center;">' + response.forecast_wma + '</th>';
-            $('#forecast-wma').append(tableForecastWma);
+                // Push Data to Chartjs
+                new Chart(document.getElementById("line_chart").getContext("2d"), getChartJs('line', response));
 
-            tableForecastEma += '<th class="bg-brown" colspan="2" style="text-align: center;">' + response.forecast_ema + '</th>';
-            $('#forecast-ema').append(tableForecastEma);
+                setTimeout(function() {
+                    $loading.waitMe('hide');
 
-            // Push Data to Chartjs
-            new Chart(document.getElementById("line_chart").getContext("2d"), getChartJs('line', response));
-
-            setTimeout(function() {
+                    $('.btn-forecast-add').click(function() {
+                        var methodData = $(this).attr('data');
+                        var methodValue;
+                        switch(methodData){
+                            case 'recommend': methodValue = response.forecast_recommend;break;
+                            case 'simple': methodValue = response.forecast_sma;break;
+                            case 'exponential': methodValue = response.forecast_ema;
+                        }
+                        $('#productions-form [name="num-prod"]').val(methodValue);
+                    });
+                }, 256);
+            }else if(response.success == false){
+                swal('Peramalan Gagal', 'Produk Ini Memiliki Data Penjualan Yang Tidak Sesuai Untuk Melakukan Perhitungan Peramalan', 'error');
                 $loading.waitMe('hide');
-
-                $('.btn-forecast-add').click(function() {
-                    var methodData = $(this).attr('data');
-                    var methodValue;
-                    switch(methodData){
-                        case 'simple': methodValue = response.forecast_sma;break;
-                        case 'cumulative': methodValue = response.forecast_cma;break;
-                        case 'weight': methodValue = response.forecast_wma;break;
-                        case 'exponential': methodValue = response.forecast_ema;
-                    }
-                    $('#productions-form [name="num-prod"]').val(methodValue);
-                });
-            }, 256);
-
-
+            } else if(response.success == 'empty'){
+                $loading.waitMe('hide');
+            }
 
         }).fail(function() {
-            swal('Failed', 'Error', 'error');
+            $loading.waitMe('hide');
+            swal('Gagal', 'Tidak Dapat Melakukan Produksi Karena Data Produk Tidak Lengkap', 'error');
         });
 
     }, 1024);
 
 });
 
-$('#btn-prod-save').click(function() {
-    var url = $('#productions-form').attr('action');
-    var data = $('#productions-form').serialize();
+$('#productions-form').submit(function(e) {
+    e.preventDefault();
+    var url = $(this).attr('action');
+    var data = $(this).serialize();
     productionsDetailConf(url, data);
 });
 
@@ -513,32 +489,43 @@ function productionsDetailConf(url, data) {
     var run = true;
     $.ajax({
         type: 'ajax',
-        method: 'get',
+        method: 'post',
         url: '<?php echo base_url("productions/productionsDetailConfm"); ?>',
         data: data,
         async: false,
         dataType: 'json',
         success: function(response) {
-            pushDetailProductions(response);
+            if (response.response_status == true) {
+                pushDetailProductions(response);
 
-            for (let i = 0; i < response.materials.length; i++) {
-                if(response.materials[i].cal_total_min_stock < 0){
-                    run = false;
+                for (let i = 0; i < response.materials.length; i++) {
+                    if(response.materials[i].cal_total_min_stock < 0){
+                        run = false;
+                    }
                 }
-            }
-            if (run) {
-                $("#btn-save-productions").css("display", "show");                
-                $("#btn-purchase-form").css("display", "none");                
-            } else {
-                $("#btn-save-productions").css("display", "none");
-                $("#btn-purchase-form").css("display", "show");
+                if (run) {
+                    $("#btn-save-productions").css("display", "show");                
+                    $("#btn-purchase-form").css("display", "none");                
+                } else {
+                    $("#btn-save-productions").css("display", "none");
+                    $("#btn-purchase-form").css("display", "show");
 
-                $('#btn-purchase-form').click(function(){
-                    var productId = $('#productions-form [name="product-input"]').val();
-                    var numProd = $('#productions-form [name="num-prod"]').val();
-                    window.location.href = "<?php echo base_url('Materials/purchaseMaterialsView'); ?>?productId=" + productId + "&numProd=" + numProd;
-                });            
+                    $('#btn-purchase-form').click(function(){
+                        var productId = $('#productions-form [name="product-input"]').val();
+                        var numProd = $('#productions-form [name="num-prod"]').val();
+                        window.location.href = "<?php echo base_url('Materials/purchaseMaterialsView'); ?>?productId=" + productId + "&numProd=" + numProd;
+                    });            
+                }
+            } else if(response.response_status == false){
+                $.each(response.messages, function(key, value){
+                    var element = $('#productions-form [name="'+key+'"]');
+                    element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
+                    element.closest('div.form-group').find('label.error').remove();
+                    element.parent().after(value);
+                });
+                swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
             }
+            
         },
         error: function() {
             swal('Failed', 'Error', 'error');

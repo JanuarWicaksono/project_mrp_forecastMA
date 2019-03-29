@@ -35,11 +35,7 @@
 						</button>
                         <button type="button" class="btn bg-green waves-effect" id="reload-datatables" title="Refresh" data-toggle="modal" data-target="#largeModal">
 							<i class="material-icons">refresh</i>
-							<span>Segarkan Data</span>
-						</button>
-                        <button type="button" class="btn bg-green waves-effect" id="reload-page" title="Refresh" data-toggle="modal" data-target="#largeModal">
-							<i class="material-icons">refresh</i>
-							<span>Segarkan Halaman</span>
+							<!-- <span>Segarkan Data</span> -->
 						</button><br><br>
                         <div class="table-responsive">
                             <table id="myTable" class="table table-bordered table-striped table-hover js-basic-example dataTable">
@@ -90,7 +86,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Nama Kategori</b>
-                                    <input type="text" class="form-control" name="name" required placeholder="Nama Kategori">
+                                    <input type="text" class="form-control" name="name" placeholder="Nama Kategori">
                                 </div>
                             </div>
                         </div>
@@ -98,15 +94,17 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Deskripsi</b>
-                                    <textarea name="description" cols="30" rows="5" class="form-control no-resize" required placeholder="Deskripsi"></textarea>
+                                    <textarea name="description" cols="30" rows="5" class="form-control no-resize" placeholder="Deskripsi"></textarea>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button id="btn-save-category" type="submit" class="btn btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>                        
                         </div>
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btn-save-category" type="submit" class="btn btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal"><i class="material-icons">close</i><span>Tutup</span></button>
             </div>
         </div>
@@ -159,6 +157,8 @@
 
                 // btn-category-edit
                 $('.btn-category-edit').click(function(){
+                    resetForm();
+
                     $('#modal-category-form').find('.modal-title').text('Edit Kategori');
                     $('#category-form').attr('action', '<?php echo base_url("Products/categoryUpdate");?>');
 
@@ -197,10 +197,20 @@
                 async: false,
                 dataType: 'json'
             }).done(function(response) {
-                swal("Tersimpan", "Data Posisi/Level Telah Tersimpan", "success");
-                categoriesGet();
-                $('#modal-category-form').modal('hide');
-                $('#category-form')[0].reset();
+                if (response.success == true) {
+                    swal("Tersimpan", "Data Posisi/Level Telah Tersimpan", "success");
+                    categoriesGet();
+                    $('#modal-category-form').modal('hide');
+                    $('#category-form')[0].reset();
+                }else{
+                    $.each(response.messages, function(key, value){
+                        var element = $('#category-form [name="'+key+'"]');
+                        element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
+                        element.closest('div.form-group').find('label.error').remove();
+                        element.parent().after(value);
+                    });
+                    swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
+                }
             }).fail(function() {
                 swal('Erorr !', 'Masukan Form Dengan Benar !', 'error');
             });
@@ -223,10 +233,17 @@
                 swal('Failed', 'Error', 'error');
             });
         }
+
+        function resetForm(){
+            $('#category-form')[0].reset();
+
+            $('#category-form .form-line').removeClass('focused success error');
+            $('#category-form label.error').remove();
+        }
         
         // btn-modal-level
         $('#btn-form-category').click(function() {
-            $('#category-form')[0].reset();
+            resetForm();
 
             $('#modal-category-form').find('.modal-title').text('Tambah Kategori');
             $('#category-form').attr('action', '<?php echo base_url("Products/categoryCreate");?>');
@@ -234,9 +251,10 @@
         });
 
         //btn-save-level
-        $('#btn-save-category').click(function() {
-            var url = $('#category-form').attr('action');
-            var data = $('#category-form').serialize();
+        $('#category-form').submit(function(e) {
+            e.preventDefault();
+            var url = $(this).attr('action');
+            var data = $(this).serialize();
             swal({
                 title: "Data Kategori yang dimasukan sudah benar?",
                 text: 'Pilih "OK" jika sudah benar',
@@ -252,7 +270,7 @@
             });
         });
 
-        categoriesGet()
+        categoriesGet();
         
 
        

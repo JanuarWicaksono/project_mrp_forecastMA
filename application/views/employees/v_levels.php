@@ -36,11 +36,7 @@
                             </button>
                             <button type="button" class="btn bg-green waves-effect" id="reload-levels" title="Refresh" data-toggle="modal" data-target="#largeModal">
                                 <i class="material-icons">refresh</i>
-                                <span>Segarkan Data</span>
-                            </button>
-                            <button type="button" class="btn bg-green waves-effect" id="reload-page" title="Refresh" data-toggle="modal" data-target="#largeModal">
-                                <i class="material-icons">refresh</i>
-                                <span>Segarkan Halaman</span>
+                                <!-- <span>Segarkan Data</span> -->
                             </button><br><br>
                             <table id="levelsTable" class="table table-bordered table-striped table-hover js-basic-example">
                                 <thead>
@@ -87,7 +83,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Nama Posisi/Level</b>
-                                    <input type="text" class="form-control" name="level-name" required placeholder="Nama Posisi/Level">
+                                    <input type="text" class="form-control" name="level-name" placeholder="Nama Posisi/Level">
                                     <div class="help-info">Max. 20 Karakter</div>
                                 </div>
                             </div>
@@ -99,11 +95,13 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <button id="btn-save-level" type="submit" class="btn  btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>      
+                        </div>
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btn-save-level" type="submit" class="btn  btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>                    
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal"><i class="material-icons">close</i><span>Tutup</span></button>
             </div>
         </div>
@@ -157,6 +155,7 @@
 
                 // btn-level-edit
                 $('.btn-level-edit').click(function(){
+                    resetForm();
                     $('#modal-level-form').find('.modal-title').text('Edit Posisi/Level');
                     $('#level-form').attr('action', '<?php echo base_url("Employees/levelUpdate");?>');
 
@@ -202,10 +201,21 @@
                 async: false,
                 dataType: 'json'
             }).done(function(response) {
-                swal("Tersimpan", "Data Posisi/Level Telah Tersimpan", "success");
-                levelsGet();
-                $('#modal-level-form').modal('hide');
-                $('#level-form')[0].reset();
+                console.log(response);
+                if (response.success == true) {
+                    swal("Tersimpan", "Data Posisi/Level Telah Tersimpan", "success");
+                    levelsGet();
+                    $('#modal-level-form').modal('hide');
+                    $('#level-form')[0].reset();
+                }else if(response.success == false){
+                    $.each(response.messages, function(key, value){
+                    var element = $('#level-form [name="'+key+'"]');
+                    element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
+                    element.closest('div.form-group').find('label.error').remove();
+                    element.parent().after(value);
+                    });
+                    swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
+                }
             }).fail(function() {
                 swal('Erorr !', 'Masukan Form Dengan Benar !', 'error');
             });
@@ -248,9 +258,15 @@
             })
         }
 
+        function resetForm(){
+            $('#level-form')[0].reset();
+            $('#level-form .form-line').removeClass('focused success error');
+            $('#level-form label.error').remove();
+        }
+
 
         $('#btn-modal-level').click(function() {
-            $('#level-form')[0].reset();
+            resetForm();
             levelsAccessGet();
 
             $('#modal-level-form').find('.modal-title').text('Tambah Posisi/Level');
@@ -258,9 +274,11 @@
             $('#modal-level-form').modal('show');
         });
 
-        $('#btn-save-level').click(function() {
-            var url = $('#level-form').attr('action');
-            var data = $('#level-form').serialize();
+        $('#level-form').submit(function(e) {
+            e.preventDefault();
+
+            var url = $(this).attr('action');
+            var data = $(this).serialize();
             swal({
                 title: "Data Posisi/Level yang dimasukan sudah benar?",
                 text: 'Pilih "OK" jika sudah benar',

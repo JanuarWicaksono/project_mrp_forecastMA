@@ -65,41 +65,56 @@ class Materials extends CI_Controller
 
     public function materialCreate()
     {
+        $data = ['success' => false, 'messages'=> []];
+
         $this->form_validation->set_rules('name', 'Name', 'required');
         $this->form_validation->set_rules('stock', 'Stock', 'required');
         $this->form_validation->set_rules('stock-type', 'Stock Type', 'required');
         $this->form_validation->set_rules('status', 'Status', 'required');
+        $this->form_validation->set_message('required', 'Form Ini Tidak Boleh Kosong');
+        $this->form_validation->set_error_delimiters('<label class="error">', '</label>');
 
         if ($this->form_validation->run() == true) {
             $result = $this->Materials_m->materialCreate();
+            if ($result) {
+                $data['success'] = true;
+            }
+        }else{
+            foreach ($_POST as $key => $value) {
+                $data['messages'][$key] =  form_error($key);
+            }
         }
 
-        $msg['success'] = false;
-        $msg['type'] = 'add';
-        if ($result) {
-            $msg['success'] = true;
-        }
-        echo json_encode($msg);
+        $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($data));
     }
 
     public function materialUpdate()
     {
         $where = $this->input->post('material-id');
-
+        
+        $data = ['success' => false, 'messages'=> []];
         $this->form_validation->set_rules('name', 'Name', 'required');
         $this->form_validation->set_rules('stock', 'Stock', 'required');
         $this->form_validation->set_rules('stock-type', 'Stock Type', 'required');
         $this->form_validation->set_rules('status', 'Status', 'required');
+        $this->form_validation->set_message('required', 'Form Ini Tidak Boleh Kosong');
+        $this->form_validation->set_error_delimiters('<label class="error">', '</label>');
         if ($this->form_validation->run() == true) {
             $result = $this->Materials_m->materialUpdate($where);
+            if ($result) {
+                $data['success'] = true;
+            }
+        }else{
+            foreach ($_POST as $key => $value) {
+                $data['messages'][$key] =  form_error($key);
+            }
         }
         
-        $msg['success'] = false;
-        $msg['type'] = 'add';
-        if ($result) {
-            $msg['success'] = true;
-        }
-        echo json_encode($msg);
+        $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($data));
     }
 
     public function materialDelete()

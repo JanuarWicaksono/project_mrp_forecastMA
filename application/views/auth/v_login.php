@@ -32,9 +32,14 @@
             <small>Sistem Informasi Perencanaan Produksi</small>
         </div>
         <div class="card">
+            <?php if($error = $this->session->flashdata('login_failed')): ?>
+            <div class="alert alert-danger">
+                <?= $error; ?>
+            </div>
+            <?php endif; ?>
             <div class="body">
                 <form id="sign_in" method="POST" action="<?php echo base_url('Login/loginAction'); ?>">
-                    <div class="msg">Sign in to start your session</div>
+                    <div class="msg">Login</div>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>

@@ -36,7 +36,7 @@
                         </a>
                         <button type="button" class="btn bg-green waves-effect" id="reload-datatables" title="Refresh" data-toggle="modal" data-target="#largeModal">
                             <i class="material-icons">new_releases</i>
-                            <span>Produksi Terbaru</span>
+                            <span>Terbaru</span>
                         </button>
                         <br>
                         <br>
@@ -69,7 +69,6 @@
                                                 <th>No</th>
                                                 <th>ID</th>
                                                 <th>Nama Produk</th>
-                                                <th>Unit Tersedia</th>
                                                 <th>Jumlah Produksi</th>
                                                 <th>Dimulai Pada</th>
                                                 <th>Selesai Pada</th>
@@ -90,21 +89,18 @@
                                                 <th></th>
                                                 <th></th>
                                                 <th></th>
-                                                <th></th>
                                             </tr>
                                         </tfoot>
                                     </table>
                                 </div>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="productions_finished">
-                                <b>Profile Content</b>
                                 <table id="productions-finished-table" class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                     <thead>
                                         <tr>
                                             <th>No</th>
                                             <th>ID</th>
                                             <th>Nama Produk</th>
-                                            <th>Unit Tersedia</th>
                                             <th>Jumlah Produksi</th>
                                             <th>Dimulai Pada</th>
                                             <th>Selesai Pada</th>
@@ -125,20 +121,17 @@
                                             <th></th>
                                             <th></th>
                                             <th></th>
-                                            <th></th>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="productions_unfinished">
-                                <b>Message Content</b>
                                 <table id="productions-unfinished-table" class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                     <thead>
                                         <tr>
                                             <th>No</th>
                                             <th>ID</th>
                                             <th>Nama Produk</th>
-                                            <th>Unit Tersedia</th>
                                             <th>Jumlah Produksi</th>
                                             <th>Dimulai Pada</th>
                                             <th>Selesai Pada</th>
@@ -151,7 +144,6 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th></th>
                                             <th></th>
                                             <th></th>
                                             <th></th>
@@ -586,10 +578,6 @@ function productionsDatatables(element, dataStatus) {
             {
                 data: 'product_name',
                 name: 'product_name'
-            },
-            {
-                data: 'unit_in_stock',
-                name: 'unit_in_stock'
             },
             {
                 data: 'productions_total_num',

@@ -34,11 +34,6 @@
 						</button>
                         <button type="button" class="btn bg-green waves-effect" id="btn-reload-costumers" title="Refresh" data-toggle="modal" data-target="#largeModal">
 							<i class="material-icons">refresh</i>
-							<span>Segarkan Data</span>
-						</button>
-                        <button type="button" class="btn bg-green waves-effect" id="btn-reload-page" title="Refresh" data-toggle="modal" data-target="#largeModal">
-							<i class="material-icons">refresh</i>
-							<span>Segarkan Halaman</span>
 						</button><br><br>
                         <div class="table-responsive">
                             <table id="costumersTable" class="table table-bordered table-striped table-hover js-basic-example">
@@ -91,24 +86,27 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Nama Pelanggan</b>
-                                    <input type="text" class="form-control" name="costumer-name" required placeholder="Nama Pelanggan">
+                                    <input type="text" class="form-control" name="costumer-name" placeholder="Nama Pelanggan">
                                 </div>
+                                <div class="help-info">Max 50 Karakter</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Email</b>
-                                    <input type="email" class="form-control" name="email" required placeholder="Email">
+                                    <input type="email" class="form-control" name="email" placeholder="Email">
                                 </div>
+                                <div class="help-info">contoh xxx@xxx.com</div>                                
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Nomor Telepon</b>
-                                    <input type="text" class="form-control" name="phone" required placeholder="Nomor Telepon">
+                                    <input type="text" class="form-control" name="phone" placeholder="Nomor Telepon">
                                 </div>
+                                <div class="help-info">contoh xxx@xxx.com</div>                                
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -122,21 +120,25 @@
                                         <label for="nonactive">Tidak Aktif</label>
                                     </div>
                                 </div>
+                                <div class="help-info">Pilih Salah Satu</div>                                
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Alamat</b>
-                                    <textarea name="address" cols="30" rows="5" class="form-control no-resize" required placeholder="Alamat"></textarea>
+                                    <textarea name="address" cols="30" rows="5" class="form-control no-resize" placeholder="Alamat"></textarea>
                                 </div>
+                                <div class="help-info">Inputan Tidak Terbatas</div>                                
                             </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button id="btn-save-costumer" type="submit" class="btn btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btn-save-costumer" type="submit" class="btn btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal"><i class="material-icons">close</i><span>Tutup</span></button>
             </div>
         </div>
@@ -289,6 +291,8 @@ $(document).ready(function() {
 
                 // display modal-costumer-edit
                 $('.btn-costumer-edit').click(function() {
+                    resetForm();
+
                     $('#modal-costumer-form').find('.modal-title').text('Edit Pelanggan');
                     $('#costumer-form').attr('action', '<?php echo base_url("Costumers/costumerUpdate");?>');
 
@@ -356,10 +360,20 @@ $(document).ready(function() {
             async: false,
             dataType: 'json'
         }).done(function(response) {
-            swal("Tersimpan", "Data Perlanggan Telah Terimpan !", "success");
-            costumersDatatables();
-            $('#modal-costumer-form').modal('hide');
-            $('#costumer-form')[0].reset();
+            if (response.success ==  true) {
+                swal("Tersimpan", "Data Perlanggan Telah Terimpan !", "success");
+                costumersDatatables();
+                $('#modal-costumer-form').modal('hide');
+                $('#costumer-form')[0].reset();
+            }else{
+                $.each(response.messages, function(key, value){
+                    var element = $('#costumer-form [name="'+key+'"]');
+                    element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
+                    element.closest('div.form-group').find('label.error').remove();
+                    element.parent().after(value);
+                });
+                swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
+            }
         }).fail(function() {
             swal('error', 'ERROR', 'error');
         });
@@ -381,21 +395,27 @@ $(document).ready(function() {
         });
     }
 
-    //modal create costumer 
-    $("#btn-modal-costumer").click(function() {
+    function resetForm(){
         $('#costumer-form')[0].reset();
         $('#costumer-form #active').prop('checked', true);        
         $('#costumer-form textarea').html("");
+        $('#costumer-form .form-line').removeClass('focused success error');
+        $('#costumer-form label.error').remove();
+    }
 
+    //modal create costumer 
+    $("#btn-modal-costumer").click(function() {
+        resetForm();
         $('#modal-costumer-form').find('.modal-title').text('Tambah Pelanggan');
         $('#costumer-form').attr('action', '<?php echo base_url("Costumers/costumerCreate");?>');
         $('#modal-costumer-form').modal('show');
     });
 
     //btn-costumer-save
-    $("#btn-save-costumer").click(function() {
-        var url = $('#costumer-form').attr('action');
-        var data = $('#costumer-form').serialize();
+    $("#costumer-form").submit(function(e) {
+        e.preventDefault();
+        var url = $(this).attr('action');
+        var data = $(this).serialize();
 
         swal({
             title: "Data Pelanggan Yang Dimasukan Sudah Benar?",

@@ -313,11 +313,11 @@
 						</ul>
 					</li> -->
 					<!-- #END# Tasks -->
-					<!-- <li class="pull-right">
-						<a href="javascript:void(0);" class="js-right-sidebar" data-close="true">
-							<i class="material-icons">more_vert</i>
+					<li class="pull-right">
+						<a href="<?php echo base_url('Login/logout'); ?>">
+								<i class="material-icons">input</i>
 						</a>
-					</li> -->
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -341,13 +341,9 @@
 						<i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
 						<ul class="dropdown-menu pull-right">
 							<li>
-								<a href="javascript:void(0);">
-									<i class="material-icons">person</i>Profile</a>
-							</li>
-							<li role="seperator" class="divider"></li>
-							<li>
 								<a href="<?php echo base_url('Login/logout'); ?>">
-									<i class="material-icons">input</i>Sign Out</a>
+									<i class="material-icons">input</i>Sign Out
+								</a>
 							</li>
 						</ul>
 					</div>
@@ -431,7 +427,7 @@
 								<a href="<?php echo base_url('Products/productsView') ?>" class=" waves-effect waves-block">Lihat Produk</a>
 							</li>
 							<li class="<?=($this->uri->segment(2) == "categoriesView") ? "active" : "" ?>">													                            
-								<a href="<?php echo base_url('Products/categoriesView') ?>" class=" waves-effect waves-block">Lihat Categories</a>
+								<a href="<?php echo base_url('Products/categoriesView') ?>" class=" waves-effect waves-block">Lihat Kategori</a>
 							</li>
 						</ul>
 					</li>

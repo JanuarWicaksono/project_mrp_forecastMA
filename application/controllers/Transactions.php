@@ -57,20 +57,25 @@ class Transactions extends CI_Controller {
     }
 
     public function transactionCreate(){
+        $data = ['success' => false, 'messages'=> []];
         $this->form_validation->set_rules('transaction-date', 'Transaction Date', 'required');
         $this->form_validation->set_rules('costumer', 'Costumer', 'required');
         $this->form_validation->set_rules('products[]', 'Products', 'required');
         $this->form_validation->set_rules('qty[]', 'Quantity', 'required');
         if ($this->form_validation->run() == TRUE) {
             $result = $this->Transactions_m->transactionCreate();
+            if ($result) {
+                $data['success'] = true;
+            }
+        }else{
+            foreach ($_POST as $key => $value) {
+                $data['messages'][$key] =  form_error($key);
+            }
         }
 
-        $msg['success'] = false;
-        $msg['type'] = 'add';
-        if ($result) {
-            $msg['success'] = true;
-        }
-        echo json_encode($msg);
+        $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($data));
     }
 
     public function transactionDelete(){
@@ -104,26 +109,53 @@ class Transactions extends CI_Controller {
     }
     
     public function transactionsDetailConfm(){
-        $productsId =  $this->input->get('products[]');
-        $costumerId = $this->input->get('costumer');
-        $qtys = $this->input->get('qty[]');
-        $totalsPrice = 0;
-        for ($i=0; $i < count($productsId) ; $i++) {
-            $resultProducts = $this->Products_m->productGet($productsId[$i])->result()[0];
-            $totalsPrice = $totalsPrice + $qtys[$i]*$resultProducts->price;
-            $jsonProducts[] = [
-                'product_data' => $resultProducts,
-                'qty' => $qtys[$i],
-                'total_price' => $qtys[$i]*$resultProducts->price
-            ];         
+        $productsId =  $this->input->post('products[]');
+        $costumerId = $this->input->post('costumer');
+        $qtys = $this->input->post('qty[]');
+        
+        $data = ['success' => false, 'messages'=> []];
+        $this->form_validation->set_rules('transaction-date', 'Transaction Date', 'required');
+        $this->form_validation->set_rules('costumer', 'Costumer', 'required');
+        $this->form_validation->set_rules('products[]', 'Products', 'required');
+        $this->form_validation->set_rules('qty[]', 'Quantity', 'required');
+        $this->form_validation->set_message('required', 'Form Ini Tidak Boleh Kosong');
+        $this->form_validation->set_error_delimiters('<label class="error">', '</label>');
+        if ($this->form_validation->run() == TRUE) {
+
+            $totalsPrice = 0;
+            for ($i=0; $i < count($productsId) ; $i++) {
+                $resultProducts = $this->Products_m->productGet($productsId[$i])->result()[0];
+                $totalsPrice = $totalsPrice + $qtys[$i]*$resultProducts->price;
+                $jsonProducts[] = [
+                    'product_data' => $resultProducts,
+                    'qty' => $qtys[$i],
+                    'total_price' => $qtys[$i]*$resultProducts->price
+                ];
+            }
+            $json = [
+                'success' => true,
+                'transaction_date' => $this->input->get('transaction-date'),
+                'costumer' => $this->Costumers_m->costumerGet($costumerId),
+                'products' => $jsonProducts,
+                'totals_price' => $totalsPrice
+            ];
+
+            $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($json));
+
+        }else{
+
+            foreach ($_POST as $key => $value) {
+                $data['messages'][$key] =  form_error($key);
+            }
+
+            $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($data));
+
         }
-        $json = [
-            'transaction_date' => $this->input->get('transaction-date'),
-            'costumer' => $this->Costumers_m->costumerGet($costumerId),
-            'products' => $jsonProducts,
-            'totals_price' => $totalsPrice
-        ];
-        echo json_encode($json);
+
     }
 
     // public function transactionsDetailConfm(){

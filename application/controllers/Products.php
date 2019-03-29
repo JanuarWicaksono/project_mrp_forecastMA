@@ -7,6 +7,7 @@ class Products extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Products_m');
+        $this->load->model('Productions_m');
     }
     public function index()
     {
@@ -22,8 +23,28 @@ class Products extends CI_Controller
 
     public function productsGet()
     {
-        $result = $this->Products_m->productsGet()->result();
-        echo json_encode($result);
+        $resultProducts = $this->Products_m->productsGet()->result();
+
+        for ($i = 0; $i < count($resultProducts); $i++) {
+
+            $totalUnfinishedProduct = 0;
+            $resultProductionByProductUnfinished = $this->Productions_m->productionGetByProductIdUnfinished($resultProducts[$i]->product_id);
+            $totProd = 0;
+            if (is_array($resultProductionByProductUnfinished)) {
+                foreach ($resultProductionByProductUnfinished as $item) {
+                    $resultProductionHistories = $this->Productions_m->productionHistoriesGet($item->production_id)->result();
+                    if (is_array($resultProductionHistories)) {
+                        foreach ($resultProductionHistories as $item2) {
+                            $totProd += $item2->num_of_prod;
+                        }
+                    }
+                }
+            }
+
+            $resultProducts[$i] = array_merge((array) $resultProducts[$i], ['tot_prod_order' => $totProd]);
+        }
+
+        $this->output->set_content_type('application/json')->set_output(json_encode($resultProducts));
     }
 
     public function productGet()
@@ -35,44 +56,59 @@ class Products extends CI_Controller
 
     public function productCreate()
     {
+        $data = ['success' => false, 'messages' => []];
+
         $this->form_validation->set_rules('product-name', 'Product Name', 'required');
         $this->form_validation->set_rules('categories', 'Categories', 'required');
         $this->form_validation->set_rules('expiration', 'Expiration', 'required');
         $this->form_validation->set_rules('price', 'Price', 'required');
         $this->form_validation->set_rules('unit-in-stock', 'Unit In Stock', 'required');
         $this->form_validation->set_rules('status', 'Status', 'required');
-        if ($this->form_validation->run() == TRUE) {
+        $this->form_validation->set_message('required', 'Form Ini Tidak Boleh Kosong');
+        $this->form_validation->set_error_delimiters('<label class="error">', '</label>');
+        if ($this->form_validation->run() == true) {
             $result = $this->Products_m->productCreate();
-            
+            if ($result) {
+                $data['success'] = true;
+            }
+        } else {
+            foreach ($_POST as $key => $value) {
+                $data['messages'][$key] = form_error($key);
+            }
         }
 
-        $msg['success'] = false;
-        $msg['type'] = 'add';
-        if ($result) {
-            $msg['success'] = true;
-        }
-        echo json_encode($msg);
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($data));
     }
 
     public function productUpdate()
     {
         $where = $this->input->post('product-id');
 
+        $data = ['success' => false, 'messages' => []];
         $this->form_validation->set_rules('product-name', 'Product Name', 'required');
         $this->form_validation->set_rules('categories', 'Categories', 'required');
         $this->form_validation->set_rules('expiration', 'Expiration', 'required');
         $this->form_validation->set_rules('price', 'Price', 'required');
         $this->form_validation->set_rules('unit-in-stock', 'Unit In Stock', 'required');
         $this->form_validation->set_rules('status', 'Status', 'required');
-        if ($this->form_validation->run() == TRUE) {
+        $this->form_validation->set_message('required', 'Form Ini Tidak Boleh Kosong');
+        $this->form_validation->set_error_delimiters('<label class="error">', '</label>');
+        if ($this->form_validation->run() == true) {
             $result = $this->Products_m->productUpdate($where);
+            if ($result) {
+                $data['success'] = true;
+            }
+        } else {
+            foreach ($_POST as $key => $value) {
+                $data['messages'][$key] = form_error($key);
+            }
         }
-        $msg['success'] = false;
-        $msg['type'] = 'add';
-        if ($result) {
-            $msg['success'] = true;
-        }
-        echo json_encode($msg);
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($data));
     }
 
     public function productDelete()
@@ -109,18 +145,24 @@ class Products extends CI_Controller
 
     public function categoryCreate()
     {
+        $data = ['success' => false, 'messages' => []];
+
         $this->form_validation->set_rules('name', 'Name', 'required');
-        if ($this->form_validation->run() == TRUE) {
-            $result = $this->Products_m->categoryCreate();            
-        } 
-        
-        
-        $msg['success'] = false;
-        $msg['type'] = 'add';
-        if ($result) {
-            $msg['success'] = true;
+        $this->form_validation->set_error_delimiters('<label class="error">', '</label>');
+        if ($this->form_validation->run() == true) {
+            $result = $this->Products_m->categoryCreate();
+            if ($result) {
+                $data['success'] = true;
+            }
+        } else {
+            foreach ($_POST as $key => $value) {
+                $data['messages'][$key] = form_error($key);
+            }
         }
-        echo json_encode($msg);
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($data));
     }
 
     public function categoryUpdate()
@@ -128,7 +170,7 @@ class Products extends CI_Controller
         $where = $this->input->post('category-id');
 
         $this->form_validation->set_rules('name', 'Name', 'required');
-        if ($this->form_validation->run() == TRUE) {
+        if ($this->form_validation->run() == true) {
             $result = $this->Products_m->categoryUpdate($where);
         }
         $msg['success'] = false;
@@ -152,31 +194,46 @@ class Products extends CI_Controller
 
     public function bomGet()
     {
-        $productWhere = $this->input->get('productWhere');
-        $resultProduct = $this->Products_m->productGet($productWhere);
-        $resultBom = $this->Products_m->bomGet($productWhere);
-        if (!empty($resultBom)) {
+        $productId = $this->input->get('productWhere');
+
+        $resultProduct = $this->Products_m->productGet($productId)->result();
+        // dd();
+        $resultBom = $this->Products_m->bomGet($productId);
+        $resultProduction = $this->Productions_m->productionsGetByProductId($productId);
+
+        // dd($resultBom->result()[0]->bom_id);
+
+        if (empty($resultBom->result())) {
+            $json = [
+                'response_status' => 'create',
+                'product_id' => $resultProduct[0]->product_id,
+                'product_name' => $resultProduct[0]->product_name
+            ];
+        }elseif (empty($resultProduction)) {
             $resultBomHasMaterials = $this->Products_m->bomHasMaterialsGet($resultBom->result()[0]->bom_id)->result();
             $json = [
-                'response_status' => true,
+                'response_status' => 'edit',
                 'bom_id' => $resultBom->result()[0]->bom_id,
-                'products_product_id' => $resultBom->result()[0]->products_product_id,
-                'product_name' => $resultBom->result()[0]->name,
+                'product_id' => $resultProduct[0]->product_id,
+                'product_name' => $resultProduct[0]->product_name,
                 'materials' => $resultBomHasMaterials,
             ];
-
-        } elseif($resultBom == false) {
+        }else{
+            $resultBomHasMaterials = $this->Products_m->bomHasMaterialsGet($resultBom->result()[0]->bom_id)->result();
             $json = [
-                'response_status' => false,
-                'products_product_id' => $productWhere,
-                'product_name' => $resultProduct->result()[0]->product_name
+                'response_status' => 'protected',
+                'bom_id' => $resultBom->result()[0]->bom_id,
+                'product_id' => $resultProduct[0]->product_id,
+                'product_name' => $resultProduct[0]->product_name,
+                'materials' => $resultBomHasMaterials,
             ];
         }
-        echo json_encode($json);
 
+        $this->output->set_content_type('application/json')->set_output(json_encode($json));
     }
 
-    public function bomCreate(){
+    public function bomCreate()
+    {
         $result = $this->Products_m->bomCreate();
         $msg['success'] = false;
         $msg['type'] = 'add';
@@ -186,7 +243,8 @@ class Products extends CI_Controller
         echo json_encode($msg);
     }
 
-    public function bomUpdate(){
+    public function bomUpdate()
+    {
         $bomWhere = $this->input->post('bom-id');
         $result = $this->Products_m->bomUpdate($bomWhere);
         $msg['success'] = false;
