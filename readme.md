@@ -1,4 +1,4 @@
-# Small Production Panning Material Requirement Planning Application with Forecasting Moving Average (MA) Facility
+# Small Material Requirement Planning Application with Forecasting Moving Average (MA) Facility
 
 This my source code for my final exam at <a href="https://fit.uii.ac.id/">Computer Science</a> <a href="https://www.uii.ac.id">Universitas Islam Indonesia</a>. This Application builded for a factory to Planning their material requirement. This Application equipped with Forecasting Moving Average Facility base on their product transaction every mounth. Forecasting calculation is base on comparation simple moving average (SMA) and Exponential Moving Average (EMA). This application build using Codeigniter 3.x.
 
@@ -7,7 +7,7 @@ This my source code for my final exam at <a href="https://fit.uii.ac.id/">Comput
 - Costume Multiuser Authentication
 - Management User, Product, Material, Transaction and Bill Of Material (BOM).
 - Production Planning
-- Forecasting Facility Using Comparation Simple Moving Avarage (SMA) and Exponential Moving Average (EMV) methods.
+- Forecasting Facility Using Comparation Simple Moving Avarage (SMA) and Exponential Moving Average (EMA) methods.
 - Forecasting Chart
 - Sales Chart
 - Production Calendar
