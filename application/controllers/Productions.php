@@ -19,9 +19,7 @@ class Productions extends CI_Controller
     }
 
     public function index()
-    {
-
-    }
+    { }
 
     public function productionsView()
     {
@@ -52,7 +50,8 @@ class Productions extends CI_Controller
         $now = Carbon::now('M Y');
 
         if (empty($product_id)) {
-            echo json_encode(['success' => 'empty']);die();
+            echo json_encode(['success' => 'empty']);
+            die();
         }
 
         for ($i = -11; $i < 1; $i++) {
@@ -182,10 +181,9 @@ class Productions extends CI_Controller
 
                 $json[] = array_merge(
                     ['success' => false],
-                    (array) $resultProductions[$i],
+                    (array)$resultProductions[$i],
                     ['productions_total_num' => $numProd]
                 );
-
             }
         } elseif (empty($resultProductions)) {
             $json = [
@@ -194,7 +192,6 @@ class Productions extends CI_Controller
         }
 
         $this->output->set_content_type('application/json')->set_output(json_encode($json));
-
     }
 
     public function productionGet()
@@ -223,7 +220,7 @@ class Productions extends CI_Controller
 
         $this->output->set_content_type('application/json')->set_output(json_encode(
             array_merge(
-                (array) $resultProduction,
+                (array)$resultProduction,
                 ['num_of_prod' => $totalNumProduction],
                 ['product_data' => $resultProduct],
                 ['production_histories' => $resultProductionHistories],
@@ -249,7 +246,6 @@ class Productions extends CI_Controller
                 'start' => $resultProductions[$i]->started_at,
                 'end' => $resultProductions[$i]->finished_at,
             ];
-
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($json));
     }
@@ -309,7 +305,6 @@ class Productions extends CI_Controller
                 'product_name' => $resultBom->result()[0]->name,
                 'materials' => $resultBomHasMaterials,
             ];
-
         } elseif ($resultBom == false) {
             $json = [
                 'response_status' => false,
@@ -318,7 +313,6 @@ class Productions extends CI_Controller
             ];
         }
         return $json;
-
     }
 
     public function productionsDetailConfm()
@@ -357,7 +351,6 @@ class Productions extends CI_Controller
                     'note' => $this->input->post('note'),
                     'materials' => $jsonMaterials,
                 ];
-
             } elseif ($resultBom == false) {
                 $json = [
                     'response_status' => false,
@@ -366,15 +359,12 @@ class Productions extends CI_Controller
                 ];
             }
             $this->output->set_content_type('application/json')->set_output(json_encode($json));
-
         } else {
             foreach ($_POST as $key => $value) {
                 $data['messages'][$key] = form_error($key);
             }
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
-
         }
-
     }
 
     public function productionChangeStatus()
@@ -415,7 +405,6 @@ class Productions extends CI_Controller
             $msg['success'] = true;
         }
         echo json_encode($msg);
-
     }
 
     //calculate num of production per date
@@ -429,7 +418,6 @@ class Productions extends CI_Controller
 
         return $totalNumProduction;
     }
-
 }
 
 /* End of file Controllername.php */
