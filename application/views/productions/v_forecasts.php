@@ -1,19 +1,19 @@
 <section class="content">
     <div class="container-fluid">
-        
+
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
                     <div class="header">
                         <h2>
-                            Peramalan / <i>Forecasts</i> 
+                            Peramalan / <i>Forecasts</i>
                             <small>CV. Anugrah Sukses Mandiri</small>
                         </h2>
                         <ul class="header-dropdown m-r--5">
                             <li class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-									<i class="material-icons">more_vert</i>
-								</a>
+                                    <i class="material-icons">more_vert</i>
+                                </a>
                                 <ul class="dropdown-menu pull-right">
                                     <li>
                                         <a href="javascript:void(0);" class=" waves-effect waves-block">Action</a>
@@ -36,7 +36,7 @@
                                         <!-- <b>Pilih Produk</b> -->
                                         <select id="product-input" class="form-control show-tick" name="products" data-live-search="true" required>
                                             <option value="">-- Pilih Produk --</option>
-                                            
+
                                         </select>
                                     </div>
                                 </div>
@@ -188,21 +188,22 @@
 </section>
 
 <script>
-    $(document).ready(function(){
-        function productsGet(){
+    $(document).ready(function() {
+        function productsGet() {
             $.ajax({
                 type: 'ajax',
+                method: 'get',
                 url: '<?php echo base_url("Products/productsGet"); ?>',
                 async: false,
                 dataType: 'json'
-            }).done(function(response){
+            }).done(function(response) {
                 var html = '';
                 for (var i = 0; i < response.length; i++) {
-                    html += '<option value="'+response[i].product_id+'" data-subtext="'+response[i].status+'" data-price="'+response[i].price+'">'+response[i].name+'</option>';
+                    html += '<option value="' + response[i].product_id + '" data-subtext="' + response[i].status + '" data-price="' + response[i].price + '">' + response[i].name + '</option>';
                 }
                 $('#product-input').append(html);
                 $('#product-input').selectpicker('render');
-            }).fail(function(){
+            }).fail(function() {
                 swal('Failed', 'Error', 'error');
             });
         }

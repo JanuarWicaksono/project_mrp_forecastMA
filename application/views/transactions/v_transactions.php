@@ -26,8 +26,8 @@
                         <ul class="header-dropdown m-r--5">
                             <li class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-									<i class="material-icons">more_vert</i>
-								</a>
+                                    <i class="material-icons">more_vert</i>
+                                </a>
                                 <ul class="dropdown-menu pull-right">
                                     <li>
                                         <a href="javascript:void(0);" class=" waves-effect waves-block">Action</a>
@@ -43,13 +43,13 @@
                         </ul>
                     </div>
                     <div class="body">
-                        <form id="form-search" action="<?php echo base_url('Transactions/transactionsGet');?>">
+                        <form id="form-search" action="<?php echo base_url('Transactions/transactionsGet'); ?>">
                             <div class="row clearfix">
                                 <div class="col-md-4">
                                     <div class="form-group form-float">
                                         <select id="costumers-input" class="form-control show-tick dropdown" name="costumer" data-live-search="true" data-size="5" required>
                                             <option value="">-- Cari Berdasarkan Pelanggan --</option>
-                                            
+
                                         </select>
                                     </div>
                                 </div>
@@ -80,32 +80,30 @@
                             <table id="transactionsTable" class="table table-bordered table-striped table-hover js-basic-example">
                                 <thead>
                                     <tr>
-                                        <th>No</th>                                    
+                                        <th>No</th>
                                         <th>ID Transaksi</th>
                                         <th>Pelanggan</th>
                                         <th>Tanggal</th>
                                         <th>Aksi</th>
-                                    </tr
-                                </thead>
-                                <tbody id="transactions-data">
+                                    </tr </thead> <tbody id="transactions-data">
 
-                                </tbody>
+                                    </tbody>
                                 <tfoot>
-									<tr>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-									</tr>
-								</tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
     </div>
 
 </section>
@@ -135,7 +133,7 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="table responsive">                        
+                        <div class="table responsive">
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -173,178 +171,181 @@
 </div>
 
 <script>
+    // function get materials
+    $(document).ready(function() {
 
-// function get materials
-$(document).ready(function(){
-
-    transactionsDatatables();
-    costumersGet();
-
-    function transactionsDatatables(costumerWhere, dateWhere) {
-        var no = 0;
-        $('#transactionsTable').DataTable({
-            "ajax": {
-                url: '<?php echo base_url("Transactions/transactionsGet"); ?>',
-                dataSrc: '',
-                method: 'get',
-                data: {
-                    dateWhere: dateWhere,
-                    costumerWhere: costumerWhere
-                }
-            },
-            "columns": [
-                {
-                    render: function(){
-                        return (no+++1);
-                    }
-                },
-                {
-                    data: 'transaction_id',
-                    name: 'transaction_id'
-                },
-                {
-                    data: 'name',
-                    name: 'name'
-                },
-                {
-                    data: 'transaction_date',
-                    name: 'transaction_date'
-                },
-                {
-                    name: 'action',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, full, meta) {
-                        return '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-transaction-detail" title="Detail" data="' + full.transaction_id + '" ><i class="material-icons">remove_red_eye</i></a>';
-                    }
-                }
-            ],
-            "processing": true,
-            "bDestroy": true,
-            "fnDrawCallback": function(oSettings) {
-
-                // display modal-transaction-detail
-                $('.btn-transaction-detail').click(function() {
-                    var id = $(this).attr('data');
-                    $('#modal-transaction-detail').modal('show');
-                    $.ajax({
-                        type: 'ajax',
-                        method: 'get',
-                        url: '<?php echo base_url("Transactions/transactionGet"); ?>',
-                        data: {id: id},
-                        async: false,
-                        dataType: 'json',
-                        success: function(data) {
-                            //push transaction data
-                            $('#table-transaction-detail .transaction-id').html(data[0].transaction_id);
-                            $('#table-transaction-detail .costumer').html(data[0].costumer[0].name);
-                            $('#table-transaction-detail .date').html(data[0].date);
-                            
-                            //push transaction orders
-                            var html = '';
-                            var totalPrice = '';
-                            for (var i = 0; i < data[0].orders.length; i++) {
-                                totalPrice = parseInt(totalPrice + data[0].orders[i].purchase_qty * data[0].orders[i].price);
-                                html += '<tr>'+
-                                    '<td>'+(i+1)+'</td>'+
-                                    '<td>'+data[0].orders[i].name+'</td>'+
-                                    '<td>'+data[0].orders[i].purchase_qty+'</td>'+
-                                    '<td>'+convertToRupiah(data[0].orders[i].price)+'</td>'+
-                                    '<td>'+convertToRupiah(data[0].orders[i].purchase_qty * data[0].orders[i].price)+'</td>'+
-                                '</tr>';                   
-                            }
-                            $('#transaction-products').html(html);
-
-                            //push total transaction                            
-                            $('.total-price').html(convertToRupiah(totalPrice));
-                        },
-                        error: function() {
-                            alert('Gagal', 'ERROR', 'error');
-                        }
-                    });
-                });
-
-                //btn-transaction-delete
-                $('.btn-transaction-delete').click(function() {
-                    var id = $(this).attr('data');
-                    swal({
-                        title: "Hapus Data Ini?",
-                        text: 'Pilih "OK" untuk menghapus',
-                        type: "info",
-                        showCancelButton: true,
-                        closeOnConfirm: false,
-                        showLoaderOnConfirm: true,
-                    }, function() {
-                        setTimeout(function() {
-                            transactionDelete(id);
-                        }, 1000);
-                    });
-                });
-
-
-
-            }
-        });
-    }
-
-    function costumersGet(){
-        $.ajax({
-            type: 'ajax',
-            url: '<?php echo base_url("Costumers/costumersGet"); ?>',
-            async: false,
-            dataType: 'json'
-        }).done(function(response){
-            var html = '';
-            for (var i = 0; i < response.length; i++) {
-                html += '<option value="'+response[i].costumer_id+'" data-subtext="'+response[i].address+'">'+response[i].name+'</option>';       
-            }
-            $('#costumers-input').append(html);
-        }).fail(function(){
-            swal('Failed', 'Error', 'error');
-        });
-    }
-
-    function transactionDelete(id){
-        $.ajax({
-            type: 'ajax',
-            method: 'get',
-            url: '<?php echo base_url("Transactions/transactionDelete"); ?>',
-            data: {id: id},
-            async: false,
-            dataType: 'json'
-        }).done(function(response){
-            swal("Terhapus", "Data Pelanggan Telah Terhapus", "success");
-            transactionsDatatables();
-        }).fail(function(){
-            swal('Failed', 'Error', 'error');
-        });
-    }
-    
-    function transactionsTotalSales(){
-        $.ajax({
-            type: 'ajax',
-            url: '<?php echo base_url("Transactions/transactionsTotalSales"); ?>',
-            async: false,
-            dataType: 'json'
-        }).done(function(response){
-            $('#info-total-price [class="number"]').append('Rp.'+convertToRupiah(response.total_price));
-        }).fail(function(){
-            swal('Failed', 'Error', 'error');
-        });
-    }
-
-    $('#btn-search').click(function(){
-        var costumerWhere = $('#form-search #costumers-input').val();        
-        var dateWhere = $('#form-search input[name="search-date"]').val();
-        transactionsDatatables(costumerWhere, dateWhere);
-    });
-
-    $('#btn-latest-transactions').click(function(){
         transactionsDatatables();
-    });
+        costumersGet();
 
-    transactionsTotalSales();
+        function transactionsDatatables(costumerWhere, dateWhere) {
+            var no = 0;
+            $('#transactionsTable').DataTable({
+                "ajax": {
+                    url: '<?php echo base_url("Transactions/transactionsGet"); ?>',
+                    dataSrc: '',
+                    method: 'get',
+                    data: {
+                        dateWhere: dateWhere,
+                        costumerWhere: costumerWhere
+                    }
+                },
+                "columns": [{
+                        render: function() {
+                            return (no++ + 1);
+                        }
+                    },
+                    {
+                        data: 'transaction_id',
+                        name: 'transaction_id'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'transaction_date',
+                        name: 'transaction_date'
+                    },
+                    {
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, full, meta) {
+                            return '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-transaction-detail" title="Detail" data="' + full.transaction_id + '" ><i class="material-icons">remove_red_eye</i></a>';
+                        }
+                    }
+                ],
+                "processing": true,
+                "bDestroy": true,
+                "fnDrawCallback": function(oSettings) {
 
-})
+                    // display modal-transaction-detail
+                    $('.btn-transaction-detail').click(function() {
+                        var id = $(this).attr('data');
+                        $('#modal-transaction-detail').modal('show');
+                        $.ajax({
+                            type: 'ajax',
+                            method: 'get',
+                            url: '<?php echo base_url("Transactions/transactionGet"); ?>',
+                            data: {
+                                id: id
+                            },
+                            async: false,
+                            dataType: 'json',
+                            success: function(data) {
+                                //push transaction data
+                                $('#table-transaction-detail .transaction-id').html(data[0].transaction_id);
+                                $('#table-transaction-detail .costumer').html(data[0].costumer[0].name);
+                                $('#table-transaction-detail .date').html(data[0].date);
 
+                                //push transaction orders
+                                var html = '';
+                                var totalPrice = '';
+                                for (var i = 0; i < data[0].orders.length; i++) {
+                                    totalPrice = parseInt(totalPrice + data[0].orders[i].purchase_qty * data[0].orders[i].price);
+                                    html += '<tr>' +
+                                        '<td>' + (i + 1) + '</td>' +
+                                        '<td>' + data[0].orders[i].name + '</td>' +
+                                        '<td>' + data[0].orders[i].purchase_qty + '</td>' +
+                                        '<td>' + convertToRupiah(data[0].orders[i].price) + '</td>' +
+                                        '<td>' + convertToRupiah(data[0].orders[i].purchase_qty * data[0].orders[i].price) + '</td>' +
+                                        '</tr>';
+                                }
+                                $('#transaction-products').html(html);
+
+                                //push total transaction                            
+                                $('.total-price').html(convertToRupiah(totalPrice));
+                            },
+                            error: function() {
+                                alert('Gagal', 'ERROR', 'error');
+                            }
+                        });
+                    });
+
+                    //btn-transaction-delete
+                    $('.btn-transaction-delete').click(function() {
+                        var id = $(this).attr('data');
+                        swal({
+                            title: "Hapus Data Ini?",
+                            text: 'Pilih "OK" untuk menghapus',
+                            type: "info",
+                            showCancelButton: true,
+                            closeOnConfirm: false,
+                            showLoaderOnConfirm: true,
+                        }, function() {
+                            setTimeout(function() {
+                                transactionDelete(id);
+                            }, 1000);
+                        });
+                    });
+
+
+
+                }
+            });
+        }
+
+        function costumersGet() {
+            $.ajax({
+                type: 'ajax',
+                method: 'get',
+                url: '<?php echo base_url("Costumers/costumersGet"); ?>',
+                async: false,
+                dataType: 'json'
+            }).done(function(response) {
+                var html = '';
+                for (var i = 0; i < response.length; i++) {
+                    html += '<option value="' + response[i].costumer_id + '" data-subtext="' + response[i].address + '">' + response[i].name + '</option>';
+                }
+                $('#costumers-input').append(html);
+            }).fail(function() {
+                swal('Failed', 'Error', 'error');
+            });
+        }
+
+        function ransactionDelete(id) {
+            $.ajax({
+                type: 'ajax',
+                method: 'get',
+                url: '<?php echo base_url("Transactions/transactionDelete"); ?>',
+                data: {
+                    id: id
+                },
+                async: false,
+                dataType: 'json'
+            }).done(function(response) {
+                swal("Terhapus", "Data Pelanggan Telah Terhapus", "success");
+                transactionsDatatables();
+            }).fail(function() {
+                swal('Failed', 'Error', 'error');
+            });
+        }
+
+        function transactionsTotalSales() {
+            $.ajax({
+                type: 'ajax',
+                method: 'get',
+                url: '<?php echo base_url("Transactions/transactionsTotalSales"); ?>',
+                async: false,
+                dataType: 'json'
+            }).done(function(response) {
+                $('#info-total-price [class="number"]').append('Rp.' + convertToRupiah(response.total_price));
+            }).fail(function() {
+                swal('Failed', 'Error', 'error');
+            });
+        }
+
+        $('#btn-search').click(function() {
+            var costumerWhere = $('#form-search #costumers-input').val();
+            var dateWhere = $('#form-search input[name="search-date"]').val();
+            transactionsDatatables(costumerWhere, dateWhere);
+        });
+
+        $('#btn-latest-transactions').click(function() {
+            transactionsDatatables();
+        });
+
+        transactionsTotalSales();
+
+    })
 </script>

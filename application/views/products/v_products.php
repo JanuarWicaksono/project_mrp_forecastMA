@@ -12,8 +12,8 @@
                         <ul class="header-dropdown m-r--5">
                             <li class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-									<i class="material-icons">more_vert</i>
-								</a>
+                                    <i class="material-icons">more_vert</i>
+                                </a>
                                 <ul class="dropdown-menu pull-right">
                                     <li>
                                         <a href="javascript:void(0);" class=" waves-effect waves-block">Action</a>
@@ -30,18 +30,18 @@
                     </div>
                     <div class="body">
                         <button type="button" class="btn btn-primary waves-effect" id="btn-modal-product" title="Add product" data-toggle="modal" data-target="#largeModal">
-							<i class="material-icons">add</i>
-							<span>Tambah Produk</span>
-						</button>
+                            <i class="material-icons">add</i>
+                            <span>Tambah Produk</span>
+                        </button>
                         <button type="button" class="btn bg-green waves-effect" id="btn-reload-products" title="Refresh" data-toggle="modal" data-target="#largeModal">
-							<i class="material-icons">refresh</i>
-							<!-- <span>Segarkan Data</span> -->
-						</button><br><br>
+                            <i class="material-icons">refresh</i>
+                            <!-- <span>Segarkan Data</span> -->
+                        </button><br><br>
                         <div class="table-responsive">
                             <table id="productsTable" class="table table-bordered table-striped table-hover js-basic-example">
                                 <thead>
                                     <tr>
-                                        <th>No</th>                                    
+                                        <th>No</th>
                                         <th>ID</th>
                                         <th>Nama Produk</th>
                                         <th>Harga</th>
@@ -55,23 +55,23 @@
 
                                 </tbody>
                                 <tfoot>
-									<tr>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-									</tr>
-								</tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
     </div>
 
 </section>
@@ -91,7 +91,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <b>Nama Produk</b>
-                                    <input type="text" class="form-control" name="product-name" placeholder="Nama Produk">                                    
+                                    <input type="text" class="form-control" name="product-name" placeholder="Nama Produk">
                                 </div>
                                 <div class="help-info">Max. 40 Karakter</div>
                             </div>
@@ -100,9 +100,9 @@
                             <div class="form-group form-float">
                                 <b>Kategori</b>
                                 <select id="categories" class="form-control " name="categories">
-									<option value="">-- Pilih Kategori --</option>
+                                    <option value="">-- Pilih Kategori --</option>
 
-								</select>
+                                </select>
                                 <div class="help-info">Pilih Salah Satu</div>
                             </div>
                         </div>
@@ -167,7 +167,7 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <button id="btn-save-product" type="submit" class="btn btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>                        
+                            <button id="btn-save-product" type="submit" class="btn btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>
                         </div>
                     </form>
                 </div>
@@ -239,14 +239,14 @@
                                     <td></td>
                                     <td>
                                         <button type="button" class="btn btn-block btn-primary waves-effect" id="btn-add-form-bom">
-                                        <i class="material-icons">add</i>
-                                        <span>Tambah</span>
+                                            <i class="material-icons">add</i>
+                                            <span>Tambah</span>
                                         </button>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-block btn-danger waves-effect" id="btn-remove-form-bom">
-                                        <i class="material-icons">close</i>
-                                        <span>Hapus</span>
+                                            <i class="material-icons">close</i>
+                                            <span>Hapus</span>
                                         </button>
                                     </td>
                                 </tr>
@@ -286,7 +286,7 @@
                             </tr>
                         </table>
                     </div>
-                    
+
                     <table id="table-bom-detail-comb" class="table table-bordered table-striped table-hover js-basic-example">
                         <thead>
                             <tr>
@@ -311,9 +311,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">
-					<i class="material-icons">close</i>
-					<span>Tutup</span>
-				</button>
+                    <i class="material-icons">close</i>
+                    <span>Tutup</span>
+                </button>
             </div>
         </div>
     </div>
@@ -353,7 +353,8 @@
                             <tr>
                                 <th class="col-md-2">Deskripsi :</th>
                                 <td class="col-md-10 description"></td>
-                            </tr><tr>
+                            </tr>
+                            <tr>
                                 <th class="col-md-2">Catatan :</th>
                                 <td class="col-md-10 note"></td>
                             </tr>
@@ -362,7 +363,7 @@
                                 <td class="col-md-10 created-at"></td>
                             </tr>
                             <tr>
-                                <th class="col-md-2">Diperbaharui Pada  :</th>
+                                <th class="col-md-2">Diperbaharui Pada :</th>
                                 <td class="col-md-10 updated-at"></td>
                             </tr>
                         </table>
@@ -371,509 +372,512 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">
-					<i class="material-icons">close</i>
-					<span>Tutup</span>
-				</button>
+                    <i class="material-icons">close</i>
+                    <span>Tutup</span>
+                </button>
             </div>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-$(document).ready(function() {
+    $(document).ready(function() {
 
-    var bomFormNo = 0;
-    
-    // function get products
-    function productsDatatables() {
-        var no = 1;
-        $('#productsTable').DataTable({
-            "processing": true,
-            "bDestroy": true,
-            "ajax": {
-                url: '<?php echo base_url("Products/productsGet"); ?>',
-                dataSrc: ''
-            },
-            "columns": [{
-                    render: function(){
-                        return no++;
-                    }
+        var bomFormNo = 0;
+
+        // function get products
+        function productsDatatables() {
+            var no = 1;
+            $('#productsTable').DataTable({
+                "processing": true,
+                "bDestroy": true,
+                "ajax": {
+                    method: get,
+                    url: '<?php echo base_url("Products/productsGet"); ?>',
+                    dataSrc: ''
                 },
-                {
-                    data: 'product_id',
-                    name: 'product_id'
-                },
-                {
-                    data: 'name',
-                    name: "name"
-                },
-                {
-                    data: "price",
-                    render: function(data, type, full, meta){
-                        return convertToRupiah(data);
-                    }
-                },
-                {
-                    data: 'unit_in_stock',
-                    name: 'unit_in_stock'
-                },
-                {
-                    data: 'tot_prod_order',
-                    name: 'tot_prod_order'
-                },
-                {
-                    data: 'Nonactive - Active',
-                    name: 'Nonactive - Active',
-                    render: function(data, type, full, meta){
-                        if(full.status == 'available'){
-                            return '<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Tersedia</button>';
-                        }else{
-                            return '<button type="button" class="btn btn-xs bg-red waves-effect" disabled>Tidak tersedia</button>';                            
+                "columns": [{
+                        render: function() {
+                            return no++;
                         }
-                    }
-                },
-                {
-                    name: 'action',
-                    render: function(data, type, full, meta) {
-                        return '<a type="javascript:;" class="btn btn-xs waves-effect btn-product-bom" title="Bill Of Material" data="' + full.product_id + '"><i class="material-icons">view_module</i><span>BOM</span></a>'+
-                        '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-product-detail" title="Detail" data="' + full.product_id + '" ><i class="material-icons">remove_red_eye</i></a>' +
-                            '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-product-edit" title="Edit" data="' + full.product_id + '"><i class="material-icons">edit</i></a>' +
-                            '<a type="javascript:;" class="btn btn-xs waves-effect btn-product-delete" title="Detele" data="' + full.product_id + '"><i class="material-icons">delete</i></a>';
-                    }
-                }
-            ],
-            "fnDrawCallback": function(oSettings) {
-
-                // display modal-product-detail
-                $('.btn-product-detail').click(function() {
-                    var id = $(this).attr('data');
-                    $('#modal-product-detail').modal('show');
-                    $.ajax({
-                        type: 'ajax',
-                        method: 'get',
-                        url: '<?php echo base_url("Products/productGet"); ?>',
-                        data: {
-                            id: id
-                        },
-                        async: false,
-                        dataType: 'json',
-                        success: function(response) {
-                            var statusRender = '';
-                            if(response[0].status == 'available'){
-                                statusRender = '<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Tersedia</button>';
-                            }else{
-                                statusRender = '<button type="button" class="btn btn-xs bg-red waves-effect" disabled>Tidak Tersedia</button>';
+                    },
+                    {
+                        data: 'product_id',
+                        name: 'product_id'
+                    },
+                    {
+                        data: 'name',
+                        name: "name"
+                    },
+                    {
+                        data: "price",
+                        render: function(data, type, full, meta) {
+                            return convertToRupiah(data);
+                        }
+                    },
+                    {
+                        data: 'unit_in_stock',
+                        name: 'unit_in_stock'
+                    },
+                    {
+                        data: 'tot_prod_order',
+                        name: 'tot_prod_order'
+                    },
+                    {
+                        data: 'Nonactive - Active',
+                        name: 'Nonactive - Active',
+                        render: function(data, type, full, meta) {
+                            if (full.status == 'available') {
+                                return '<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Tersedia</button>';
+                            } else {
+                                return '<button type="button" class="btn btn-xs bg-red waves-effect" disabled>Tidak tersedia</button>';
                             }
-                            
-                            $('#table-product-detail .name').html(response[0].product_name);
-                            $('#table-product-detail .price').html(convertToRupiah(response[0].price));
-                            $('#table-product-detail .unit-in-stock').html(response[0].unit_in_stock);
-                            $('#table-product-detail .category').html(response[0].category_name);
-                            $('#table-product-detail .status').html(statusRender);
-                            $('#table-product-detail .description').html(response[0].product_description);
-                            $('#table-product-detail .note').html(response[0].note);
-                            $('#table-product-detail .created-at').html(response[0].created_at);
-                            $('#table-product-detail .updated-at').html(response[0].updated_at);
-                        },
-                        error: function() {
-                            swal('Failed', 'Error', 'error');
                         }
-                    });
-                });
-
-                // display modal-product-edit
-                $('.btn-product-edit').click(function() {
-                    resetProductForm();
-
-                    $('#modal-product-form').find('.modal-title').text('Edit Produk');
-                    $('#product-form').attr('action', '<?php echo base_url("Products/productUpdate");?>');
-                    $('#product-form [name="status"]').removeAttr('checked');
-
-                    var id = $(this).attr('data');
-                    $.ajax({
-                        type: 'ajax',
-                        method: 'get',
-                        url: '<?php echo base_url("Products/productGet"); ?>',
-                        data: {
-                            id: id
-                        },
-                        async: false,
-                        dataType: 'json'
-                    }).done(function(response) {
-
-                        $('#product-form input[name=product-id]').val(response[0].product_id);
-                        $('#product-form input[name=product-name]').val(response[0].product_name);
-                        $('#product-form input[name=price]').val(response[0].price);
-                        $('#product-form input[name=expiration]').val(response[0].expiration);
-                        $('#product-form input[name=unit-in-stock]').val(response[0].unit_in_stock);
-                        $('#product-form #categories').selectpicker('val', response[0].category_id);
-                        if (response[0].status == 'available') {
-                            $( "#product-form #active").prop("checked", true);                       
-                        } else {
-                            $( "#product-form #nonactive" ).prop("checked", true);
+                    },
+                    {
+                        name: 'action',
+                        render: function(data, type, full, meta) {
+                            return '<a type="javascript:;" class="btn btn-xs waves-effect btn-product-bom" title="Bill Of Material" data="' + full.product_id + '"><i class="material-icons">view_module</i><span>BOM</span></a>' +
+                                '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-product-detail" title="Detail" data="' + full.product_id + '" ><i class="material-icons">remove_red_eye</i></a>' +
+                                '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-product-edit" title="Edit" data="' + full.product_id + '"><i class="material-icons">edit</i></a>' +
+                                '<a type="javascript:;" class="btn btn-xs waves-effect btn-product-delete" title="Detele" data="' + full.product_id + '"><i class="material-icons">delete</i></a>';
                         }
-                        $('#product-form textarea[name=description]').html(response[0].product_description);
-                        $('#product-form textarea[name=note]').html(response[0].note);
+                    }
+                ],
+                "fnDrawCallback": function(oSettings) {
 
-                        $('#modal-product-form').modal('show');
-                    }).fail(function() {
-                        swal('Failed', 'something wrong with your input', 'error');
+                    // display modal-product-detail
+                    $('.btn-product-detail').click(function() {
+                        var id = $(this).attr('data');
+                        $('#modal-product-detail').modal('show');
+                        $.ajax({
+                            type: 'ajax',
+                            method: 'get',
+                            url: '<?php echo base_url("Products/productGet"); ?>',
+                            data: {
+                                id: id
+                            },
+                            async: false,
+                            dataType: 'json',
+                            success: function(response) {
+                                var statusRender = '';
+                                if (response[0].status == 'available') {
+                                    statusRender = '<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Tersedia</button>';
+                                } else {
+                                    statusRender = '<button type="button" class="btn btn-xs bg-red waves-effect" disabled>Tidak Tersedia</button>';
+                                }
+
+                                $('#table-product-detail .name').html(response[0].product_name);
+                                $('#table-product-detail .price').html(convertToRupiah(response[0].price));
+                                $('#table-product-detail .unit-in-stock').html(response[0].unit_in_stock);
+                                $('#table-product-detail .category').html(response[0].category_name);
+                                $('#table-product-detail .status').html(statusRender);
+                                $('#table-product-detail .description').html(response[0].product_description);
+                                $('#table-product-detail .note').html(response[0].note);
+                                $('#table-product-detail .created-at').html(response[0].created_at);
+                                $('#table-product-detail .updated-at').html(response[0].updated_at);
+                            },
+                            error: function() {
+                                swal('Failed', 'Error', 'error');
+                            }
+                        });
                     });
 
-                });
+                    // display modal-product-edit
+                    $('.btn-product-edit').click(function() {
+                        resetProductForm();
 
-                // display modal-product-bom
-                $('.btn-product-bom').click(function() {
-                    $('#modal-product-form-bom').find('.modal-title').text('Bill Of Material');
+                        $('#modal-product-form').find('.modal-title').text('Edit Produk');
+                        $('#product-form').attr('action', '<?php echo base_url("Products/productUpdate"); ?>');
+                        $('#product-form [name="status"]').removeAttr('checked');
 
-                    var productWhere = $(this).attr('data');
-                    $.ajax({
-                        type: 'ajax',
-                        method: 'get',
-                        url: '<?php echo base_url("Products/bomGet"); ?>',
-                        data: {
-                            productWhere: productWhere
-                        },
-                        async: false,
-                        dataType: 'json'
-                    }).done(function(response) {
-                        resetBomModal();
+                        var id = $(this).attr('data');
+                        $.ajax({
+                            type: 'ajax',
+                            method: 'get',
+                            url: '<?php echo base_url("Products/productGet"); ?>',
+                            data: {
+                                id: id
+                            },
+                            async: false,
+                            dataType: 'json'
+                        }).done(function(response) {
 
-                        if (response.response_status == 'create') {
-
-                            $('#form-bom [name="product-id"]').val(response.product_id);
-                            $('#table-bom .name').html(response.product_name);
-                            $('#form-bom').attr('action', '<?php echo base_url("Products/bomCreate");?>');
-                            $('#modal-product-form-bom').modal('show');
-                            
-                        }else if(response.response_status == 'edit'){
-                            // formBomEdit(response.materials, callback);
-                            $('#form-bom [name="product-id"]').val(response.product_id);
-                            $('#table-bom .name').html(response.product_name);
-                            $('#form-bom').attr('action', '<?php echo base_url("Products/bomUpdate");?>');
-                            $('#modal-product-form-bom').modal('show');
-
-                            for (let i = 0; i < response.materials.length; i++) {
-                                // $('.material-input-'+i).selectpicker('val', response.materials[i].material_id);
-                                bomFormNo++;
-                                var html = '';
-                                html += '<tr class="bom-form-'+bomFormNo+'">'+
-                                    '<th scope="row">'+(bomFormNo+1)+'</th>'+
-                                    '<td>'+
-                                        '<div class="form-group form-float" style="margin-bottom:0px;">'+
-                                            '<select class="form-control show-tick material-input-'+bomFormNo+'" name="materials[]" data-live-search="true" data-size="5" required>'+
-                                                '<option value="">-- Pilih Material --</option>'+
-                                                
-                                            '</select>'+
-                                        '</div>'+
-                                    '</td>'+
-                                    '<td>'+
-                                        '<div class="form-group form-float" style="margin-bottom:0px;">'+
-                                            '<div class="form-line">'+
-                                                '<input type="number" class="form-control num-comb-input-'+bomFormNo+'" name="num-comb-materials[]" required placeholder="Jumlah Kombinasi">'+
-                                            '</div>'+
-                                        '</div>'+
-                                    '</td>'+
-                                '</tr>';
-                                $('#bom-form').append(html);
-                                materialsGet();
-                                $('.material-input-'+i).selectpicker('val', response.materials[i].material_id);
-                                $('.num-comb-input-'+i).val(response.materials[i].num_comb_material);
+                            $('#product-form input[name=product-id]').val(response[0].product_id);
+                            $('#product-form input[name=product-name]').val(response[0].product_name);
+                            $('#product-form input[name=price]').val(response[0].price);
+                            $('#product-form input[name=expiration]').val(response[0].expiration);
+                            $('#product-form input[name=unit-in-stock]').val(response[0].unit_in_stock);
+                            $('#product-form #categories').selectpicker('val', response[0].category_id);
+                            if (response[0].status == 'available') {
+                                $("#product-form #active").prop("checked", true);
+                            } else {
+                                $("#product-form #nonactive").prop("checked", true);
                             }
-                            $('#bom-form tr').last().remove();
+                            $('#product-form textarea[name=description]').html(response[0].product_description);
+                            $('#product-form textarea[name=note]').html(response[0].note);
 
-
-                        }else if(response.response_status == 'protected'){
-
-                            $('#table-bom-detail .product-id').html(response.product_id);
-                            $('#table-bom-detail .name').html(response.product_name);
-
-                            var bomDetailTbody = '';
-                            for (let i = 0; i < response.materials.length; i++) {
-                                bomDetailTbody += '<tr>'+
-                                    '<td>'+ (i+1) +'</td>'+
-                                    '<td>'+ response.materials[i].name +' ('+ response.materials[i].stock_type +') </td>'+
-                                    '<td>'+ response.materials[i].num_comb_material +'</td>'+
-                                '</tr>';
-                            }
-                            $('#table-bom-detail-comb tbody').html(bomDetailTbody);
-
-                            $('#modal-product-form-bom-detail').modal('show');
-
-                        }
-                        
-                        $('#btn-save-bom').click(function(){
-                            var url = $('#form-bom').attr('action');
-                            var data = $('#form-bom').serialize();
-                            swal({
-                                title: "Ubah BOM Produk ini ?",
-                                text: 'Pilih "OK" untuk menyimpan',
-                                type: "info",
-                                showCancelButton: true,
-                                closeOnConfirm: false,
-                                showLoaderOnConfirm: true,
-                            }, function() {
-                                setTimeout(function() {
-                                    $.ajax({
-                                        type: 'ajax',
-                                        method: 'post',
-                                        url: url,
-                                        data: data,
-                                        async: false,
-                                        dataType: 'json'
-                                    }).done(function(response) {
-                                        swal("Tersimpan", "Data Bill Of Meterial Produk ini Telah Terimpan !", "success");
-                                        productsDatatables();
-                                        $('#modal-product-form-bom').modal('hide');
-                                    }).fail(function() {
-                                        swal('error', 'Error, Pastikan Inputan Benar dan Terisi semua', 'error');
-                                    });
-                                }, 1000);
-                            });
-                            
+                            $('#modal-product-form').modal('show');
+                        }).fail(function() {
+                            swal('Failed', 'something wrong with your input', 'error');
                         });
 
-                    }).fail(function() {
-                        swal('Failed', 'something wrong with your input', 'error');
                     });
 
-                });
+                    // display modal-product-bom
+                    $('.btn-product-bom').click(function() {
+                        $('#modal-product-form-bom').find('.modal-title').text('Bill Of Material');
 
-                // btn delete product
-                $('.btn-product-delete').click(function() {
-                    var id = $(this).attr('data');
-                    swal({
-                        title: "Hapus Data Ini?",
-                        text: 'Pilih "OK" untuk menghapus',
-                        type: "info",
-                        showCancelButton: true,
-                        closeOnConfirm: false,
-                        showLoaderOnConfirm: true,
-                    }, function() {
-                        setTimeout(function() {
-                            productDelete(id);
-                        }, 1000);
+                        var productWhere = $(this).attr('data');
+                        $.ajax({
+                            type: 'ajax',
+                            method: 'get',
+                            url: '<?php echo base_url("Products/bomGet"); ?>',
+                            data: {
+                                productWhere: productWhere
+                            },
+                            async: false,
+                            dataType: 'json'
+                        }).done(function(response) {
+                            resetBomModal();
+
+                            if (response.response_status == 'create') {
+
+                                $('#form-bom [name="product-id"]').val(response.product_id);
+                                $('#table-bom .name').html(response.product_name);
+                                $('#form-bom').attr('action', '<?php echo base_url("Products/bomCreate"); ?>');
+                                $('#modal-product-form-bom').modal('show');
+
+                            } else if (response.response_status == 'edit') {
+                                // formBomEdit(response.materials, callback);
+                                $('#form-bom [name="product-id"]').val(response.product_id);
+                                $('#table-bom .name').html(response.product_name);
+                                $('#form-bom').attr('action', '<?php echo base_url("Products/bomUpdate"); ?>');
+                                $('#modal-product-form-bom').modal('show');
+
+                                for (let i = 0; i < response.materials.length; i++) {
+                                    // $('.material-input-'+i).selectpicker('val', response.materials[i].material_id);
+                                    bomFormNo++;
+                                    var html = '';
+                                    html += '<tr class="bom-form-' + bomFormNo + '">' +
+                                        '<th scope="row">' + (bomFormNo + 1) + '</th>' +
+                                        '<td>' +
+                                        '<div class="form-group form-float" style="margin-bottom:0px;">' +
+                                        '<select class="form-control show-tick material-input-' + bomFormNo + '" name="materials[]" data-live-search="true" data-size="5" required>' +
+                                        '<option value="">-- Pilih Material --</option>' +
+
+                                        '</select>' +
+                                        '</div>' +
+                                        '</td>' +
+                                        '<td>' +
+                                        '<div class="form-group form-float" style="margin-bottom:0px;">' +
+                                        '<div class="form-line">' +
+                                        '<input type="number" class="form-control num-comb-input-' + bomFormNo + '" name="num-comb-materials[]" required placeholder="Jumlah Kombinasi">' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</td>' +
+                                        '</tr>';
+                                    $('#bom-form').append(html);
+                                    materialsGet();
+                                    $('.material-input-' + i).selectpicker('val', response.materials[i].material_id);
+                                    $('.num-comb-input-' + i).val(response.materials[i].num_comb_material);
+                                }
+                                $('#bom-form tr').last().remove();
+
+
+                            } else if (response.response_status == 'protected') {
+
+                                $('#table-bom-detail .product-id').html(response.product_id);
+                                $('#table-bom-detail .name').html(response.product_name);
+
+                                var bomDetailTbody = '';
+                                for (let i = 0; i < response.materials.length; i++) {
+                                    bomDetailTbody += '<tr>' +
+                                        '<td>' + (i + 1) + '</td>' +
+                                        '<td>' + response.materials[i].name + ' (' + response.materials[i].stock_type + ') </td>' +
+                                        '<td>' + response.materials[i].num_comb_material + '</td>' +
+                                        '</tr>';
+                                }
+                                $('#table-bom-detail-comb tbody').html(bomDetailTbody);
+
+                                $('#modal-product-form-bom-detail').modal('show');
+
+                            }
+
+                            $('#btn-save-bom').click(function() {
+                                var url = $('#form-bom').attr('action');
+                                var data = $('#form-bom').serialize();
+                                swal({
+                                    title: "Ubah BOM Produk ini ?",
+                                    text: 'Pilih "OK" untuk menyimpan',
+                                    type: "info",
+                                    showCancelButton: true,
+                                    closeOnConfirm: false,
+                                    showLoaderOnConfirm: true,
+                                }, function() {
+                                    setTimeout(function() {
+                                        $.ajax({
+                                            type: 'ajax',
+                                            method: 'post',
+                                            url: url,
+                                            data: data,
+                                            async: false,
+                                            dataType: 'json'
+                                        }).done(function(response) {
+                                            swal("Tersimpan", "Data Bill Of Meterial Produk ini Telah Terimpan !", "success");
+                                            productsDatatables();
+                                            $('#modal-product-form-bom').modal('hide');
+                                        }).fail(function() {
+                                            swal('error', 'Error, Pastikan Inputan Benar dan Terisi semua', 'error');
+                                        });
+                                    }, 1000);
+                                });
+
+                            });
+
+                        }).fail(function() {
+                            swal('Failed', 'something wrong with your input', 'error');
+                        });
+
                     });
-                });
+
+                    // btn delete product
+                    $('.btn-product-delete').click(function() {
+                        var id = $(this).attr('data');
+                        swal({
+                            title: "Hapus Data Ini?",
+                            text: 'Pilih "OK" untuk menghapus',
+                            type: "info",
+                            showCancelButton: true,
+                            closeOnConfirm: false,
+                            showLoaderOnConfirm: true,
+                        }, function() {
+                            setTimeout(function() {
+                                productDelete(id);
+                            }, 1000);
+                        });
+                    });
 
 
 
 
-            }
-        });
-    }
-
-    function saving(url, data){
-        $.ajax({
-            type: 'ajax',
-            method: 'post',
-            url: url,
-            data: data,
-            async: false,
-            dataType: 'json'
-        }).done(function(response) {
-            if(response.success == true){
-                swal("Tersimpan", "Data Perlanggan Telah Terimpan !", "success");
-                productsDatatables();
-                $('#modal-product-form').modal('hide');
-                $('#product-form')[0].reset();
-            }else if(response.success == false){
-                $.each(response.messages, function(key, value){
-                    var element = $('#product-form [name="'+key+'"]');
-                    element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
-                    element.closest('div.form-group').find('label.error').remove();
-                    element.parent().after(value);
-                });
-                swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
-            }
-        }).fail(function() {
-            swal('Error !', 'Masukan Form Dengan Benar', 'error');
-        });
-    }
-
-    function productDelete(id){
-        $.ajax({
-            type: 'ajax',
-            method: 'get',
-            async: false,
-            url: '<?php echo base_url("Products/productDelete"); ?>',
-            data: {id: id},
-            dataType: 'json'
-        }).done(function(response) {
-            swal("Terhapus", "Data Pelanggan Telah Terhapus", "success");
-            productsDatatables();
-        }).fail(function() {
-            swal('Failed', 'something wrong with your input', 'error');
-        });
-    }
-
-    function categoriesGet(){
-        $.ajax({
-            type: 'ajax',
-            url: '<?php echo base_url("Products/categoriesGet"); ?>',
-            async: false,
-            dataType: 'json'
-        }).done(function(response){
-            var html = '';
-            var i = 0;
-            for (i = 0; i < response.length; i++) {
-                html += '<option value="'+response[i].category_id+'">'+response[i].name+'</option>';                        
-            }
-            $('#product-form #categories').append(html);
-            
-        }).fail(function(){
-            swal('Failed', 'Error', 'error');
-        });
-    }
-
-    function materialsGet(element){
-        $.ajax({
-            type: 'ajax',
-            method: 'get',
-            async: false,
-            url: '<?php echo base_url("Materials/materialsGet"); ?>',
-            dataType: 'json'
-        }).done(function(response) {
-            var html = '';
-            for (var i = 0; i < response.length; i++) {
-                html += '<option value="'+response[i].material_id+'" data-subtext="'+response[i].stock_type+'">'+response[i].name+' ('+response[i].stock_type+')</option>';
-            }
-            $('#bom-form .material-input-'+bomFormNo).append(html);
-            $('#bom-form .material-input-'+bomFormNo).selectpicker('render');
-            
-        }).fail(function() {
-            swal('Failed', 'Error', 'error');
-        });
-    }
-
-    function resetBomModal(){
-        while(bomFormNo > 0) {
-            $('.bom-form-'+bomFormNo).remove();
-            bomFormNo--;
+                }
+            });
         }
-        $('.material-input-0').selectpicker('deselectAll');
-        $('#form-bom')[0].reset();
-    }
 
-    function formBomEdit(dataMaterial, callback){
-        bomFormNo++;
-        var html = '';
-        html += '<tr class="bom-form-'+bomFormNo+'">'+
-            '<th scope="row">'+(bomFormNo+1)+'</th>'+
-            '<td>'+
-                '<div class="form-group form-float" style="margin-bottom:0px;">'+
-                    '<select class="form-control show-tick material-input-'+bomFormNo+'" name="materials[]" data-live-search="true" data-size="5" required>'+
-                        '<option value="">-- Pilih Material --</option>'+
-                        
-                    '</select>'+
-                '</div>'+
-            '</td>'+
-            '<td>'+
-                '<div class="form-group form-float" style="margin-bottom:0px;">'+
-                    '<div class="form-line">'+
-                        '<input type="number" class="form-control num-comb-input-'+bomFormNo+'" name="num-comb-materials[]" required placeholder="Jumlah Kombinasi">'+
-                    '</div>'+
-                '</div>'+
-            '</td>'+
-        '</tr>';
-        $('#bom-form').append(html);
-        callback && callback();
-        materialsGet();
-        $('.material-input-'+(bomFormNo-1)).selectpicker('val', dataMaterial.material_id);
-        $('.num-comb-input-'+(bomFormNo-1)).val(dataMaterial.num_comb_material);
-    }
+        function saving(url, data) {
+            $.ajax({
+                type: 'ajax',
+                method: 'post',
+                url: url,
+                data: data,
+                async: false,
+                dataType: 'json'
+            }).done(function(response) {
+                if (response.success == true) {
+                    swal("Tersimpan", "Data Perlanggan Telah Terimpan !", "success");
+                    productsDatatables();
+                    $('#modal-product-form').modal('hide');
+                    $('#product-form')[0].reset();
+                } else if (response.success == false) {
+                    $.each(response.messages, function(key, value) {
+                        var element = $('#product-form [name="' + key + '"]');
+                        element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
+                        element.closest('div.form-group').find('label.error').remove();
+                        element.parent().after(value);
+                    });
+                    swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
+                }
+            }).fail(function() {
+                swal('Error !', 'Masukan Form Dengan Benar', 'error');
+            });
+        }
 
-    function resetProductForm(){
-        $('#product-form')[0].reset();
-        $("#product-form #active").attr('checked', true);
-        $('#product-form select').selectpicker('deselectAll');
-        $('#product-form textarea').html("");
+        function productDelete(id) {
+            $.ajax({
+                type: 'ajax',
+                method: 'get',
+                async: false,
+                url: '<?php echo base_url("Products/productDelete"); ?>',
+                data: {
+                    id: id
+                },
+                dataType: 'json'
+            }).done(function(response) {
+                swal("Terhapus", "Data Pelanggan Telah Terhapus", "success");
+                productsDatatables();
+            }).fail(function() {
+                swal('Failed', 'something wrong with your input', 'error');
+            });
+        }
 
-        $('#product-form .form-line').removeClass('focused success error');
-        $('#product-form label.error').remove();
-    }
-    
-    //modal create product 
-    $("#btn-modal-product").click(function() {
-        resetProductForm();
-        
-        $('#modal-product-form').find('.modal-title').text('Tambah Produk');
-        $('#product-form').attr('action', '<?php echo base_url("Products/productCreate");?>');
-        $('#modal-product-form').modal('show');
-    });
+        function categoriesGet() {
+            $.ajax({
+                type: 'ajax',
+                method: 'get',
+                url: '<?php echo base_url("Products/categoriesGet"); ?>',
+                async: false,
+                dataType: 'json'
+            }).done(function(response) {
+                var html = '';
+                var i = 0;
+                for (i = 0; i < response.length; i++) {
+                    html += '<option value="' + response[i].category_id + '">' + response[i].name + '</option>';
+                }
+                $('#product-form #categories').append(html);
 
-    //btn-product-save
-    $("#product-form").submit(function(e) {
-        e.preventDefault();
-        var url = $(this).attr('action');
-        var data = $(this).serialize();
-        swal({
-            title: "Data Pelanggan Yang Dimasukan Sudah Benar?",
-            text: 'Pilih "OK" untuk menyimpan',
-            type: "info",
-            showCancelButton: true,
-            closeOnConfirm: false,
-            showLoaderOnConfirm: true,
-        }, function() {
-            setTimeout(function() {
-                saving(url, data);
-            }, 1000);
-        });
-    });
+            }).fail(function() {
+                swal('Failed', 'Error', 'error');
+            });
+        }
 
-    $('#btn-add-form-bom').click(function(){
-        bomFormNo++;
-        var html = '';
-        html += '<tr class="bom-form-'+bomFormNo+'">'+
-            '<th scope="row">'+(bomFormNo+1)+'</th>'+
-            '<td>'+
-                '<div class="form-group form-float" style="margin-bottom:0px;">'+
-                    '<select class="form-control show-tick material-input-'+bomFormNo+'" name="materials[]" data-live-search="true" data-size="5" required>'+
-                        '<option value="">-- Pilih Material --</option>'+
-                        
-                    '</select>'+
-                '</div>'+
-            '</td>'+
-            '<td>'+
-                '<div class="form-group form-float" style="margin-bottom:0px;">'+
-                    '<div class="form-line">'+
-                        '<input type="number" class="form-control num-comb-input-'+bomFormNo+'" name="num-comb-materials[]" required placeholder="Jumlah Kombinasi">'+
-                    '</div>'+
-                '</div>'+
-            '</td>'+
-        '</tr>';
-        $('#bom-form').append(html);
-        materialsGet();
-    });
+        function materialsGet(element) {
+            $.ajax({
+                type: 'ajax',
+                method: 'get',
+                async: false,
+                url: '<?php echo base_url("Materials/materialsGet"); ?>',
+                dataType: 'json'
+            }).done(function(response) {
+                var html = '';
+                for (var i = 0; i < response.length; i++) {
+                    html += '<option value="' + response[i].material_id + '" data-subtext="' + response[i].stock_type + '">' + response[i].name + ' (' + response[i].stock_type + ')</option>';
+                }
+                $('#bom-form .material-input-' + bomFormNo).append(html);
+                $('#bom-form .material-input-' + bomFormNo).selectpicker('render');
 
-    $('#btn-remove-form-bom').click(function(){
-        setTimeout(function() {
-            if(bomFormNo > 0){
-                $('.bom-form-'+bomFormNo).remove();
+            }).fail(function() {
+                swal('Failed', 'Error', 'error');
+            });
+        }
+
+        function resetBomModal() {
+            while (bomFormNo > 0) {
+                $('.bom-form-' + bomFormNo).remove();
                 bomFormNo--;
-            } else if (bomFormNo == 0){
-                $('.bom-form-'+bomFormNo+' .material-input-'+bomFormNo).selectpicker('deselectAll');
-                $('.bom-form-'+bomFormNo+' .num-comb-input-'+bomFormNo).val('');
-                $('[name="num-comb-product"]').val('');
             }
-            else {
-                swal('Failed', 'Tidak Dapat Mengahapus Input BOM Kembali', 'error');
-            }
-        }, 0);
-    });
-    
-    //btn-reload
-    $('#btn-reload-products').click(function() {
+            $('.material-input-0').selectpicker('deselectAll');
+            $('#form-bom')[0].reset();
+        }
+
+        function formBomEdit(dataMaterial, callback) {
+            bomFormNo++;
+            var html = '';
+            html += '<tr class="bom-form-' + bomFormNo + '">' +
+                '<th scope="row">' + (bomFormNo + 1) + '</th>' +
+                '<td>' +
+                '<div class="form-group form-float" style="margin-bottom:0px;">' +
+                '<select class="form-control show-tick material-input-' + bomFormNo + '" name="materials[]" data-live-search="true" data-size="5" required>' +
+                '<option value="">-- Pilih Material --</option>' +
+
+                '</select>' +
+                '</div>' +
+                '</td>' +
+                '<td>' +
+                '<div class="form-group form-float" style="margin-bottom:0px;">' +
+                '<div class="form-line">' +
+                '<input type="number" class="form-control num-comb-input-' + bomFormNo + '" name="num-comb-materials[]" required placeholder="Jumlah Kombinasi">' +
+                '</div>' +
+                '</div>' +
+                '</td>' +
+                '</tr>';
+            $('#bom-form').append(html);
+            callback && callback();
+            materialsGet();
+            $('.material-input-' + (bomFormNo - 1)).selectpicker('val', dataMaterial.material_id);
+            $('.num-comb-input-' + (bomFormNo - 1)).val(dataMaterial.num_comb_material);
+        }
+
+        function resetProductForm() {
+            $('#product-form')[0].reset();
+            $("#product-form #active").attr('checked', true);
+            $('#product-form select').selectpicker('deselectAll');
+            $('#product-form textarea').html("");
+
+            $('#product-form .form-line').removeClass('focused success error');
+            $('#product-form label.error').remove();
+        }
+
+        //modal create product 
+        $("#btn-modal-product").click(function() {
+            resetProductForm();
+
+            $('#modal-product-form').find('.modal-title').text('Tambah Produk');
+            $('#product-form').attr('action', '<?php echo base_url("Products/productCreate"); ?>');
+            $('#modal-product-form').modal('show');
+        });
+
+        //btn-product-save
+        $("#product-form").submit(function(e) {
+            e.preventDefault();
+            var url = $(this).attr('action');
+            var data = $(this).serialize();
+            swal({
+                title: "Data Pelanggan Yang Dimasukan Sudah Benar?",
+                text: 'Pilih "OK" untuk menyimpan',
+                type: "info",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+            }, function() {
+                setTimeout(function() {
+                    saving(url, data);
+                }, 1000);
+            });
+        });
+
+        $('#btn-add-form-bom').click(function() {
+            bomFormNo++;
+            var html = '';
+            html += '<tr class="bom-form-' + bomFormNo + '">' +
+                '<th scope="row">' + (bomFormNo + 1) + '</th>' +
+                '<td>' +
+                '<div class="form-group form-float" style="margin-bottom:0px;">' +
+                '<select class="form-control show-tick material-input-' + bomFormNo + '" name="materials[]" data-live-search="true" data-size="5" required>' +
+                '<option value="">-- Pilih Material --</option>' +
+
+                '</select>' +
+                '</div>' +
+                '</td>' +
+                '<td>' +
+                '<div class="form-group form-float" style="margin-bottom:0px;">' +
+                '<div class="form-line">' +
+                '<input type="number" class="form-control num-comb-input-' + bomFormNo + '" name="num-comb-materials[]" required placeholder="Jumlah Kombinasi">' +
+                '</div>' +
+                '</div>' +
+                '</td>' +
+                '</tr>';
+            $('#bom-form').append(html);
+            materialsGet();
+        });
+
+        $('#btn-remove-form-bom').click(function() {
+            setTimeout(function() {
+                if (bomFormNo > 0) {
+                    $('.bom-form-' + bomFormNo).remove();
+                    bomFormNo--;
+                } else if (bomFormNo == 0) {
+                    $('.bom-form-' + bomFormNo + ' .material-input-' + bomFormNo).selectpicker('deselectAll');
+                    $('.bom-form-' + bomFormNo + ' .num-comb-input-' + bomFormNo).val('');
+                    $('[name="num-comb-product"]').val('');
+                } else {
+                    swal('Failed', 'Tidak Dapat Mengahapus Input BOM Kembali', 'error');
+                }
+            }, 0);
+        });
+
+        //btn-reload
+        $('#btn-reload-products').click(function() {
+            productsDatatables();
+        });
+
+        $('#btn-reload-page').click(function() {
+            location.reload();
+        });
+
         productsDatatables();
+        categoriesGet();
+        materialsGet()
+
     });
-
-    $('#btn-reload-page').click(function() {
-        location.reload();
-    });
-
-    productsDatatables();
-    categoriesGet();
-    materialsGet()
-
-});
 </script>

@@ -155,8 +155,8 @@ class Transactions_m extends CI_Model
     public function transactionsTotalSales()
     {
         $query = $this->db->query('
-            SELECT * FROM Transactions
-            JOIN transactions_has_products ON Transactions.transaction_id = transactions_has_products.transactions_transaction_id
+            SELECT * FROM transactions
+            JOIN transactions_has_products ON transactions.transaction_id = transactions_has_products.transactions_transaction_id
             JOIN products ON products.product_id = transactions_has_products.products_product_id
         ');
 

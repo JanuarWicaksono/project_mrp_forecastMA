@@ -1,6 +1,6 @@
 <section class="content">
     <div class="container-fluid">
-        
+
         <div class="row clearfix">
             <div class="col-md-6">
                 <div class="card">
@@ -12,8 +12,8 @@
                         <ul class="header-dropdown m-r--5">
                             <li class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-									<i class="material-icons">more_vert</i>
-								</a>
+                                    <i class="material-icons">more_vert</i>
+                                </a>
                                 <ul class="dropdown-menu pull-right">
                                     <li>
                                         <a href="javascript:void(0);" class=" waves-effect waves-block">Action</a>
@@ -96,7 +96,7 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <button id="btn-save-level" type="submit" class="btn  btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>      
+                            <button id="btn-save-level" type="submit" class="btn  btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>
                         </div>
                     </form>
                 </div>
@@ -108,7 +108,7 @@
     </div>
 </div>
 
-<!-- <script type="text/javascript" src="<?= base_url('assets/js/validate.js');?>"></script> -->
+<!-- <script type="text/javascript" src="<?= base_url('assets/js/validate.js'); ?>"></script> -->
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -117,21 +117,22 @@
         function levelsGet() {
             $.ajax({
                 type: 'ajax',
+                method: 'get',
                 url: '<?php echo base_url("Employees/levelsGet"); ?>',
                 async: false,
                 dataType: 'json'
-            }).done(function(response){
+            }).done(function(response) {
                 var html = '';
                 var i;
                 for (i = 0; i < response.length; i++) {
                     html += '<tr>' +
-                        '<td>'+ (i+1) +'</td>' +                    
-                        '<td>'+ response[i].level_name +'</td>' +
-                        '<td>'+
-                            '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-level-edit" title="Edit" data="' + response[i].level_id + '"><i class="material-icons">edit</i></a>' +
-                            '<a type="javascript:;" class="btn btn-xs waves-effect btn-level-delete" title="Detele" data="' + response[i].level_id + '"><i class="material-icons">delete</i></a>' +
-                        '</td>' +                        
-                    '</tr>';                        
+                        '<td>' + (i + 1) + '</td>' +
+                        '<td>' + response[i].level_name + '</td>' +
+                        '<td>' +
+                        '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-level-edit" title="Edit" data="' + response[i].level_id + '"><i class="material-icons">edit</i></a>' +
+                        '<a type="javascript:;" class="btn btn-xs waves-effect btn-level-delete" title="Detele" data="' + response[i].level_id + '"><i class="material-icons">delete</i></a>' +
+                        '</td>' +
+                        '</tr>';
                 }
                 $('#levels-data').html(html);
 
@@ -146,7 +147,7 @@
                         showCancelButton: true,
                         closeOnConfirm: false,
                         showLoaderOnConfirm: true
-                    }, function() { 
+                    }, function() {
                         setTimeout(function() {
                             levelDelete(id);
                         }, 1000);
@@ -154,10 +155,10 @@
                 });
 
                 // btn-level-edit
-                $('.btn-level-edit').click(function(){
+                $('.btn-level-edit').click(function() {
                     resetForm();
                     $('#modal-level-form').find('.modal-title').text('Edit Posisi/Level');
-                    $('#level-form').attr('action', '<?php echo base_url("Employees/levelUpdate");?>');
+                    $('#level-form').attr('action', '<?php echo base_url("Employees/levelUpdate"); ?>');
 
                     var id = $(this).attr('data');
                     // console.log(id);
@@ -165,14 +166,16 @@
                         type: 'ajax',
                         method: 'get',
                         url: '<?php echo base_url("Employees/levelAccessGet"); ?>',
-                        data: {id: id},
+                        data: {
+                            id: id
+                        },
                         async: false,
                         dataType: 'json'
                     }).done(function(response) {
                         $('#level-form input[name=level-id]').val(response[0].level_id);
                         $('#level-form input[name=level-name]').val(response[0].level_name);
                         levelsAccessGet();
-                        if(response[0].level_access != null){
+                        if (response[0].level_access != null) {
                             for (i = 0; i < response[0].level_access.length; i++) {
                                 var accessId = response[0].level_access[i].access_id;
                                 $('#level_access_' + accessId).attr('checked', 'checked');
@@ -183,10 +186,10 @@
                         swal('Failed', 'ERROR', 'error');
                     });
                 });
-                
 
-            }).fail(function(){
-                swal('Failed', 'ERROR', 'error');                
+
+            }).fail(function() {
+                swal('Failed', 'ERROR', 'error');
             });
 
         }
@@ -207,12 +210,12 @@
                     levelsGet();
                     $('#modal-level-form').modal('hide');
                     $('#level-form')[0].reset();
-                }else if(response.success == false){
-                    $.each(response.messages, function(key, value){
-                    var element = $('#level-form [name="'+key+'"]');
-                    element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
-                    element.closest('div.form-group').find('label.error').remove();
-                    element.parent().after(value);
+                } else if (response.success == false) {
+                    $.each(response.messages, function(key, value) {
+                        var element = $('#level-form [name="' + key + '"]');
+                        element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
+                        element.closest('div.form-group').find('label.error').remove();
+                        element.parent().after(value);
                     });
                     swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
                 }
@@ -238,27 +241,27 @@
                 swal('Failed', 'Error', 'error');
             });
         }
-        
-        function levelsAccessGet(){
+
+        function levelsAccessGet() {
             $.ajax({
                 type: 'ajax',
                 url: '<?php echo base_url("Employees/levelsAccessGet"); ?>',
                 async: false,
                 dataType: 'json'
-            }).done(function(response){
+            }).done(function(response) {
                 var html = '<b>Level Akses</b><br>';
                 for (var i = 0; i < response.length; i++) {
                     var accessId = response[i].access_id;
-                    html += '<input type="checkbox" class="filled-in" id="level_access_'+ accessId +'" name="level-access[]" value="'+ accessId +'">' +
-                    '<label for="level_access_'+ accessId +'">'+ response[i].access_name +'</label><br>';        
+                    html += '<input type="checkbox" class="filled-in" id="level_access_' + accessId + '" name="level-access[]" value="' + accessId + '">' +
+                        '<label for="level_access_' + accessId + '">' + response[i].access_name + '</label><br>';
                 }
                 $('#data-levels-access').html(html);
-            }).fail(function(){
+            }).fail(function() {
                 swal('Failed', 'Error', 'error');
             })
         }
 
-        function resetForm(){
+        function resetForm() {
             $('#level-form')[0].reset();
             $('#level-form .form-line').removeClass('focused success error');
             $('#level-form label.error').remove();
@@ -270,7 +273,7 @@
             levelsAccessGet();
 
             $('#modal-level-form').find('.modal-title').text('Tambah Posisi/Level');
-            $('#level-form').attr('action', '<?php echo base_url("Employees/levelCreate");?>');
+            $('#level-form').attr('action', '<?php echo base_url("Employees/levelCreate"); ?>');
             $('#modal-level-form').modal('show');
         });
 
@@ -286,7 +289,7 @@
                 showCancelButton: true,
                 closeOnConfirm: false,
                 showLoaderOnConfirm: true
-            }, function() { 
+            }, function() {
                 setTimeout(function() {
                     levelSave(url, data);
                     levelsGet();
@@ -294,11 +297,11 @@
             });
         });
 
-        $('#reload-levels').click(function(){
+        $('#reload-levels').click(function() {
             $('#levels-data tr').remove();
             levelsGet();
         })
-        
+
         levelsGet();
 
     });

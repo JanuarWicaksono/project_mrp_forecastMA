@@ -122,6 +122,7 @@ $(document).ready(function(){
         $.ajax({
             type: 'ajax',
             url: '<?php echo base_url("Transactions/transactionsTotalSales"); ?>',
+            method: 'get',
             async: false,
             dataType: 'json'
         }).done(function(response){
@@ -135,6 +136,7 @@ $(document).ready(function(){
         $.ajax({
             type: 'ajax',
             url: '<?php echo base_url("Dashboard/transactionsTotalQty"); ?>',
+            method: 'get',
             async: false,
             dataType: 'json'
         }).done(function(response){

@@ -1,6 +1,6 @@
 <section class="content">
     <div class="container-fluid">
-        
+
         <div class="row clearfix">
             <div class="col-md-12">
                 <div class="card">
@@ -12,8 +12,8 @@
                         <ul class="header-dropdown m-r--5">
                             <li class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-									<i class="material-icons">more_vert</i>
-								</a>
+                                    <i class="material-icons">more_vert</i>
+                                </a>
                                 <ul class="dropdown-menu pull-right">
                                     <li>
                                         <a href="javascript:void(0);" class=" waves-effect waves-block">Action</a>
@@ -30,7 +30,7 @@
                     </div>
                     <div class="body">
                         <div class="row clearfix">
-                            <form id="transaction-form" action="<?php echo base_url('Transactions/TransactionCreate');?>">
+                            <form id="transaction-form" action="<?php echo base_url('Transactions/TransactionCreate'); ?>">
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <div class="form-line">
@@ -44,7 +44,7 @@
                                         <b>Pelanggan Pembeli</b>
                                         <select id="costumers-input" class="form-control show-tick dropdown" name="costumer" data-live-search="true" data-size="5">
                                             <option value="">-- Pilih Pelanggan --</option>
-                                            
+
                                         </select>
                                     </div>
                                 </div>
@@ -61,7 +61,7 @@
                                                             <div class="form-group form-float">
                                                                 <select class="form-control show-tick product-input" name="products[]" data-live-search="true">
                                                                     <option value="" class="default">-- Pilih Produk 1 --</option>
-                                                                    
+
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -72,7 +72,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
+
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -135,7 +135,7 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="table responsive">                        
+                        <div class="table responsive">
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -164,7 +164,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btn-save-transaction" class="btn btn-primary waves-effect" >
+                <button type="button" id="btn-save-transaction" class="btn btn-primary waves-effect">
                     <i class="material-icons">save</i><span>Simpan</span>
                 </button>
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">
@@ -176,20 +176,21 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        function costumersGet(){
+    $(document).ready(function() {
+        function costumersGet() {
             $.ajax({
                 type: 'ajax',
+                method: 'get',
                 url: '<?php echo base_url("Costumers/costumersGet"); ?>',
                 async: false,
                 dataType: 'json'
-            }).done(function(response){
+            }).done(function(response) {
                 var html = '';
                 for (var i = 0; i < response.length; i++) {
-                    html += '<option value="'+response[i].costumer_id+'" data-subtext="'+response[i].address+'">'+response[i].name+'</option>';       
+                    html += '<option value="' + response[i].costumer_id + '" data-subtext="' + response[i].address + '">' + response[i].name + '</option>';
                 }
                 $('#costumers-input').append(html);
-            }).fail(function(){
+            }).fail(function() {
                 swal('Failed', 'Error', 'error');
             });
         }
@@ -197,22 +198,23 @@
         function productsGet(element) {
             $.ajax({
                 type: 'ajax',
+                method: 'get',
                 url: '<?php echo base_url("Products/productsGet"); ?>',
                 async: false,
                 dataType: 'json'
-            }).done(function(response){
+            }).done(function(response) {
                 var html = '';
                 for (var i = 0; i < response.length; i++) {
-                    html += '<option value="'+response[i].product_id+'" data-subtext="- '+response[i].unit_in_stock+' Unit" data-price="'+response[i].price+'">'+response[i].name+' - '+response[i].unit_in_stock+' unit</option>';
+                    html += '<option value="' + response[i].product_id + '" data-subtext="- ' + response[i].unit_in_stock + ' Unit" data-price="' + response[i].price + '">' + response[i].name + ' - ' + response[i].unit_in_stock + ' unit</option>';
                 }
                 element.find('select').append(html);
                 element.selectpicker('render');
-            }).fail(function(){
+            }).fail(function() {
                 swal('Failed', 'Error', 'error');
             });
         }
 
-        function transactionSave(url, data){
+        function transactionSave(url, data) {
             $.ajax({
                 type: 'ajax',
                 method: 'post',
@@ -228,20 +230,22 @@
             });
         }
 
-        function pushInputTransaction(costumer, transactionDate, products, qtys){
+        function pushInputTransaction(costumer, transactionDate, products, qtys) {
             $('#table-transaction-detail .costumer').html(costumer);
             $('#table-transaction-detail .date').html(transactionDate);
             var html = '';
-            for(var i = 0; i < products.length ;i++){
-                html = '<td>'+i+'</td>'+
-                '<td>'+products[i].value+'</td>'
-                '<td>'+qtys[i].value+'</td>'
+            for (var i = 0; i < products.length; i++) {
+                html = '<td>' + i + '</td>' +
+                    '<td>' + products[i].value + '</td>'
+                '<td>' + qtys[i].value + '</td>'
             }
         }
 
         function destroySelectPicker(el) {
             // URL: https://github.com/silviomoreto/bootstrap-select/issues/605
-            el.find('.bootstrap-select').replaceWith(function() { return $('select', this); });
+            el.find('.bootstrap-select').replaceWith(function() {
+                return $('select', this);
+            });
         }
 
         productsGet($('#products-add-form .product-form').first());
@@ -250,20 +254,20 @@
             var formCount = $('#products-add-form .product-form').length;
 
             destroySelectPicker(productForm);
-            productForm.find('select.product-input > .default').first().html('-- Pilih Produk ' + (formCount+1) + ' --');
+            productForm.find('select.product-input > .default').first().html('-- Pilih Produk ' + (formCount + 1) + ' --');
             productForm.find('select.product-input').selectpicker();
             $('#products-add-form').append(productForm);
             // animate('.product-form-'+productInputId, 'fadeIn');
             productsGet(productForm);
         });
 
-        $('#btn-product-remove').click(function(){
+        $('#btn-product-remove').click(function() {
             setTimeout(function() {
                 $('#products-add-form .product-form').last().remove();
-            }, 100);         
+            }, 100);
         });
 
-        $('#transaction-form').submit(function(e){
+        $('#transaction-form').submit(function(e) {
             e.preventDefault();
             var url = $(this).attr('action');
             var data = $(this).serializeArray();
@@ -281,20 +285,20 @@
                         $('#modal-transaction-detail .costumer').html(response.costumer.name);
                         $('#modal-transaction-detail .date').html(response.transaction_date);
                         for (var i = 0; i < response.products.length; i++) {
-                            tableProducts += '<tr>'+
-                                '<td>'+(i+1)+'</td>'+
-                                '<td>'+response.products[i].product_data.product_name+'</td>'+
-                                '<td>'+response.products[i].qty+'</td>'+
-                                '<td>'+convertToRupiah(response.products[i].product_data.price)+'</td>'+
-                                '<td>'+convertToRupiah(response.products[i].total_price)+'</td>'+
-                            '</tr>';
+                            tableProducts += '<tr>' +
+                                '<td>' + (i + 1) + '</td>' +
+                                '<td>' + response.products[i].product_data.product_name + '</td>' +
+                                '<td>' + response.products[i].qty + '</td>' +
+                                '<td>' + convertToRupiah(response.products[i].product_data.price) + '</td>' +
+                                '<td>' + convertToRupiah(response.products[i].total_price) + '</td>' +
+                                '</tr>';
                         }
                         $('#transaction-products').html(tableProducts);
                         $('#modal-transaction-detail .total-price').html(convertToRupiah(response.totals_price));
 
                         $('#modal-transaction-detail').modal('show');
 
-                        $('#btn-save-transaction').click(function(){
+                        $('#btn-save-transaction').click(function() {
                             swal({
                                 title: "Data Produksi Transaksi Yang Dimasukan Sudah Benar?",
                                 text: 'Pilih "OK" untuk menyimpan',
@@ -309,16 +313,16 @@
                             });
                         });
 
-                    }else{
-                        $.each(response.messages, function(key, value){
-                            var element = $('#transaction-form [name="'+key+'"]');
+                    } else {
+                        $.each(response.messages, function(key, value) {
+                            var element = $('#transaction-form [name="' + key + '"]');
                             element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
                             element.closest('div.form-group').find('label.error').remove();
                             element.parent().after(value);
                         });
                         swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
                     }
-                    
+
                 },
                 error: function() {
                     swal('Failed', 'Error', 'error');
@@ -331,7 +335,7 @@
             clearButton: true,
             weekStart: 1,
             time: false,
-            maxDate : new Date()
+            maxDate: new Date()
         });
         //Form Validation
         // $('#transaction-form').validate({
@@ -365,10 +369,9 @@
         //     pushInputTransaction(costumer, transactionDate, products, qtys);
         //     $('#modal-transaction-detail').modal('show');
         // });
-        
+
         costumersGet();
         // productsGet();
-        
+
     });
 </script>
-

@@ -199,7 +199,7 @@
                                         <td class="col-md-4 started-at"></td>
                                         <th class="col-md-2">Tanggal Selesai</th>
                                         <td class="col-md-4 finished-at">
-                                            <form action="<?= base_url('productions/productionChangeStatus'); ?>"> 
+                                            <form action="<?= base_url('productions/productionChangeStatus'); ?>">
                                                 <div class="col-md-8">
                                                     <div class="form-group" style="margin-bottom:0px;">
                                                         <div class="form-line">
@@ -207,7 +207,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4" style="margin-left:0px;">   
+                                                <div class="col-md-4" style="margin-left:0px;">
                                                     <button type="button" class="btn btn-primary waves-effect">
                                                         <i class="material-icons">save</i>
                                                     </button>
@@ -248,7 +248,7 @@
                         <div class="col-md-12">
                             <h4>Pesanan</h4>
 
-                            <div class="table responsive">                        
+                            <div class="table responsive">
                                 <table class="table table-hover" id="table-prod-histories">
                                     <thead>
                                         <tr>
@@ -266,7 +266,7 @@
                                         <tr>
                                             <th></th>
                                             <th></th>
-                                            <th ></th>
+                                            <th></th>
                                             <th></th>
                                             <th></th>
                                         </tr>
@@ -277,7 +277,7 @@
 
                         <div class="col-md-12">
                             <h4>Detail Perhitungan Kebutuhan Bahan Baku</h4>
-                            <div class="table responsive">                        
+                            <div class="table responsive">
                                 <table class="table table-hover" id="table-detail-bom">
                                     <thead>
                                         <tr>
@@ -298,7 +298,7 @@
                                 </table>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -390,263 +390,265 @@
 </div> -->
 
 <script>
-
-$(document).ready(function(){
-function productsGet(){
-    $.ajax({
-        type: 'ajax',
-        url: '<?php echo base_url("Products/productsGet"); ?>',
-        async: false,
-        dataType: 'json'
-    }).done(function(response){
-        var html = '';
-        for (var i = 0; i < response.length; i++) {
-            html += '<option value="'+response[i].product_id+'" data-subtext="'+response[i].status+'" data-price="'+response[i].price+'">'+response[i].name+'</option>';
-        }
-        $('.product-input').append(html);
-        $('.product-input').selectpicker('render');
-    }).fail(function(){
-        swal('Failed', 'Error', 'error');
-    });
-}
-
-function productionDetail(id){
-    $.ajax({
-        type: 'ajax',
-        method: 'get',
-        url: '<?php echo base_url("productions/productionGet"); ?>',
-        data: {id: id},
-        async: false,
-        dataType: 'json',
-        success: function(response) {
-
-            var renderFormChangeStatus = '';
-            if(response.status == 'finished'){
-                $('#table-production-detail .status').html('<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Selesai</button>');
-                $('#table-production-detail .finished-at').html(response.finished_at);
-                $('#btn-finishing').attr('disabled', '');
-            }else{
-                renderFormChangeStatus += '<form method="post" action="<?= base_url('productions/productionChangeStatus'); ?>" id="form-status-changing">'+
-                    '<input type="hidden" name="production-id" value="'+response.production_id+'">'+
-                    '<div class="col-md-8">'+
-                        '<div class="form-group" style="margin-bottom:0px;">'+
-                            '<div class="form-line">'+
-                                '<input type="text" class="datepicker-min-started form-control" name="finished-at" placeholder="Please choose a date...">'+
-                            '</div>'+
-                        '</div>'+
-                    '</div>'+
-                    '<div class="col-md-4">'+
-                        '<button type="button" class="btn btn-primary waves-effect" id="btn-status-change">'+
-                            '<i class="material-icons">save</i>'+
-                        '</button>'+
-                    '</div>'+
-                '</form>';
-                $('#table-production-detail .finished-at').html(renderFormChangeStatus);
-                // $('#table-production-detail .status').html('<button type="button" class="btn btn-xs bg-red waves-effect" disabled>Belum Selesai</button>'); 
-                // $('#btn-finishing').removeAttr('disabled');
-            }
-            //set response to detail productions
-            $('#table-production-detail .product').html(response.product_data.product_name);
-            $('#table-production-detail .num-product').html(response.num_of_prod);
-            
-            $('#table-production-detail .started-at').html(response.started_at);
-            $('#table-production-detail .created-at').html(response.created_at);
-            $('#table-production-detail .updated-at').html(response.updated_at);
-            
-            // set response to detail productions order
-            var tBodyHistories = '';
-            for (var i = 0; i < response.production_histories.length; i++) {
-                tBodyHistories += '<tr>'+
-                    '<td>'+(i+1)+'</td>'+
-                    '<td>'+response.production_histories[i].productions_detail_id+'</td>'+
-                    '<td>'+response.production_histories[i].num_of_prod+'</td>'+
-                    '<td>'+response.production_histories[i].created_at+'</td>'+
-                    '<td>'+response.production_histories[i].note+'</td>'+
-                '</tr>';
-            }
-            $('#productions-histories-detail-body').html(tBodyHistories);
-            $('#table-prod-histories tfoot tr th').eq(2).html(response.num_of_prod);
-
-            //set reponse to productions bom
-            var tBodyprodsMat = '';
-            for (var i = 0; i < response.production_cal_product_bom.length; i++) {
-                tBodyprodsMat += '<tr>' +
-                        '<td>' + (i + 1) + '</td>' +
-                        '<td>' + response.production_cal_product_bom[i].material_data.name + '</td>' +
-                        '<td>' + response.production_cal_product_bom[i].material_data.stock + '</td>' +
-                        '<td>' + response.production_cal_product_bom[i].material_data.stock_type + '</td>' +
-                        '<td>' + response.production_cal_product_bom[i].total_num_comb + '</td>'
-                    '</tr>';
-            }
-            $('#table-detail-bom tbody').html(tBodyprodsMat);
-
-            $('#modal-production-detail').modal('show');
-
-            //input finishing production date
-            $('.datepicker-min-started').bootstrapMaterialDatePicker({
-                format: 'YYYY-MM-DD',
-                clearButton: true,
-                weekStart: 1,
-                time: false,
-                minDate : response.started_at
-            });
-
-            $('#btn-status-change').click(function(){
-                var data = $('#form-status-changing').serialize();
-                var url = $('#form-status-changing').attr('action');
-                // console.log(data, url);
-                swal({
-                    title: "Data Produksi Yang Dimasukan Sudah Benar?",
-                    text: 'Pilih "OK" untuk menyimpan',
-                    type: "info",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true,
-                }, function() {
-                    setTimeout(function() {
-                        productionChangeStatus(url, data)
-                    }, 1000);
-                });
-            });
-
-        },
-        error: function() {
-            alert('Gagal', 'ERROR', 'error');
-        }
-    });
-}
-
-function productionChangeStatus(url, data){
-    $.ajax({
-        type: 'ajax',
-        method: 'post',
-        async: false,
-        url: url,
-        data: data,
-        dataType: 'json'
-    }).done(function(response) {
-        swal("Terhapus", "Data Status Produksi Telah Berubah dan Terimpan, Stok Produk Bertambah", "success");
-        loadAllDatatables();
-    }).fail(function() {
-        swal('Failed', 'Error', 'error');
-    });
-}
-
-function productionDelete(id){
-    $.ajax({
-        type: 'ajax',
-        method: 'get',
-        async: false,
-        url: '<?php echo base_url("Productions/productionDelete"); ?>',
-        data: {
-            'production-id': id
-        },
-        dataType: 'json'
-    }).done(function(response) {
-        swal("Terhapus", "Data Pemasok Telah Terhapus", "success");
-        productionsDatatables();
-    }).fail(function() {
-        swal('Failed', 'Error', 'error');
-    });
-}
-
-function loadAllDatatables(){
-    productionsDatatables('#productions-table');
-    productionsDatatables('#productions-finished-table', 'finished');
-    productionsDatatables('#productions-unfinished-table', 'unfinished');
-}
-
-function productionsDatatables(element, dataStatus) {
-    var no = 0;
-    $(element).DataTable({
-        "ajax": {
-            url: '<?php echo base_url("Productions/productionsGet"); ?>',
-            dataSrc: '',
-            method: 'get',
-            data: {dataStatus: dataStatus}
-        },
-        "columns": [
-            {
-                render: function(){
-                    return (no+++1);
+    $(document).ready(function() {
+        function productsGet() {
+            $.ajax({
+                type: 'ajax',
+                method: 'get',
+                url: '<?php echo base_url("Products/productsGet"); ?>',
+                async: false,
+                dataType: 'json'
+            }).done(function(response) {
+                var html = '';
+                for (var i = 0; i < response.length; i++) {
+                    html += '<option value="' + response[i].product_id + '" data-subtext="' + response[i].status + '" data-price="' + response[i].price + '">' + response[i].name + '</option>';
                 }
-            },
-            {
-                data: 'production_id',
-                name: 'production_id'
-            },
-            {
-                data: 'product_name',
-                name: 'product_name'
-            },
-            {
-                data: 'productions_total_num',
-                name: 'num_production'
-            },
-            {
-                data: 'started_at',
-                name: 'started_at'
-            },
-            {
-                data: 'finished_at',
-                name: 'finished_at'
-            },
-            {
-                render: function(data, type, full, meta) {
-                    if(full.status == 'finished'){
-                        return '<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Selesai</button>';
-                    }else{
-                        return '<button type="button" class="btn btn-xs bg-red waves-effect" disabled>Belum Selesai</button>';                            
+                $('.product-input').append(html);
+                $('.product-input').selectpicker('render');
+            }).fail(function() {
+                swal('Failed', 'Error', 'error');
+            });
+        }
+
+        function productionDetail(id) {
+            $.ajax({
+                type: 'ajax',
+                method: 'get',
+                url: '<?php echo base_url("productions/productionGet"); ?>',
+                data: {
+                    id: id
+                },
+                async: false,
+                dataType: 'json',
+                success: function(response) {
+
+                    var renderFormChangeStatus = '';
+                    if (response.status == 'finished') {
+                        $('#table-production-detail .status').html('<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Selesai</button>');
+                        $('#table-production-detail .finished-at').html(response.finished_at);
+                        $('#btn-finishing').attr('disabled', '');
+                    } else {
+                        renderFormChangeStatus += '<form method="post" action="<?= base_url('productions/productionChangeStatus'); ?>" id="form-status-changing">' +
+                            '<input type="hidden" name="production-id" value="' + response.production_id + '">' +
+                            '<div class="col-md-8">' +
+                            '<div class="form-group" style="margin-bottom:0px;">' +
+                            '<div class="form-line">' +
+                            '<input type="text" class="datepicker-min-started form-control" name="finished-at" placeholder="Please choose a date...">' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="col-md-4">' +
+                            '<button type="button" class="btn btn-primary waves-effect" id="btn-status-change">' +
+                            '<i class="material-icons">save</i>' +
+                            '</button>' +
+                            '</div>' +
+                            '</form>';
+                        $('#table-production-detail .finished-at').html(renderFormChangeStatus);
+                        // $('#table-production-detail .status').html('<button type="button" class="btn btn-xs bg-red waves-effect" disabled>Belum Selesai</button>'); 
+                        // $('#btn-finishing').removeAttr('disabled');
                     }
+                    //set response to detail productions
+                    $('#table-production-detail .product').html(response.product_data.product_name);
+                    $('#table-production-detail .num-product').html(response.num_of_prod);
+
+                    $('#table-production-detail .started-at').html(response.started_at);
+                    $('#table-production-detail .created-at').html(response.created_at);
+                    $('#table-production-detail .updated-at').html(response.updated_at);
+
+                    // set response to detail productions order
+                    var tBodyHistories = '';
+                    for (var i = 0; i < response.production_histories.length; i++) {
+                        tBodyHistories += '<tr>' +
+                            '<td>' + (i + 1) + '</td>' +
+                            '<td>' + response.production_histories[i].productions_detail_id + '</td>' +
+                            '<td>' + response.production_histories[i].num_of_prod + '</td>' +
+                            '<td>' + response.production_histories[i].created_at + '</td>' +
+                            '<td>' + response.production_histories[i].note + '</td>' +
+                            '</tr>';
+                    }
+                    $('#productions-histories-detail-body').html(tBodyHistories);
+                    $('#table-prod-histories tfoot tr th').eq(2).html(response.num_of_prod);
+
+                    //set reponse to productions bom
+                    var tBodyprodsMat = '';
+                    for (var i = 0; i < response.production_cal_product_bom.length; i++) {
+                        tBodyprodsMat += '<tr>' +
+                            '<td>' + (i + 1) + '</td>' +
+                            '<td>' + response.production_cal_product_bom[i].material_data.name + '</td>' +
+                            '<td>' + response.production_cal_product_bom[i].material_data.stock + '</td>' +
+                            '<td>' + response.production_cal_product_bom[i].material_data.stock_type + '</td>' +
+                            '<td>' + response.production_cal_product_bom[i].total_num_comb + '</td>'
+                        '</tr>';
+                    }
+                    $('#table-detail-bom tbody').html(tBodyprodsMat);
+
+                    $('#modal-production-detail').modal('show');
+
+                    //input finishing production date
+                    $('.datepicker-min-started').bootstrapMaterialDatePicker({
+                        format: 'YYYY-MM-DD',
+                        clearButton: true,
+                        weekStart: 1,
+                        time: false,
+                        minDate: response.started_at
+                    });
+
+                    $('#btn-status-change').click(function() {
+                        var data = $('#form-status-changing').serialize();
+                        var url = $('#form-status-changing').attr('action');
+                        // console.log(data, url);
+                        swal({
+                            title: "Data Produksi Yang Dimasukan Sudah Benar?",
+                            text: 'Pilih "OK" untuk menyimpan',
+                            type: "info",
+                            showCancelButton: true,
+                            closeOnConfirm: false,
+                            showLoaderOnConfirm: true,
+                        }, function() {
+                            setTimeout(function() {
+                                productionChangeStatus(url, data)
+                            }, 1000);
+                        });
+                    });
+
+                },
+                error: function() {
+                    alert('Gagal', 'ERROR', 'error');
                 }
-            },
-            {
-                name: 'action',
-                orderable: false,
-                searchable: false,
-                render: function(data, type, full, meta) {
-                    return '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-production-detail" title="Detail" data="' + full.production_id + '" ><i class="material-icons">remove_red_eye</i></a>' +
-                        '<a type="javascript:;" class="btn btn-xs waves-effect btn-production-delete" title="Detele" data="' + full.production_id + '"><i class="material-icons">delete</i></a>';
-                }
-            }
-        ],
-        "processing": true,
-        "bDestroy": true,
-        "fnDrawCallback": function(oSettings) {
-
-            // display modal-production-detail
-            $('.btn-production-detail').click(function() {
-                var id = $(this).attr('data');
-                productionDetail(id);
             });
-
-
-            //btn-production-delete
-            $('.btn-production-delete').click(function() {
-                var id = $(this).attr('data');
-                swal({
-                    title: "Hapus Data Ini?",
-                    text: 'Pilih "OK" untuk menghapus',
-                    type: "info",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true,
-                }, function() {
-                    setTimeout(function() {
-                        productionDelete(id);
-                    }, 1000);
-                });
-            });
-
-
-
         }
-    });
-}
 
-loadAllDatatables();
-productsGet();
+        function productionChangeStatus(url, data) {
+            $.ajax({
+                type: 'ajax',
+                method: 'post',
+                async: false,
+                url: url,
+                data: data,
+                dataType: 'json'
+            }).done(function(response) {
+                swal("Terhapus", "Data Status Produksi Telah Berubah dan Terimpan, Stok Produk Bertambah", "success");
+                loadAllDatatables();
+            }).fail(function() {
+                swal('Failed', 'Error', 'error');
+            });
+        }
 
-})
+        function productionDelete(id) {
+            $.ajax({
+                type: 'ajax',
+                method: 'get',
+                async: false,
+                url: '<?php echo base_url("Productions/productionDelete"); ?>',
+                data: {
+                    'production-id': id
+                },
+                dataType: 'json'
+            }).done(function(response) {
+                swal("Terhapus", "Data Pemasok Telah Terhapus", "success");
+                productionsDatatables();
+            }).fail(function() {
+                swal('Failed', 'Error', 'error');
+            });
+        }
 
+        function loadAllDatatables() {
+            productionsDatatables('#productions-table');
+            productionsDatatables('#productions-finished-table', 'finished');
+            productionsDatatables('#productions-unfinished-table', 'unfinished');
+        }
+
+        function productionsDatatables(element, dataStatus) {
+            var no = 0;
+            $(element).DataTable({
+                "ajax": {
+                    url: '<?php echo base_url("Productions/productionsGet"); ?>',
+                    dataSrc: '',
+                    method: 'get',
+                    data: {
+                        dataStatus: dataStatus
+                    }
+                },
+                "columns": [{
+                        render: function() {
+                            return (no++ + 1);
+                        }
+                    },
+                    {
+                        data: 'production_id',
+                        name: 'production_id'
+                    },
+                    {
+                        data: 'product_name',
+                        name: 'product_name'
+                    },
+                    {
+                        data: 'productions_total_num',
+                        name: 'num_production'
+                    },
+                    {
+                        data: 'started_at',
+                        name: 'started_at'
+                    },
+                    {
+                        data: 'finished_at',
+                        name: 'finished_at'
+                    },
+                    {
+                        render: function(data, type, full, meta) {
+                            if (full.status == 'finished') {
+                                return '<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Selesai</button>';
+                            } else {
+                                return '<button type="button" class="btn btn-xs bg-red waves-effect" disabled>Belum Selesai</button>';
+                            }
+                        }
+                    },
+                    {
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, full, meta) {
+                            return '<a href="javascript:;" type="button" class="btn btn-xs waves-effect btn-production-detail" title="Detail" data="' + full.production_id + '" ><i class="material-icons">remove_red_eye</i></a>' +
+                                '<a type="javascript:;" class="btn btn-xs waves-effect btn-production-delete" title="Detele" data="' + full.production_id + '"><i class="material-icons">delete</i></a>';
+                        }
+                    }
+                ],
+                "processing": true,
+                "bDestroy": true,
+                "fnDrawCallback": function(oSettings) {
+
+                    // display modal-production-detail
+                    $('.btn-production-detail').click(function() {
+                        var id = $(this).attr('data');
+                        productionDetail(id);
+                    });
+
+
+                    //btn-production-delete
+                    $('.btn-production-delete').click(function() {
+                        var id = $(this).attr('data');
+                        swal({
+                            title: "Hapus Data Ini?",
+                            text: 'Pilih "OK" untuk menghapus',
+                            type: "info",
+                            showCancelButton: true,
+                            closeOnConfirm: false,
+                            showLoaderOnConfirm: true,
+                        }, function() {
+                            setTimeout(function() {
+                                productionDelete(id);
+                            }, 1000);
+                        });
+                    });
+
+
+
+                }
+            });
+        }
+
+        loadAllDatatables();
+        productsGet();
+
+    })
 </script>

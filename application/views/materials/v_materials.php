@@ -12,8 +12,8 @@
                         <ul class="header-dropdown m-r--5">
                             <li class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-									<i class="material-icons">more_vert</i>
-								</a>
+                                    <i class="material-icons">more_vert</i>
+                                </a>
                                 <ul class="dropdown-menu pull-right">
                                     <li>
                                         <a href="javascript:void(0);" class=" waves-effect waves-block">Action</a>
@@ -30,12 +30,12 @@
                     </div>
                     <div class="body">
                         <button type="button" class="btn bg-blue waves-effect" id="btn-create-material" title="Add Material" data-toggle="modal" data-target="#largeModal">
-							<i class="material-icons">add</i>
-							<span>Tambah Bahan Baku</span>
-						</button>
+                            <i class="material-icons">add</i>
+                            <span>Tambah Bahan Baku</span>
+                        </button>
                         <button type="button" class="btn bg-green waves-effect" id="reload-datatables" title="Refresh" data-toggle="modal" data-target="#largeModal">
-							<i class="material-icons">refresh</i>
-						</button><br><br>
+                            <i class="material-icons">refresh</i>
+                        </button><br><br>
                         <div class="table-responsive">
                             <table id="myTable" class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                 <thead>
@@ -44,7 +44,7 @@
                                         <th>id</th>
                                         <th>Nama Bahan Baku</th>
                                         <th>Stock</th>
-                                        <th>Status</th>                                        
+                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -52,15 +52,15 @@
 
                                 </tbody>
                                 <tfoot>
-									<tr>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-									</tr>
-								</tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -133,7 +133,7 @@
                             <div class="form-group form-float">
                                 <b>Status</b>
                                 <div class="col-md-12">
-                                    <input name="status" type="radio" id="active" value="available"/>
+                                    <input name="status" type="radio" id="active" value="available" />
                                     <label for="active">Tersedia</label>
                                     <input name="status" type="radio" id="nonactive" value="notavailable" />
                                     <label for="nonactive">Tidak Tersedia</label>
@@ -150,7 +150,7 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>                        
+                            <button type="submit" class="btn btn-primary waves-effect"><i class="material-icons">save</i><span>Simpan</span></button>
                         </div>
                     </form>
                 </div>
@@ -202,9 +202,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">
-					<i class="material-icons">close</i>
-					<span>Tutup</span>
-				</button>
+                    <i class="material-icons">close</i>
+                    <span>Tutup</span>
+                </button>
             </div>
         </div>
     </div>
@@ -220,12 +220,12 @@
             var no = 1;
             $('#myTable').DataTable({
                 "ajax": {
+                    method: 'get',
                     url: '<?php echo base_url("Materials/materialsGet"); ?>',
                     dataSrc: ''
                 },
-                "columns": [
-                    {
-                        render: function(){
+                "columns": [{
+                        render: function() {
                             return no++;
                         }
                     },
@@ -239,17 +239,17 @@
                     },
                     {
                         name: 'stock',
-                        render: function(data, type, full, meta){
-                            return full.stock+' '+full.stock_type;
+                        render: function(data, type, full, meta) {
+                            return full.stock + ' ' + full.stock_type;
                         }
                     },
                     {
                         data: 'status',
                         name: 'status',
-                        render: function(data, type, full, meta){
-                            if(full.status == "available"){
+                        render: function(data, type, full, meta) {
+                            if (full.status == "available") {
                                 return '<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Tersedia</button>';
-                            }else{
+                            } else {
                                 return '<button type="button" class="btn btn-xs bg-red waves-effect" disabled>Tidak Tersedia</button>';
                             }
                         }
@@ -276,10 +276,12 @@
                             type: 'ajax',
                             method: 'get',
                             url: '<?php echo base_url("Materials/materialGet"); ?>',
-                            data: {id: id},
+                            data: {
+                                id: id
+                            },
                             async: false,
                             dataType: 'json'
-                        }).done(function(response){
+                        }).done(function(response) {
                             $('#table-material-detail .name').html(response.name);
                             $('#table-material-detail .stock').html(response.stock);
                             if (response.status == 'available') {
@@ -290,7 +292,7 @@
                             $('#table-material-detail .note').html(response.note);
                             $('#table-material-detail .created-at').html(response.created_at);
                             $('#table-material-detail .updated-at').html(response.updated_at);
-                        }).fail(function(){
+                        }).fail(function() {
                             swal('Failed', 'Error', 'error');
                         });
                     });
@@ -300,7 +302,7 @@
                         resetForm();
 
                         $('#modal-material-form').find('.modal-title').text('Edit Bahan Baku');
-                        $('#material-form').attr('action', '<?php echo base_url("Materials/materialUpdate");?>');
+                        $('#material-form').attr('action', '<?php echo base_url("Materials/materialUpdate"); ?>');
 
                         $("#material-form input[name=password]").attr("disabled", "");
                         $("#material-form input[name=cpassword]").attr("disabled", "");
@@ -319,9 +321,9 @@
                             $('#material-form input[name=name]').val(response.name);
                             $('#material-form input[name=stock]').val(response.stock);
                             $('#material-form [name="stock-type"]').selectpicker('val', response.stock_type);
-                            if(response.status == 'available'){
+                            if (response.status == 'available') {
                                 $('#material-form #active').prop("checked", true);
-                            }else{
+                            } else {
                                 $('#material-form #nonactive').prop("checked", true);
                             }
                             $('#material-form textarea[name=note]').html(response.note);
@@ -362,21 +364,21 @@
                 async: false,
                 dataType: 'json'
             }).done(function(response) {
-                if(response.success == true){
+                if (response.success == true) {
                     swal("Tersimpan", "Data Bahan Baku Telah Tersimpan", "success");
                     materialsDatatables();
                     $('#modal-material-form').modal('hide');
                     $('#material-form')[0].reset();
-                }else{
-                    $.each(response.messages, function(key, value){
-                        var element = $('#material-form [name="'+key+'"]');
+                } else {
+                    $.each(response.messages, function(key, value) {
+                        var element = $('#material-form [name="' + key + '"]');
                         element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
                         element.closest('div.form-group').find('label.error').remove();
                         element.parent().after(value);
                     });
                     swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
                 }
-                
+
             }).fail(function() {
                 swal('Error !', 'Masukan Form Dengan Benar !', 'error');
             });
@@ -400,15 +402,15 @@
             });
         }
 
-        function convertToRupiah(data)
-        {
-            var rupiah = '';		
+        function convertToRupiah(data) {
+            var rupiah = '';
             var angkarev = data.toString().split('').reverse().join('');
-            for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
-            return 'Rp. '+rupiah.split('',rupiah.length-1).reverse().join('');
+            for (var i = 0; i < angkarev.length; i++)
+                if (i % 3 == 0) rupiah += angkarev.substr(i, 3) + '.';
+            return 'Rp. ' + rupiah.split('', rupiah.length - 1).reverse().join('');
         }
 
-        function resetForm(){
+        function resetForm() {
             $('#material-form')[0].reset();
             $('#material-form #active').prop('checked', true);
             $('#material-form select').selectpicker('deselectAll');
@@ -423,13 +425,13 @@
             resetForm();
 
             $('#modal-material-form').find('.modal-title').text('Tambah Bahan Baku');
-            $('#material-form').attr('action', '<?php echo base_url("Materials/materialCreate");?>');
+            $('#material-form').attr('action', '<?php echo base_url("Materials/materialCreate"); ?>');
             $('#modal-material-form').modal('show');
         });
 
         // save material
         $("#material-form").submit(function(e) {
-            e.preventDefault();            
+            e.preventDefault();
 
             var url = $(this).attr('action');
             var data = $(this).serialize();

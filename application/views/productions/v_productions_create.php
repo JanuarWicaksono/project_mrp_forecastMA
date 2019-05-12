@@ -1,6 +1,6 @@
 <section class="content">
     <div class="container-fluid">
-        
+
         <div class="row clearfix">
 
             <div class="col-md-5">
@@ -29,7 +29,7 @@
                                     <b>Pilih Produk</b>
                                     <select id="product-input" class="form-control show-tick" name="product-input" data-live-search="true">
                                         <option value="">-- Pilih Produk --</option>
-                                        
+
                                     </select>
                                 </div>
                             </div>
@@ -111,33 +111,33 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr id="forecast-data-mounth">
-                                        
+
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr id="forecast-data-count">
-                                        
+
 
                                     </tr>
                                     <tr id="forecast-label">
-                                    
+
                                     </tr>
                                     <tr id="forecast-recommend">
-                                        
+
 
                                     </tr>
                                     <tr id="forecast-sma">
-                                        
+
 
                                     </tr>
                                     <tr id="forecast-ema">
-                                        
+
 
                                     </tr>
                                 </tbody>
                                 <tfoot>
-                                    
+
                                 </tfoot>
                             </table>
                         </div>
@@ -147,15 +147,15 @@
                             <div role="tabpanel" class="tab-pane fade in active" id="home_with_icon_title">
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
-                                
+
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
-            
-            
+
+
         </div>
 
     </div>
@@ -201,7 +201,7 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="table responsive">                        
+                        <div class="table responsive">
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -219,7 +219,7 @@
                                 <tfoot>
                                     <tr>
                                         <th colspan="6">
-                                            <button type="button" id="btn-purchase-form" class="btn btn-info btn-xs btn-block waves-effect" >
+                                            <button type="button" id="btn-purchase-form" class="btn btn-info btn-xs btn-block waves-effect">
                                                 <i class="material-icons">save</i><span>Pesan Bahan Baku</span>
                                             </button>
                                         </th>
@@ -231,7 +231,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btn-save-productions" class="btn btn-primary waves-effect" >
+                <button type="button" id="btn-save-productions" class="btn btn-primary waves-effect">
                     <i class="material-icons">save</i><span>Simpan</span>
                 </button>
                 <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">
@@ -243,304 +243,310 @@
 </div>
 
 <script>
-$(document).ready(function() {
+    $(document).ready(function() {
 
-function productsGet() {
-    $.ajax({
-        type: 'ajax',
-        url: baseUrl('Products/productsGet'),
-        async: false,
-        dataType: 'json'
-    }).done(function(response) {
-        var html = '';
-        for (var i = 0; i < response.length; i++) {
-            html += '<option value="' + response[i].product_id + '" data-subtext="' + response[i].status + '" data-price="' + response[i].price + '">' + response[i].name + '</option>';
+        function productsGet() {
+            $.ajax({
+                type: 'ajax',
+                method: 'get',
+                url: baseUrl('Products/productsGet'),
+                async: false,
+                dataType: 'json'
+            }).done(function(response) {
+                var html = '';
+                for (var i = 0; i < response.length; i++) {
+                    html += '<option value="' + response[i].product_id + '" data-subtext="' + response[i].status + '" data-price="' + response[i].price + '">' + response[i].name + '</option>';
+                }
+                $('#product-input').append(html);
+                $('#product-input').selectpicker('render');
+            }).fail(function() {
+                swal('Failed', 'Error', 'error');
+            });
         }
-        $('#product-input').append(html);
-        $('#product-input').selectpicker('render');
-    }).fail(function() {
-        swal('Failed', 'Error', 'error');
-    });
-}
 
-function productionsSave(url, data) {
-    $.ajax({
-        type: 'ajax',
-        method: 'post',
-        url: url,
-        data: data, 
-        async: false,
-        dataType: 'json'
-    }).done(function(response) {
-        swal("Tersimpan", "Data Productions Telah Tersimpan ! ", "success");
-        
-        window.location.href = "<?php echo base_url('Productions/ProductionsView') ?>";
-    }).fail(function() {
-        swal('Gagal', 'ERROR', 'error');
-    });
-}
+        function productionsSave(url, data) {
+            $.ajax({
+                type: 'ajax',
+                method: 'post',
+                url: url,
+                data: data,
+                async: false,
+                dataType: 'json'
+            }).done(function(response) {
+                swal("Tersimpan", "Data Productions Telah Tersimpan ! ", "success");
 
-function pushDetailProductions(response){
-    $('#table-production-detail .product').html(response.product_name);
-    $('#table-production-detail .num-product').html(response.num_productions);
-    if (response.status == 'finished') {
-        $('#table-production-detail .status').html('<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Selesai</button>');
-    } else {
-        $('#table-production-detail .status').html('<button type="button" class="btn btn-xs bg-red waves-effect" disabled>Belum Selesai</button>');
-    }
-    $('#table-production-detail .started-at').html(response.started_at);
-    $('#table-production-detail .finished-at').html(response.finished_at);
-    $('#table-production-detail .note').html(response.note);
-
-    var tBodyprodsMat = '';
-    for (var i = 0; i < response.materials.length; i++) {
-        tBodyprodsMat += '<tr>' +
-            '<td>' + (i + 1) + '</td>' +
-            '<td>' + response.materials[i].material_data.name + '</td>' +
-            '<td>' + response.materials[i].material_data.stock + '</td>' +
-            '<td>' + response.materials[i].material_data.stock_type + '</td>' +
-            '<td>' + response.materials[i].total_num_comb + '</td>' +
-            '<td>' + response.materials[i].cal_total_min_stock + '</td>' +
-            '</tr>';
-    }
-    $('#productions-materials').html(tBodyprodsMat);
-
-    $('#modal-production-detail').modal('show');
-
-    $('#btn-save-productions').click(function() {
-        var url = $('#productions-form').attr('action');
-        var data = $('#productions-form').serialize('action');
-        // console.log(url, data);
-        swal({
-            title: "Data Produksi Yang Dimasukan Sudah Benar?",
-            text: 'Pilih "OK" untuk menyimpan',
-            type: "info",
-            showCancelButton: true,
-            closeOnConfirm: false,
-            showLoaderOnConfirm: true,
-        }, function() {
-            setTimeout(function() {
-                productionsSave(url, data)
-            }, 1000);
-        });
-    });
-}
-
-function getChartJs(type, response) {
-    var config = null;
-    var dataLable = [];
-    var dataCount = [];
-    for (var i = 0; i < response.data_each_mounth.length; i++) {
-        dataLable[i] = response.data_each_mounth[i].date;
-        dataCount[i] = response.data_each_mounth[i].count;
-    }
-    dataLable.push(response.now_mounth);
-    if (type === 'line') {
-        config = {
-            type: 'line',
-            data: {
-                labels: dataLable,
-                datasets: [{
-                        label: 'Product Terjual',
-                        data: dataCount,
-                        borderColor: 'rgba(0, 188, 212, 0.75)',
-                        backgroundColor: 'rgba(0, 188, 212, 0.3)',
-                        pointBorderColor: 'rgba(0, 188, 212, 0)',
-                        pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
-                        pointBorderWidth: 1
-                    },
-                    {
-                        label: "Peramalan / Forecast Simple Moving Average",
-                        data: [null, null, null, null, null, null, null, null, null, null, null, null, response.forecast_sma],
-                        borderColor: 'rgba(233, 30, 99, 0.75)',
-                        backgroundColor: 'rgba(233, 30, 99, 0.3)',
-                        pointBorderColor: 'rgba(233, 30, 99, 0)',
-                        pointBackgroundColor: '#F44336',
-                        pointBorderWidth: 1,
-                        pointRadius: 3,
-                        pointHoverRadius: 5
-                    },
-                    {
-                        label: "Peramalan / Forecast Exponential Moving Average",
-                        data: [null, null, null, null, null, null, null, null, null, null, null, null, response.forecast_ema],
-                        borderColor: 'rgba(233, 30, 99, 0.75)',
-                        backgroundColor: 'rgba(233, 30, 99, 0.3)',
-                        pointBorderColor: 'rgba(233, 30, 99, 0)',
-                        pointBackgroundColor: '#795548',
-                        pointBorderWidth: 1,
-                        pointRadius: 3,
-                        pointHoverRadius: 5
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                legend: false
-            }
+                window.location.href = "<?php echo base_url('Productions/ProductionsView') ?>";
+            }).fail(function() {
+                swal('Gagal', 'ERROR', 'error');
+            });
         }
-    }
-    return config;
-}
 
-
-$('#product-input').change(function() {
-    $('#forecast-data-mounth').empty();
-    $('#forecast-data-count').empty();
-    $('#line_chart').remove();
-    $('#body-forecast').prepend('<canvas id="line_chart"></canvas>')
-    $('#forecast-label').empty();
-    $('#forecast-recommend').empty();
-    $('#forecast-sma').empty();
-    $('#forecast-ema').empty();
-
-    
-
-    var $loading = $('.card-forecast').waitMe({
-        effect: 'rotation',
-        text: 'Loading...',
-        bg: 'rgba(255,255,255,0.90)',
-        color: '#555'
-    });
-
-    setTimeout(function() {
-        //Request productionsForecast
-        var id = $('#product-input').val();
-        $.ajax({
-            type: 'ajax',
-            method: 'get',
-            url: '<?php echo base_url("Productions/productionsForecast"); ?>',
-            data: {
-                product_id: id
-            },
-            async: false,
-            dataType: 'json'
-        }).done(function(response) {
-            if (response.success == true) {
-                //Push Data to Table Forecast
-                var tableMounth = '<th class="bg-blue">Bulan (t)</th>';
-                var tableCount = '<th class="bg-blue">Jumlah Penjualan</th>';
-                var tableForecastLabel = '<th class="bg-blue" colspan="7">Hasil Peramalan/Forecast Moving Average ' + response.now_mounth + '</th>';
-                var tableForecastRecommend = '<th class="bg-green" colspan="5">Rekomendasi</th>';
-                var tableForecastSma = '<th class="bg-red" colspan="5">Simple</th>';
-                var tableForecastEma = '<th class="bg-brown" colspan="5">Exponential</th>';
-
-                for (var i = 0; i < response.data_each_mounth.length; i++) {
-                    tableMounth += '<th class="bg-blue">' + response.data_each_mounth[i].date + '</th>';
-                }
-                $('#forecast-data-mounth').append(tableMounth);
-
-                for (var i = 0; i < response.data_each_mounth.length; i++) {
-                    tableCount += '<td>' + response.data_each_mounth[i].count + '</td>';
-                }
-                $('#forecast-data-count').append(tableCount);
-
-                $('#forecast-label').append(tableForecastLabel);
-
-                tableForecastRecommend += '<th class="bg-green" colspan="2" style="text-align: center;">' + response.forecast_recommend + '</th>';
-                $('#forecast-recommend').append(tableForecastRecommend);
-
-                tableForecastSma += '<th class="bg-red" colspan="2" style="text-align: center;">' + response.forecast_sma + '</th>';
-                $('#forecast-sma').append(tableForecastSma);
-
-                tableForecastEma += '<th class="bg-brown" colspan="2" style="text-align: center;">' + response.forecast_ema + '</th>';
-                $('#forecast-ema').append(tableForecastEma);
-
-                // Push Data to Chartjs
-                new Chart(document.getElementById("line_chart").getContext("2d"), getChartJs('line', response));
-
-                setTimeout(function() {
-                    $loading.waitMe('hide');
-
-                    $('.btn-forecast-add').click(function() {
-                        var methodData = $(this).attr('data');
-                        var methodValue;
-                        switch(methodData){
-                            case 'recommend': methodValue = response.forecast_recommend;break;
-                            case 'simple': methodValue = response.forecast_sma;break;
-                            case 'exponential': methodValue = response.forecast_ema;
-                        }
-                        $('#productions-form [name="num-prod"]').val(methodValue);
-                    });
-                }, 256);
-            }else if(response.success == false){
-                swal('Peramalan Gagal', 'Produk Ini Memiliki Data Penjualan Yang Tidak Sesuai Untuk Melakukan Perhitungan Peramalan', 'error');
-                $loading.waitMe('hide');
-            } else if(response.success == 'empty'){
-                $loading.waitMe('hide');
+        function pushDetailProductions(response) {
+            $('#table-production-detail .product').html(response.product_name);
+            $('#table-production-detail .num-product').html(response.num_productions);
+            if (response.status == 'finished') {
+                $('#table-production-detail .status').html('<button type="button" class="btn btn-xs bg-green waves-effect" disabled>Selesai</button>');
+            } else {
+                $('#table-production-detail .status').html('<button type="button" class="btn btn-xs bg-red waves-effect" disabled>Belum Selesai</button>');
             }
+            $('#table-production-detail .started-at').html(response.started_at);
+            $('#table-production-detail .finished-at').html(response.finished_at);
+            $('#table-production-detail .note').html(response.note);
 
-        }).fail(function() {
-            $loading.waitMe('hide');
-            swal('Gagal', 'Tidak Dapat Melakukan Produksi Karena Data Produk Tidak Lengkap', 'error');
-        });
+            var tBodyprodsMat = '';
+            for (var i = 0; i < response.materials.length; i++) {
+                tBodyprodsMat += '<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' + response.materials[i].material_data.name + '</td>' +
+                    '<td>' + response.materials[i].material_data.stock + '</td>' +
+                    '<td>' + response.materials[i].material_data.stock_type + '</td>' +
+                    '<td>' + response.materials[i].total_num_comb + '</td>' +
+                    '<td>' + response.materials[i].cal_total_min_stock + '</td>' +
+                    '</tr>';
+            }
+            $('#productions-materials').html(tBodyprodsMat);
 
-    }, 1024);
+            $('#modal-production-detail').modal('show');
 
-});
-
-$('#productions-form').submit(function(e) {
-    e.preventDefault();
-    var url = $(this).attr('action');
-    var data = $(this).serialize();
-    productionsDetailConf(url, data);
-});
-
-function productionsDetailConf(url, data) {
-    var run = true;
-    $.ajax({
-        type: 'ajax',
-        method: 'post',
-        url: '<?php echo base_url("productions/productionsDetailConfm"); ?>',
-        data: data,
-        async: false,
-        dataType: 'json',
-        success: function(response) {
-            if (response.response_status == true) {
-                pushDetailProductions(response);
-
-                for (let i = 0; i < response.materials.length; i++) {
-                    if(response.materials[i].cal_total_min_stock < 0){
-                        run = false;
-                    }
-                }
-                if (run) {
-                    $("#btn-save-productions").css("display", "show");                
-                    $("#btn-purchase-form").css("display", "none");                
-                } else {
-                    $("#btn-save-productions").css("display", "none");
-                    $("#btn-purchase-form").css("display", "show");
-
-                    $('#btn-purchase-form').click(function(){
-                        var productId = $('#productions-form [name="product-input"]').val();
-                        var numProd = $('#productions-form [name="num-prod"]').val();
-                        window.location.href = "<?php echo base_url('Materials/purchaseMaterialsView'); ?>?productId=" + productId + "&numProd=" + numProd;
-                    });            
-                }
-            } else if(response.response_status == false){
-                $.each(response.messages, function(key, value){
-                    var element = $('#productions-form [name="'+key+'"]');
-                    element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
-                    element.closest('div.form-group').find('label.error').remove();
-                    element.parent().after(value);
+            $('#btn-save-productions').click(function() {
+                var url = $('#productions-form').attr('action');
+                var data = $('#productions-form').serialize('action');
+                // console.log(url, data);
+                swal({
+                    title: "Data Produksi Yang Dimasukan Sudah Benar?",
+                    text: 'Pilih "OK" untuk menyimpan',
+                    type: "info",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                }, function() {
+                    setTimeout(function() {
+                        productionsSave(url, data)
+                    }, 1000);
                 });
-                swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
-            }
-            
-        },
-        error: function() {
-            swal('Failed', 'Error', 'error');
+            });
         }
+
+        function getChartJs(type, response) {
+            var config = null;
+            var dataLable = [];
+            var dataCount = [];
+            for (var i = 0; i < response.data_each_mounth.length; i++) {
+                dataLable[i] = response.data_each_mounth[i].date;
+                dataCount[i] = response.data_each_mounth[i].count;
+            }
+            dataLable.push(response.now_mounth);
+            if (type === 'line') {
+                config = {
+                    type: 'line',
+                    data: {
+                        labels: dataLable,
+                        datasets: [{
+                                label: 'Product Terjual',
+                                data: dataCount,
+                                borderColor: 'rgba(0, 188, 212, 0.75)',
+                                backgroundColor: 'rgba(0, 188, 212, 0.3)',
+                                pointBorderColor: 'rgba(0, 188, 212, 0)',
+                                pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
+                                pointBorderWidth: 1
+                            },
+                            {
+                                label: "Peramalan / Forecast Simple Moving Average",
+                                data: [null, null, null, null, null, null, null, null, null, null, null, null, response.forecast_sma],
+                                borderColor: 'rgba(233, 30, 99, 0.75)',
+                                backgroundColor: 'rgba(233, 30, 99, 0.3)',
+                                pointBorderColor: 'rgba(233, 30, 99, 0)',
+                                pointBackgroundColor: '#F44336',
+                                pointBorderWidth: 1,
+                                pointRadius: 3,
+                                pointHoverRadius: 5
+                            },
+                            {
+                                label: "Peramalan / Forecast Exponential Moving Average",
+                                data: [null, null, null, null, null, null, null, null, null, null, null, null, response.forecast_ema],
+                                borderColor: 'rgba(233, 30, 99, 0.75)',
+                                backgroundColor: 'rgba(233, 30, 99, 0.3)',
+                                pointBorderColor: 'rgba(233, 30, 99, 0)',
+                                pointBackgroundColor: '#795548',
+                                pointBorderWidth: 1,
+                                pointRadius: 3,
+                                pointHoverRadius: 5
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        legend: false
+                    }
+                }
+            }
+            return config;
+        }
+
+
+        $('#product-input').change(function() {
+            $('#forecast-data-mounth').empty();
+            $('#forecast-data-count').empty();
+            $('#line_chart').remove();
+            $('#body-forecast').prepend('<canvas id="line_chart"></canvas>')
+            $('#forecast-label').empty();
+            $('#forecast-recommend').empty();
+            $('#forecast-sma').empty();
+            $('#forecast-ema').empty();
+
+
+
+            var $loading = $('.card-forecast').waitMe({
+                effect: 'rotation',
+                text: 'Loading...',
+                bg: 'rgba(255,255,255,0.90)',
+                color: '#555'
+            });
+
+            setTimeout(function() {
+                //Request productionsForecast
+                var id = $('#product-input').val();
+                $.ajax({
+                    type: 'ajax',
+                    method: 'get',
+                    url: '<?php echo base_url("Productions/productionsForecast"); ?>',
+                    data: {
+                        product_id: id
+                    },
+                    async: false,
+                    dataType: 'json'
+                }).done(function(response) {
+                    if (response.success == true) {
+                        //Push Data to Table Forecast
+                        var tableMounth = '<th class="bg-blue">Bulan (t)</th>';
+                        var tableCount = '<th class="bg-blue">Jumlah Penjualan</th>';
+                        var tableForecastLabel = '<th class="bg-blue" colspan="7">Hasil Peramalan/Forecast Moving Average ' + response.now_mounth + '</th>';
+                        var tableForecastRecommend = '<th class="bg-green" colspan="5">Rekomendasi</th>';
+                        var tableForecastSma = '<th class="bg-red" colspan="5">Simple</th>';
+                        var tableForecastEma = '<th class="bg-brown" colspan="5">Exponential</th>';
+
+                        for (var i = 0; i < response.data_each_mounth.length; i++) {
+                            tableMounth += '<th class="bg-blue">' + response.data_each_mounth[i].date + '</th>';
+                        }
+                        $('#forecast-data-mounth').append(tableMounth);
+
+                        for (var i = 0; i < response.data_each_mounth.length; i++) {
+                            tableCount += '<td>' + response.data_each_mounth[i].count + '</td>';
+                        }
+                        $('#forecast-data-count').append(tableCount);
+
+                        $('#forecast-label').append(tableForecastLabel);
+
+                        tableForecastRecommend += '<th class="bg-green" colspan="2" style="text-align: center;">' + response.forecast_recommend + '</th>';
+                        $('#forecast-recommend').append(tableForecastRecommend);
+
+                        tableForecastSma += '<th class="bg-red" colspan="2" style="text-align: center;">' + response.forecast_sma + '</th>';
+                        $('#forecast-sma').append(tableForecastSma);
+
+                        tableForecastEma += '<th class="bg-brown" colspan="2" style="text-align: center;">' + response.forecast_ema + '</th>';
+                        $('#forecast-ema').append(tableForecastEma);
+
+                        // Push Data to Chartjs
+                        new Chart(document.getElementById("line_chart").getContext("2d"), getChartJs('line', response));
+
+                        setTimeout(function() {
+                            $loading.waitMe('hide');
+
+                            $('.btn-forecast-add').click(function() {
+                                var methodData = $(this).attr('data');
+                                var methodValue;
+                                switch (methodData) {
+                                    case 'recommend':
+                                        methodValue = response.forecast_recommend;
+                                        break;
+                                    case 'simple':
+                                        methodValue = response.forecast_sma;
+                                        break;
+                                    case 'exponential':
+                                        methodValue = response.forecast_ema;
+                                }
+                                $('#productions-form [name="num-prod"]').val(methodValue);
+                            });
+                        }, 256);
+                    } else if (response.success == false) {
+                        swal('Peramalan Gagal', 'Produk Ini Memiliki Data Penjualan Yang Tidak Sesuai Untuk Melakukan Perhitungan Peramalan', 'error');
+                        $loading.waitMe('hide');
+                    } else if (response.success == 'empty') {
+                        $loading.waitMe('hide');
+                    }
+
+                }).fail(function() {
+                    $loading.waitMe('hide');
+                    swal('Gagal', 'Tidak Dapat Melakukan Produksi Karena Data Produk Tidak Lengkap', 'error');
+                });
+
+            }, 1024);
+
+        });
+
+        $('#productions-form').submit(function(e) {
+            e.preventDefault();
+            var url = $(this).attr('action');
+            var data = $(this).serialize();
+            productionsDetailConf(url, data);
+        });
+
+        function productionsDetailConf(url, data) {
+            var run = true;
+            $.ajax({
+                type: 'ajax',
+                method: 'post',
+                url: '<?php echo base_url("productions/productionsDetailConfm"); ?>',
+                data: data,
+                async: false,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.response_status == true) {
+                        pushDetailProductions(response);
+
+                        for (let i = 0; i < response.materials.length; i++) {
+                            if (response.materials[i].cal_total_min_stock < 0) {
+                                run = false;
+                            }
+                        }
+                        if (run) {
+                            $("#btn-save-productions").css("display", "show");
+                            $("#btn-purchase-form").css("display", "none");
+                        } else {
+                            $("#btn-save-productions").css("display", "none");
+                            $("#btn-purchase-form").css("display", "show");
+
+                            $('#btn-purchase-form').click(function() {
+                                var productId = $('#productions-form [name="product-input"]').val();
+                                var numProd = $('#productions-form [name="num-prod"]').val();
+                                window.location.href = "<?php echo base_url('Materials/purchaseMaterialsView'); ?>?productId=" + productId + "&numProd=" + numProd;
+                            });
+                        }
+                    } else if (response.response_status == false) {
+                        $.each(response.messages, function(key, value) {
+                            var element = $('#productions-form [name="' + key + '"]');
+                            element.parent().removeClass('focused success error').addClass(value.length > 0 ? 'focused error' : 'focused success');
+                            element.closest('div.form-group').find('label.error').remove();
+                            element.parent().after(value);
+                        });
+                        swal('Error !', 'Masukan Inputan Dengan Benar !', 'error');
+                    }
+
+                },
+                error: function() {
+                    swal('Failed', 'Error', 'error');
+                }
+            });
+        }
+
+        $('.datepicker-min-started').bootstrapMaterialDatePicker({
+            format: 'YYYY-MM-DD',
+            clearButton: true,
+            weekStart: 1,
+            time: false,
+            minDate: new Date()
+        });
+
+        productsGet();
     });
-}
-
-$('.datepicker-min-started').bootstrapMaterialDatePicker({
-    format: 'YYYY-MM-DD',
-    clearButton: true,
-    weekStart: 1,
-    time: false,
-    minDate : new Date()
-});
-
-productsGet();
-});
 </script>
